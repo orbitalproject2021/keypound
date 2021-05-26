@@ -3,34 +3,40 @@ import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 
-export default function Signup() {
+export default function UpdateProfile() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
-    const { signup, currentUser } = useAuth();
+    const { updateEmail, updatePassword, currentUser } = useAuth();
     const [error, setError] = useState("");
+    const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const history = useHistory();
+    const sleep = (ms) => new Promise((fn) => setTimeout(fn, ms));
 
-    async function handleSubmit(e) {
+    function handleSubmit(e) {
         e.preventDefault();
-
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
             return setError("Passwords do not match");
         }
-
         if (passwordRef.current.value.length <= 4) {
             return setError("Password is too short.");
         }
 
-        try {
-            setError("");
-            setLoading(true);
-            await signup(emailRef.current.value, passwordRef.current.value);
-            history.push("/");
-        } catch {
-            setError("Failed to create an account");
+        const promises = [];
+        if (emailRef.current.value !== currentUser.email) {
+            promises.push(updateEmail(emailRef.current.value));
         }
+        if (passwordRef.current.value) {
+            promises.push(updatePassword(passwordRef.current.value));
+        }
+
+        Promise.all(promises)
+            .then(() => {
+                history.push("/");
+            })
+            .catch(() => setError("Failed to update account"))
+            .finally(() => setLoading(false));
 
         setLoading(false);
     }
@@ -38,7 +44,8 @@ export default function Signup() {
         <>
             <Card>
                 <Card.Body>
-                    <h2 className="text-center mb-4">Sign Up</h2>
+                    <h2 className="text-center mb-4">Update Email</h2>
+                    {message && <Alert variant="success">{message}</Alert>}
                     {error && <Alert variant="danger">{error}</Alert>}
                     <Form onSubmit={handleSubmit}>
                         <Form.Group id="email">
@@ -46,6 +53,7 @@ export default function Signup() {
                             <Form.Control
                                 type="email"
                                 ref={emailRef}
+                                defaultValue={currentUser.email}
                                 required
                             />
                         </Form.Group>
@@ -55,7 +63,7 @@ export default function Signup() {
                             <Form.Control
                                 type="password"
                                 ref={passwordRef}
-                                required
+                                placeholder="Leave blank to keep the same"
                             />
                         </Form.Group>
 
@@ -64,22 +72,23 @@ export default function Signup() {
                             <Form.Control
                                 type="password"
                                 ref={passwordConfirmRef}
-                                required
+                                placeholder="Leave blank to keep the same"
                             />
                         </Form.Group>
+
                         <div style={{ padding: "10pt" }}></div>
                         <Button
                             disabled={loading}
                             className="w-100"
                             type="submit"
                         >
-                            Sign Up
+                            Update
                         </Button>
                     </Form>
                 </Card.Body>
             </Card>
             <div className="w-100 text-center mt-2">
-                Already have an account? Log in <Link to="/login">here</Link>.
+                <Link to="/">Cancel</Link>
             </div>
         </>
     );

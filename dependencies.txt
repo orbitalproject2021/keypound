@@ -1,0 +1,6 @@
+// List of commands to run in order to install required dependencies
+
+npm install
+npm install --save firebase
+npm i bootstrap react-bootstrap
+npm i react-router-dom
