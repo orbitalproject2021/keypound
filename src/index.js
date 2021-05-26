@@ -6,8 +6,8 @@ import Signup from "./components/Signup";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Signup />
-  </React.StrictMode>,
-  document.getElementById("root")
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+    document.getElementById("root")
 );
