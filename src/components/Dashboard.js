@@ -8,7 +8,6 @@ function Dashboard() {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const history = useHistory();
-    const sleep = (ms) => new Promise((fn) => setTimeout(fn, ms));
 
     async function handleLogout() {
         try {
@@ -16,8 +15,6 @@ function Dashboard() {
             setMessage("You have been logged out.");
         } catch (error) {
             setError(error.message);
-        } finally {
-            sleep(2000).then(() => history.push("/login"));
         }
     }
 

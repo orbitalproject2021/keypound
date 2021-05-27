@@ -7,7 +7,7 @@ export default function Signup() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
-    const { signup, currentUser } = useAuth();
+    const { signup } = useAuth();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const history = useHistory();
@@ -21,10 +21,6 @@ export default function Signup() {
 
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
             return setError("Passwords do not match");
-        }
-
-        if (passwordRef.current.value.length <= 4) {
-            return setError("Password is too short.");
         }
 
         try {
