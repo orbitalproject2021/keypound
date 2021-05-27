@@ -30,36 +30,26 @@ export default function Login() {
     }
 
     return (
-        <>
-            <Card>
-                <Card.Body>
-                    <h2 className="text-center mb-4">Password Reset</h2>
-                    {message && <Alert variant="primary">{message}</Alert>}
-                    {error && <Alert variant="danger">{error}</Alert>}
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group id="email">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                type="email"
-                                ref={emailRef}
-                                required
-                            />
-                        </Form.Group>
+        <Card>
+            <Card.Body>
+                <h2 className="text-center mb-4">Password Reset</h2>
+                {message && <Alert variant="primary">{message}</Alert>}
+                {error && <Alert variant="danger">{error}</Alert>}
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group id="email">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control type="email" ref={emailRef} required />
+                    </Form.Group>
 
-                        <div style={{ padding: "10pt" }}></div>
-                        <Button
-                            disabled={loading}
-                            className="w-100"
-                            type="submit"
-                        >
-                            Send password reset email
-                        </Button>
-                    </Form>
-                    <div className="w-100 text-center mt-3">
-                        <Link to="/login">Cancel</Link>
-                    </div>
-                </Card.Body>
-            </Card>
-        </>
+                    <div style={{ padding: "10pt" }}></div>
+                    <Button disabled={loading} className="w-100" type="submit">
+                        Send password reset email
+                    </Button>
+                </Form>
+                <div className="w-100 text-center mt-3">
+                    <Link to="/login">Cancel</Link>
+                </div>
+            </Card.Body>
+        </Card>
     );
 }
