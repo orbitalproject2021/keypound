@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
@@ -11,6 +11,10 @@ export default function Signup() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const history = useHistory();
+
+    useEffect(() => {
+        emailRef.current.focus();
+    }, []);
 
     async function handleSubmit(e) {
         e.preventDefault();
