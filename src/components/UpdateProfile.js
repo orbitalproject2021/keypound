@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function UpdateProfile() {
     const emailRef = useRef();
@@ -11,16 +11,14 @@ export default function UpdateProfile() {
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const history = useHistory();
-    const sleep = (ms) => new Promise((fn) => setTimeout(fn, ms));
 
     function handleSubmit(e) {
+        setMessage("");
+        setError("");
+
         e.preventDefault();
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-            return setError("Passwords do not match");
-        }
-        if (passwordRef.current.value.length <= 4) {
-            return setError("Password is too short.");
+            return setError("Passwords do not match.");
         }
 
         const promises = [];
@@ -33,12 +31,10 @@ export default function UpdateProfile() {
 
         Promise.all(promises)
             .then(() => {
-                history.push("/");
+                setMessage("Successfully updated profile.");
             })
-            .catch(() => setError("Failed to update account"))
+            .catch((error) => setError(error.message))
             .finally(() => setLoading(false));
-
-        setLoading(false);
     }
     return (
         <>
@@ -88,7 +84,7 @@ export default function UpdateProfile() {
                 </Card.Body>
             </Card>
             <div className="w-100 text-center mt-2">
-                <Link to="/">Cancel</Link>
+                <Link to="/">Back to Home</Link>
             </div>
         </>
     );

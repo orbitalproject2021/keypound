@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Button, Alert } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function Dashboard() {
     const { currentUser, logout } = useAuth();
@@ -14,8 +14,8 @@ function Dashboard() {
         try {
             await logout();
             setMessage("You have been logged out.");
-        } catch {
-            window.alert("Unable to log out.");
+        } catch (error) {
+            setError(error.message);
         } finally {
             sleep(2000).then(() => history.push("/login"));
         }
