@@ -1,5 +1,12 @@
 import React from "react";
-import { Form, Button, Card, Alert } from "react-bootstrap";
+import { Form, Card } from "react-bootstrap";
+import {
+    Email,
+    Password,
+    Submit,
+    Message,
+    authStyle,
+} from "./utility/AuthSheets";
 import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
 
@@ -17,7 +24,6 @@ export default function Login() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-
         try {
             setError("");
             setLoading(true);
@@ -28,46 +34,24 @@ export default function Login() {
             setLoading(false);
         }
     }
+
     return (
         <>
             <Card>
                 <Card.Body>
-                    <h2 className="text-center mb-4">Log In</h2>
-                    {error && <Alert variant="danger">{error}</Alert>}
+                    <h2 className={authStyle.title}>Log In</h2>
+                    <Message error={error} />
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group id="email">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                type="email"
-                                ref={emailRef}
-                                required
-                            />
-                        </Form.Group>
-
-                        <Form.Group id="password">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                ref={passwordRef}
-                                required
-                            />
-                        </Form.Group>
-
-                        <div style={{ padding: "10pt" }}></div>
-                        <Button
-                            disabled={loading}
-                            className="w-100"
-                            type="submit"
-                        >
-                            Log In
-                        </Button>
+                        <Email reference={emailRef} required={true} />
+                        <Password reference={passwordRef} required={true} />
+                        <Submit loading={loading}>Log In</Submit>
                     </Form>
-                    <div className="w-100 text-center mt-3">
+                    <div className={authStyle.cardLink}>
                         <Link to="/forgot-password">Forgot Password?</Link>
                     </div>
                 </Card.Body>
             </Card>
-            <div className="w-100 text-center mt-2">
+            <div className={authStyle.link}>
                 Need an account? Sign up <Link to="/signup">here</Link>.
             </div>
         </>
