@@ -1,20 +1,20 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
-import { useAuth } from "../../contexts/AuthContext";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+import useAuthForm from "./utility/useAuthForm";
 
 export default function Signup() {
-    const emailRef = useRef();
-    const passwordRef = useRef();
-    const passwordConfirmRef = useRef();
-    const { signup } = useAuth();
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-    const history = useHistory();
-
-    useEffect(() => {
-        emailRef.current.focus();
-    }, []);
+    const {
+        emailRef,
+        passwordRef,
+        passwordConfirmRef,
+        signup,
+        error,
+        setError,
+        loading,
+        setLoading,
+        history,
+    } = useAuthForm();
 
     async function handleSubmit(e) {
         e.preventDefault();
