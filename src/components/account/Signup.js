@@ -1,7 +1,15 @@
 import React from "react";
-import { Form, Button, Card, Alert } from "react-bootstrap";
+import { Form, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
+import {
+    Email,
+    Password,
+    PasswordConfirm,
+    Submit,
+    authStyle,
+    Message,
+} from "./utility/AuthSheets";
 
 export default function Signup() {
     const {
@@ -37,47 +45,20 @@ export default function Signup() {
         <>
             <Card>
                 <Card.Body>
-                    <h2 className="text-center mb-4">Sign Up</h2>
-                    {error && <Alert variant="danger">{error}</Alert>}
+                    <h2 className={authStyle.title}>Sign Up</h2>
+                    <Message error={error} />
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group id="email">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                type="email"
-                                ref={emailRef}
-                                required
-                            />
-                        </Form.Group>
-
-                        <Form.Group id="password">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                ref={passwordRef}
-                                required
-                            />
-                        </Form.Group>
-
-                        <Form.Group id="passwordConfirm">
-                            <Form.Label>Password Confirm</Form.Label>
-                            <Form.Control
-                                type="password"
-                                ref={passwordConfirmRef}
-                                required
-                            />
-                        </Form.Group>
-                        <div style={{ padding: "10pt" }}></div>
-                        <Button
-                            disabled={loading}
-                            className="w-100"
-                            type="submit"
-                        >
-                            Sign Up
-                        </Button>
+                        <Email reference={emailRef} required={true} />
+                        <Password reference={passwordRef} required={true} />
+                        <PasswordConfirm
+                            reference={passwordConfirmRef}
+                            required={true}
+                        />
+                        <Submit loading={loading}>Sign Up</Submit>
                     </Form>
                 </Card.Body>
             </Card>
-            <div className="w-100 text-center mt-2">
+            <div className={authStyle.link}>
                 Already have an account? Log in <Link to="/login">here</Link>.
             </div>
         </>
