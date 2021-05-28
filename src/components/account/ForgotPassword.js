@@ -15,7 +15,6 @@ export default function Login() {
         loading,
         setLoading,
     } = useAuthForm();
-    const [disabled, setDisabled] = useState(false);
     const [timer, setTimer] = useState(0);
 
     useEffect(() => {
@@ -24,9 +23,9 @@ export default function Login() {
             1000
         );
         if (timer === 0) {
-            setDisabled(false);
             setLoading(false);
             setMessage("");
+            clearInterval(interval);
         }
         return () => {
             clearInterval(interval);
@@ -41,10 +40,8 @@ export default function Login() {
             await resetPassword(emailRef.current.value);
             setMessage("Check your inbox for further instructions.");
             setTimer(30);
-            setDisabled(true);
         } catch (error) {
             setError(error.message);
-            setDisabled(false);
             setLoading(false);
         }
     }
@@ -54,16 +51,12 @@ export default function Login() {
             <Card.Body>
                 <h2 className={authStyle.title}>Password Reset</h2>
                 <Message message={message} error={error} />
-                <Form
-                    onSubmit={
-                        disabled ? (e) => e.preventDefault() : handleSubmit
-                    }
-                >
+                <Form onSubmit={handleSubmit}>
                     <Email reference={emailRef} required={true} />
                     <Submit loading={loading}>
-                        {disabled
+                        {loading && timer > 0
                             ? `Resend in ${timer} seconds`
-                            : "Send password reset mail"}
+                            : "Send password reset email"}
                     </Submit>
                 </Form>
                 <div className={authStyle.cardLink}>

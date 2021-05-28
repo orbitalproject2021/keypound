@@ -56,7 +56,7 @@ export function Submit({ children, loading, ...properties }) {
 export function Message({ message, error }) {
     return (
         <>
-            {message && <Alert variant="primary">{message}</Alert>}
+            {message && <Alert variant="success">{message}</Alert>}
             {error && <Alert variant="danger">{error}</Alert>}
         </>
     );
