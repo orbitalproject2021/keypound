@@ -1,22 +1,26 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
-import { useAuth } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
+import useAuthForm from "./utility/useAuthForm";
 
 export default function UpdateProfile() {
-    const emailRef = useRef();
-    const passwordRef = useRef();
-    const passwordConfirmRef = useRef();
-    const { updateEmail, updatePassword, currentUser } = useAuth();
-    const [error, setError] = useState("");
-    const [message, setMessage] = useState("");
-    const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        emailRef.current.focus();
-    }, []);
+    const {
+        emailRef,
+        passwordRef,
+        passwordConfirmRef,
+        updateEmail,
+        updatePassword,
+        currentUser,
+        error,
+        setError,
+        message,
+        setMessage,
+        loading,
+        setLoading,
+    } = useAuthForm();
 
     function handleSubmit(e) {
+        console.log(currentUser);
         setMessage("");
         setError("");
 
