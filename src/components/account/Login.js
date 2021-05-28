@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
@@ -14,10 +14,6 @@ export default function Login() {
         setLoading,
         history,
     } = useAuthForm();
-
-    useEffect(() => {
-        emailRef.current.focus();
-    }, []);
 
     async function handleSubmit(e) {
         e.preventDefault();

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
 
@@ -18,6 +18,10 @@ function useAuthForm() {
         login,
     } = useAuth();
     const history = useHistory();
+
+    useEffect(() => {
+        emailRef.current.focus();
+    }, []);
 
     return {
         emailRef,
