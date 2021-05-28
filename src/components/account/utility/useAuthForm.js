@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
 
@@ -43,4 +43,4 @@ function useAuthForm() {
     };
 }
 
-export default useAuthForm;
+export default React.memo(useAuthForm);
