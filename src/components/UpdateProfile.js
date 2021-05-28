@@ -17,10 +17,13 @@ export default function UpdateProfile() {
     }, []);
 
     function handleSubmit(e) {
+        e.preventDefault();
         setMessage("");
         setError("");
+        if (!currentUser) {
+            return setError("Update failed. Please log in again.");
+        }
 
-        e.preventDefault();
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
             return setError("Passwords do not match.");
         }
@@ -53,7 +56,7 @@ export default function UpdateProfile() {
                             <Form.Control
                                 type="email"
                                 ref={emailRef}
-                                defaultValue={currentUser.email}
+                                defaultValue={currentUser && currentUser.email}
                                 required
                             />
                         </Form.Group>
