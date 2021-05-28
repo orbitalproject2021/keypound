@@ -1,7 +1,8 @@
-import React from "react";
-import { Form, Button, Card, Alert } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Form, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
+import { Email, Submit, Message, authStyle } from "./utility/AuthSheets";
 
 export default function Login() {
     const {
@@ -14,18 +15,36 @@ export default function Login() {
         loading,
         setLoading,
     } = useAuthForm();
+    const [disabled, setDisabled] = useState(false);
+    const [timer, setTimer] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(
+            () => setTimer((timer) => timer - 1),
+            1000
+        );
+        if (timer === 0) {
+            setDisabled(false);
+            setLoading(false);
+            setMessage("");
+        }
+        return () => {
+            clearInterval(interval);
+        };
+    }, [timer, setLoading, setMessage]);
 
     async function handleSubmit(e) {
         e.preventDefault();
-
         try {
             setError("");
             setLoading(true);
             await resetPassword(emailRef.current.value);
             setMessage("Check your inbox for further instructions.");
+            setTimer(30);
+            setDisabled(true);
         } catch (error) {
             setError(error.message);
-        } finally {
+            setDisabled(false);
             setLoading(false);
         }
     }
@@ -33,21 +52,21 @@ export default function Login() {
     return (
         <Card>
             <Card.Body>
-                <h2 className="text-center mb-4">Password Reset</h2>
-                {message && <Alert variant="primary">{message}</Alert>}
-                {error && <Alert variant="danger">{error}</Alert>}
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group id="email">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" ref={emailRef} required />
-                    </Form.Group>
-
-                    <div style={{ padding: "10pt" }}></div>
-                    <Button disabled={loading} className="w-100" type="submit">
-                        Send password reset email
-                    </Button>
+                <h2 className={authStyle.title}>Password Reset</h2>
+                <Message message={message} error={error} />
+                <Form
+                    onSubmit={
+                        disabled ? (e) => e.preventDefault() : handleSubmit
+                    }
+                >
+                    <Email reference={emailRef} required={true} />
+                    <Submit loading={loading}>
+                        {disabled
+                            ? `Resend in ${timer} seconds`
+                            : "Send password reset mail"}
+                    </Submit>
                 </Form>
-                <div className="w-100 text-center mt-3">
+                <div className={authStyle.cardLink}>
                     <Link to="/login">Cancel</Link>
                 </div>
             </Card.Body>
