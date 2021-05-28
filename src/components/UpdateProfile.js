@@ -16,13 +16,15 @@ export default function UpdateProfile() {
         emailRef.current.focus();
     }, []);
 
+    useEffect(
+        () => !currentUser && setError("Error: You must be logged in."),
+        [currentUser]
+    );
+
     function handleSubmit(e) {
         e.preventDefault();
         setMessage("");
         setError("");
-        if (!currentUser) {
-            return setError("Update failed. Please log in again.");
-        }
 
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
             return setError("Passwords do not match.");
@@ -50,7 +52,15 @@ export default function UpdateProfile() {
                     <h2 className="text-center mb-4">Update Email</h2>
                     {message && <Alert variant="success">{message}</Alert>}
                     {error && <Alert variant="danger">{error}</Alert>}
-                    <Form onSubmit={handleSubmit}>
+                    <Form
+                        onSubmit={
+                            currentUser
+                                ? handleSubmit
+                                : (e) => {
+                                      e.preventDefault();
+                                  }
+                        }
+                    >
                         <Form.Group id="email">
                             <Form.Label>Email</Form.Label>
                             <Form.Control
