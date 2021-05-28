@@ -31,9 +31,9 @@ export default function UpdateProfile() {
     useEffect(() => {
         !currentUser &&
             setError((prev) =>
-                prev === successMsg ? prev : "Error: You must be logged in."
+                message === successMsg ? prev : "Error: You must be logged in."
             );
-    }, [currentUser, setError]);
+    }, [message, setError]);
 
     function handleSubmit(e) {
         e.preventDefault();
