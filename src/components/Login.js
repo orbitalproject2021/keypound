@@ -25,9 +25,8 @@ export default function Login() {
             history.push("/");
         } catch (error) {
             setError(`Failed to log in: ${error.message}`);
+            setLoading(false);
         }
-
-        setLoading(false);
     }
     return (
         <>

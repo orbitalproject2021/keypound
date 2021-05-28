@@ -30,9 +30,8 @@ export default function Signup() {
             history.push("/");
         } catch (error) {
             setError(error.message);
+            setLoading(false);
         }
-
-        setLoading(false);
     }
     return (
         <>

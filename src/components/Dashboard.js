@@ -5,14 +5,14 @@ import { useHistory } from "react-router-dom";
 
 function Dashboard() {
     const { currentUser, logout } = useAuth();
-    const [message, setMessage] = useState("");
+    const [message] = useState("");
     const [error, setError] = useState("");
     const history = useHistory();
 
     async function handleLogout() {
         try {
             await logout();
-            setMessage("You have been logged out.");
+            // setMessage("You have been logged out.");
         } catch (error) {
             setError(error.message);
         }
