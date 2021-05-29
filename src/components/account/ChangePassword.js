@@ -3,7 +3,6 @@ import { Form, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
 import {
-    Email,
     Password,
     PasswordConfirm,
     Submit,
@@ -11,13 +10,11 @@ import {
     Message,
 } from "./utility/AuthSheets";
 
-export default function UpdateProfile() {
+export default function ChangePassword() {
     const {
-        emailRef,
         passwordRef,
         passwordConfirmRef,
-        updateEmail,
-        updatePassword,
+        changePassword,
         currentUser,
         error,
         setError,
@@ -25,7 +22,7 @@ export default function UpdateProfile() {
         setMessage,
         loading,
         setLoading,
-    } = useAuthForm();
+    } = useAuthForm("password");
     const successMsg = "Successfully updated profile.";
 
     useEffect(() => {
@@ -44,19 +41,7 @@ export default function UpdateProfile() {
         setMessage("");
         setError("");
 
-        if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-            return setError("Passwords do not match.");
-        }
-
-        const promises = [];
-        if (emailRef.current.value !== currentUser.email) {
-            promises.push(updateEmail(emailRef.current.value));
-        }
-        if (passwordRef.current.value) {
-            promises.push(updatePassword(passwordRef.current.value));
-        }
-
-        Promise.all(promises)
+        changePassword(passwordRef.current.value)
             .then(() => {
                 setMessage("Successfully updated profile.");
             })
@@ -72,12 +57,6 @@ export default function UpdateProfile() {
                     <h2 className={authStyle.title}>Update Email</h2>
                     <Message error={error} message={message} />
                     <Form onSubmit={handleSubmit}>
-                        <Email
-                            reference={emailRef}
-                            defaultValue={currentUser && currentUser.email}
-                            required={true}
-                            onChange={() => setMessage("")}
-                        />
                         <Password
                             reference={passwordRef}
                             placeholder={placeholder}

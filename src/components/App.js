@@ -7,7 +7,8 @@ import PrivateRoute from "./PrivateRoute";
 import { Container } from "react-bootstrap";
 import { AuthProvider } from "../contexts/AuthContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import UpdateProfile from "./account/UpdateProfile";
+import ChangeEmail from "./account/ChangeEmail";
+import ChangePassword from "./account/ChangePassword";
 
 function App() {
     return (
@@ -26,7 +27,14 @@ function App() {
                             />
                             <Route path="/signup" component={Signup} />
                             <Route path="/login" component={Login} />
-                            <Route path="/update" component={UpdateProfile} />
+                            <Route
+                                path="/update-email"
+                                component={ChangeEmail}
+                            />
+                            <Route
+                                path="/update-password"
+                                component={ChangePassword}
+                            />
                             <Route
                                 path="/forgot-password"
                                 component={ForgotPassword}

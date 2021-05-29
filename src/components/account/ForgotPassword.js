@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
 import { Email, Submit, Message, authStyle } from "./utility/AuthSheets";
 
-export default function Login() {
+export default function ForgotPassword() {
     const {
         emailRef,
         resetPassword,

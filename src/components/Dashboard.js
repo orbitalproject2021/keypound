@@ -18,10 +18,6 @@ function Dashboard() {
         }
     }
 
-    function handleUpdate() {
-        history.push("/update");
-    }
-
     return (
         <>
             {error && <Alert variant="danger">{error}</Alert>}
@@ -32,7 +28,13 @@ function Dashboard() {
                     <div></div>
                     <Button onClick={handleLogout}>Log out</Button>
                     <div style={{ padding: "2pt" }}></div>
-                    <Button onClick={handleUpdate}>Update Profile</Button>
+                    <Button onClick={() => history.push("/update-email")}>
+                        Change Email
+                    </Button>
+                    <div style={{ padding: "2pt" }}></div>
+                    <Button onClick={() => history.push("/update-password")}>
+                        Change Password
+                    </Button>
                 </div>
             )}
         </>

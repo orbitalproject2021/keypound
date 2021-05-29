@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
 
-function useAuthForm() {
+function useAuthForm(focus) {
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
@@ -11,8 +11,8 @@ function useAuthForm() {
     const [loading, setLoading] = useState(false);
     const {
         signup,
-        updateEmail,
-        updatePassword,
+        changeEmail,
+        changePassword,
         currentUser,
         resetPassword,
         login,
@@ -20,8 +20,14 @@ function useAuthForm() {
     const history = useHistory();
 
     useEffect(() => {
-        emailRef.current.focus();
-    }, []);
+        switch (focus) {
+            case "password":
+                passwordRef.current.focus();
+                break;
+            default:
+                emailRef.current.focus();
+        }
+    }, [focus]);
 
     return {
         emailRef,
@@ -34,8 +40,8 @@ function useAuthForm() {
         loading,
         setLoading,
         signup,
-        updateEmail,
-        updatePassword,
+        changeEmail,
+        changePassword,
         currentUser,
         resetPassword,
         login,

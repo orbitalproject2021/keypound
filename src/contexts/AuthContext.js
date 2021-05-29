@@ -23,11 +23,11 @@ export function AuthProvider({ children }) {
         return auth.signOut();
     }
 
-    function updateEmail(email) {
+    function changeEmail(email) {
         return currentUser.updateEmail(email);
     }
 
-    function updatePassword(password) {
+    function changePassword(password) {
         return currentUser.updatePassword(password);
     }
 
@@ -49,8 +49,8 @@ export function AuthProvider({ children }) {
         login,
         signup,
         logout,
-        updateEmail,
-        updatePassword,
+        changeEmail,
+        changePassword,
         resetPassword,
     };
 
