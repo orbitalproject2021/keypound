@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Form, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
-import { Email, Submit, Message, authStyle } from "./utility/AuthSheets";
+import {
+    Email,
+    Submit,
+    Message,
+    authStyle,
+    Dialog,
+} from "./utility/AuthSheets";
 
 export default function ForgotPassword() {
     const {
@@ -47,22 +53,24 @@ export default function ForgotPassword() {
     }
 
     return (
-        <Card>
-            <Card.Body>
-                <h2 className={authStyle.title}>Password Reset</h2>
-                <Message message={message} error={error} />
-                <Form onSubmit={handleSubmit}>
-                    <Email reference={emailRef} required={true} />
-                    <Submit loading={loading}>
-                        {loading && timer > 0
-                            ? `Resend in ${timer} seconds`
-                            : "Send password reset email"}
-                    </Submit>
-                </Form>
-                <div className={authStyle.cardLink}>
-                    <Link to="/login">Cancel</Link>
-                </div>
-            </Card.Body>
-        </Card>
+        <Dialog>
+            <Card>
+                <Card.Body>
+                    <h2 className={authStyle.title}>Password Reset</h2>
+                    <Message message={message} error={error} />
+                    <Form onSubmit={handleSubmit}>
+                        <Email reference={emailRef} required={true} />
+                        <Submit loading={loading}>
+                            {loading && timer > 0
+                                ? `Resend in ${timer} seconds`
+                                : "Send password reset email"}
+                        </Submit>
+                    </Form>
+                    <div className={authStyle.cardLink}>
+                        <Link to="/login">Cancel</Link>
+                    </div>
+                </Card.Body>
+            </Card>
+        </Dialog>
     );
 }

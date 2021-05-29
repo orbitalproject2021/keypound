@@ -6,6 +6,7 @@ import {
     Submit,
     Message,
     authStyle,
+    Dialog,
 } from "./utility/AuthSheets";
 import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
@@ -36,7 +37,7 @@ export default function Login() {
     }
 
     return (
-        <>
+        <Dialog>
             <Card>
                 <Card.Body>
                     <h2 className={authStyle.title}>Log In</h2>
@@ -54,6 +55,6 @@ export default function Login() {
             <div className={authStyle.link}>
                 Need an account? Sign up <Link to="/signup">here</Link>.
             </div>
-        </>
+        </Dialog>
     );
 }

@@ -9,6 +9,7 @@ import {
     Submit,
     authStyle,
     Message,
+    Dialog,
 } from "./utility/AuthSheets";
 
 export default function Signup() {
@@ -42,7 +43,7 @@ export default function Signup() {
         }
     }
     return (
-        <>
+        <Dialog>
             <Card>
                 <Card.Body>
                     <h2 className={authStyle.title}>Sign Up</h2>
@@ -61,6 +62,6 @@ export default function Signup() {
             <div className={authStyle.link}>
                 Already have an account? Log in <Link to="/login">here</Link>.
             </div>
-        </>
+        </Dialog>
     );
 }

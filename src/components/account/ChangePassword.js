@@ -8,6 +8,7 @@ import {
     Submit,
     authStyle,
     Message,
+    Dialog,
 } from "./utility/AuthSheets";
 
 export default function ChangePassword() {
@@ -53,7 +54,7 @@ export default function ChangePassword() {
 
     const placeholder = "Leave blank to keep the same.";
     return (
-        <>
+        <Dialog>
             <Card>
                 <Card.Body>
                     <h2 className={authStyle.title}>Change Password</h2>
@@ -83,6 +84,6 @@ export default function ChangePassword() {
             <div className={authStyle.link}>
                 <Link to="/">Back to Home</Link>
             </div>
-        </>
+        </Dialog>
     );
 }

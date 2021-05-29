@@ -2,7 +2,13 @@ import React, { useEffect } from "react";
 import { Form, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
-import { Email, Submit, authStyle, Message } from "./utility/AuthSheets";
+import {
+    Email,
+    Submit,
+    authStyle,
+    Message,
+    Dialog,
+} from "./utility/AuthSheets";
 
 export default function ChangeEmail() {
     const {
@@ -43,7 +49,7 @@ export default function ChangeEmail() {
     }
 
     return (
-        <>
+        <Dialog>
             <Card>
                 <Card.Body>
                     <h2 className={authStyle.title}>Change Email</h2>
@@ -65,6 +71,6 @@ export default function ChangeEmail() {
             <div className={authStyle.link}>
                 <Link to="/">Back to Home</Link>
             </div>
-        </>
+        </Dialog>
     );
 }
