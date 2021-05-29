@@ -30,20 +30,22 @@ export default function ChangePassword() {
             setError((prev) =>
                 message === successMsg ? prev : "Error: You must be logged in."
             );
-    }, [message, setError]);
+    }, [message, setError, currentUser]);
 
     function handleSubmit(e) {
         e.preventDefault();
         if (!currentUser) {
             return;
         }
-
+        if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+            return setError("Passwords do not match");
+        }
         setMessage("");
         setError("");
 
         changePassword(passwordRef.current.value)
             .then(() => {
-                setMessage("Successfully updated profile.");
+                setMessage("Password updated successfully.");
             })
             .catch((error) => setError(error.message))
             .finally(() => setLoading(false));
@@ -54,19 +56,25 @@ export default function ChangePassword() {
         <>
             <Card>
                 <Card.Body>
-                    <h2 className={authStyle.title}>Update Email</h2>
+                    <h2 className={authStyle.title}>Change Password</h2>
                     <Message error={error} message={message} />
                     <Form onSubmit={handleSubmit}>
                         <Password
                             reference={passwordRef}
                             placeholder={placeholder}
-                            onChange={() => setMessage("")}
+                            onChange={() => {
+                                setMessage("");
+                                setError("");
+                            }}
                         />
 
                         <PasswordConfirm
                             reference={passwordConfirmRef}
                             placeholder={placeholder}
-                            onChange={() => setMessage("")}
+                            onChange={() => {
+                                setMessage("");
+                                setError("");
+                            }}
                         />
                         <Submit loading={loading}>Update</Submit>
                     </Form>

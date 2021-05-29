@@ -23,7 +23,7 @@ export default function ChangeEmail() {
             setError((prev) =>
                 message === successMsg ? prev : "Error: You must be logged in."
             );
-    }, [message, setError]);
+    }, [message, setError, currentUser]);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -36,7 +36,7 @@ export default function ChangeEmail() {
 
         changeEmail(emailRef.current.value)
             .then(() => {
-                setMessage("Successfully updated profile.");
+                setMessage(`Profile updated successfully.`);
             })
             .catch((error) => setError(error.message))
             .finally(() => setLoading(false));
@@ -53,7 +53,10 @@ export default function ChangeEmail() {
                             reference={emailRef}
                             defaultValue={currentUser && currentUser.email}
                             required={true}
-                            onChange={() => setMessage("")}
+                            onChange={() => {
+                                setMessage("");
+                                setError("");
+                            }}
                         />
                         <Submit loading={loading}>Update</Submit>
                     </Form>
