@@ -1,46 +1,145 @@
 import React from "react";
-import {
-    Nav,
-    Navbar,
-    NavDropdown,
-    Form,
-    FormControl,
-    Button,
-} from "react-bootstrap";
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
+import home from "../icons/home.png";
+import account from "../icons/account.png";
+import expense from "../icons/expense.png";
+import settings from "../icons/settings.png";
+import { useAuth } from "../contexts/AuthContext";
 
-function Navigation() {
+function Navigation({ active }) {
+    const { currentUser, logout } = useAuth();
+
+    async function handleLogout() {
+        try {
+            await logout();
+            // setMessage("You have been logged out.");
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
     return (
         <Navbar bg="dark" expand="md" variant="dark">
-            <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="mr-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
-                    <Nav.Link href="change-email">Link</Nav.Link>
-                    <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="#action/3.1">
-                            Action
+                <Nav className="m-auto">
+                    <Nav.Link href="/">
+                        <span
+                            className={
+                                "navItem" + (active === "home" ? " active" : "")
+                            }
+                        >
+                            <img className="navIcon" src={home} alt="" />
+                        </span>
+                    </Nav.Link>
+                    <Nav.Link href="advisor">
+                        <span
+                            className={
+                                "navItem" +
+                                (active === "advisor" ? " active" : "")
+                            }
+                        >
+                            advisor
+                        </span>
+                    </Nav.Link>
+                    <Nav.Link href="breakdown">
+                        <span
+                            className={
+                                "navItem" +
+                                (active === "breakdown" ? " active" : "")
+                            }
+                        >
+                            breakdown
+                        </span>
+                    </Nav.Link>
+                    <Nav.Link href="goals">
+                        <span
+                            className={
+                                "navItem" +
+                                (active === "goals" ? " active" : "")
+                            }
+                        >
+                            goals
+                        </span>
+                    </Nav.Link>
+                    <Nav.Link href="credit">
+                        <span
+                            className={
+                                "navItem" +
+                                (active === "credit" ? " active" : "")
+                            }
+                        >
+                            credit
+                        </span>
+                    </Nav.Link>
+                    <Nav.Link href="loans">
+                        <span
+                            className={
+                                "navItem" +
+                                (active === "loans" ? " active" : "")
+                            }
+                        >
+                            loans
+                        </span>
+                    </Nav.Link>
+                    <Nav.Link href="reminders">
+                        <span
+                            className={
+                                "navItem" +
+                                (active === "reminders" ? " active" : "")
+                            }
+                        >
+                            reminders
+                        </span>
+                    </Nav.Link>
+                    <Nav.Link href="add-expense">
+                        <span
+                            className={
+                                "navItem" +
+                                (active === "expense" ? " active" : "")
+                            }
+                        >
+                            <img className="navIcon" src={expense} alt="" />
+                        </span>
+                    </Nav.Link>
+                    <Nav.Link href="settings">
+                        <span
+                            className={
+                                "navItem" +
+                                (active === "settings" ? " active" : "")
+                            }
+                        >
+                            <img className="navIcon" src={settings} alt="" />
+                        </span>
+                    </Nav.Link>
+                    <NavDropdown
+                        title={
+                            <span className={"navItem"}>
+                                <img
+                                    className={"navIcon"}
+                                    src={account}
+                                    alt=""
+                                />
+                            </span>
+                        }
+                        id="basic-nav-dropdown"
+                    >
+                        <div id="userEmail">
+                            {currentUser && currentUser.email}
+                        </div>
+
+                        <NavDropdown.Item href="/change-email">
+                            Change Email
                         </NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">
-                            Another action
-                        </NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3">
-                            Something
+                        <NavDropdown.Item href="/change-password">
+                            Change Password
                         </NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action/3.4">
-                            Separated link
+                        <NavDropdown.Item onClick={handleLogout}>
+                            Log Out
                         </NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
-                <Form inline>
-                    <FormControl
-                        type="text"
-                        placeholder="Search"
-                        className="mr-sm-2"
-                    />
-                    <Button variant="outline-success">Search</Button>
-                </Form>
             </Navbar.Collapse>
         </Navbar>
     );

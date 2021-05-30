@@ -1,9 +1,38 @@
 * {
     font-family: "Roboto";
+    box-sizing: border-box;
 }
 
 .card,
 .btn,
 .form-control {
     border-radius: 0;
+}
+
+.appleBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.navIcon {
+    height: 25px;
+}
+
+.navItem {
+    height: 56px;
+    padding: 16px 1px;
+    margin: 0px 15px;
+    border-bottom: 4px solid transparent;
+    color: white;
+    font-size: 1.1em;
+}
+
+.active {
+    border-bottom: 4px solid #f8a66c;
+}
+
+#userEmail {
+    font-weight: 600;
+    padding: 4px 16px;
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Card } from "react-bootstrap";
 import {
     Email,
@@ -22,6 +22,10 @@ export default function Login() {
         setLoading,
         history,
     } = useAuthForm();
+
+    useEffect(() => {
+        document.title = "Log In - Spendee";
+    }, []);
 
     async function handleSubmit(e) {
         e.preventDefault();

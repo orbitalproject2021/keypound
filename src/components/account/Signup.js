@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
@@ -24,6 +24,10 @@ export default function Signup() {
         setLoading,
         history,
     } = useAuthForm();
+
+    useEffect(() => {
+        document.title = "Sign Up - Spendee";
+    }, []);
 
     async function handleSubmit(e) {
         e.preventDefault();

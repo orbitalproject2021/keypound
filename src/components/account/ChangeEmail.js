@@ -27,6 +27,10 @@ export default function ChangeEmail() {
     const successMsg = "Successfully updated profile.";
 
     useEffect(() => {
+        document.title = "Change Email - Spendee";
+    }, []);
+
+    useEffect(() => {
         !currentUser &&
             setError((prev) =>
                 message === successMsg ? prev : "Error: You must be logged in."
