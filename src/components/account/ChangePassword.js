@@ -59,7 +59,6 @@ export default function ChangePassword() {
             });
     }
 
-    const placeholder = "Leave blank to keep the same.";
     return (
         <Dialog>
             <Card>
@@ -70,20 +69,20 @@ export default function ChangePassword() {
                         <Form onSubmit={handleSubmit}>
                             <Password
                                 reference={passwordRef}
-                                placeholder={placeholder}
                                 onChange={() => {
                                     setMessage("");
                                     setError("");
                                 }}
+                                required
                             />
 
                             <PasswordConfirm
                                 reference={passwordConfirmRef}
-                                placeholder={placeholder}
                                 onChange={() => {
                                     setMessage("");
                                     setError("");
                                 }}
+                                required
                             />
                             <Submit loading={loading}>Update</Submit>
                         </Form>
