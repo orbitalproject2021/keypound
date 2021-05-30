@@ -1,0 +1,73 @@
+.navBar {
+    width: 100vw;
+    height: 50px;
+    background: #212830;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.navItem {
+    cursor: pointer;
+    font-size: 1.05em;
+    background: transparent;
+    height: 50px;
+    display: flex;
+    margin: 0px 20px;
+    padding: 0px 0px;
+    color: white;
+    flex: 0, 0, 50px;
+    outline: none;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    align-items: center;
+    position: relative;
+}
+
+.navIcon {
+    cursor: pointer;
+    height: 50px;
+    width: auto;
+    margin: 0px 20px;
+    padding: 10px 0px;
+    flex: 0, 0, 50px;
+    outline: none;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    position: relative;
+}
+
+.active {
+    border-bottom: 4px solid #f8a66c;
+}
+
+.activeIcon {
+    border-bottom: 4px solid #f8a66c;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    height: fit-content;
+}
+
+.dropdownContent {
+    display: block;
+    position: absolute;
+    background-color: #bedfff;
+    min-width: 160px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.menuOption {
+    display: block;
+    padding: 5px 16px;
+    cursor: pointer;
+}
+
+.menuOption:hover {
+    background-color: #e8f4ff;
+}

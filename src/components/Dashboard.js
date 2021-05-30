@@ -1,40 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { Button, Alert } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
+import NavigationBar from "./NavigationBar";
+
 function Dashboard() {
-    const { currentUser, logout } = useAuth();
-    const [message] = useState("");
-    const [error, setError] = useState("");
     const history = useHistory();
+    const { currentUser, logout } = useAuth();
 
     async function handleLogout() {
         try {
             await logout();
             // setMessage("You have been logged out.");
         } catch (error) {
-            setError(error.message);
+            console.log(error.message);
         }
     }
 
     return (
         <>
-            {error && <Alert variant="danger">{error}</Alert>}
-            {message && <Alert variant="success">{message}</Alert>}
+            <NavigationBar active="home" />
             {currentUser && (
                 <div>
                     {currentUser && "User: " + currentUser.email}
                     <div></div>
-                    <Button onClick={handleLogout}>Log out</Button>
+                    <button onClick={handleLogout}>Log out</button>
                     <div style={{ padding: "2pt" }}></div>
-                    <Button onClick={() => history.push("/update-email")}>
+                    <button onClick={() => history.push("/change-email")}>
                         Change Email
-                    </Button>
+                    </button>
                     <div style={{ padding: "2pt" }}></div>
-                    <Button onClick={() => history.push("/update-password")}>
+                    <button onClick={() => history.push("/change-password")}>
                         Change Password
-                    </Button>
+                    </button>
                 </div>
             )}
         </>
