@@ -9,6 +9,7 @@ function useAuthForm(focus) {
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const [isHidden, setIsHidden] = useState(false);
     const {
         signup,
         changeEmail,
@@ -46,6 +47,8 @@ function useAuthForm(focus) {
         resetPassword,
         login,
         history,
+        isHidden,
+        setIsHidden,
     };
 }
 

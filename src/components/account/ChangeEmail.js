@@ -21,6 +21,8 @@ export default function ChangeEmail() {
         setMessage,
         loading,
         setLoading,
+        isHidden,
+        setIsHidden,
     } = useAuthForm();
     const successMsg = "Successfully updated profile.";
 
@@ -43,6 +45,7 @@ export default function ChangeEmail() {
         changeEmail(emailRef.current.value)
             .then(() => {
                 setMessage(`Profile updated successfully.`);
+                setIsHidden(true);
             })
             .catch((error) => setError(error.message))
             .finally(() => setLoading(false));
@@ -54,18 +57,20 @@ export default function ChangeEmail() {
                 <Card.Body>
                     <h2 className={authStyle.title}>Change Email</h2>
                     <Message error={error} message={message} />
-                    <Form onSubmit={handleSubmit}>
-                        <Email
-                            reference={emailRef}
-                            defaultValue={currentUser && currentUser.email}
-                            required={true}
-                            onChange={() => {
-                                setMessage("");
-                                setError("");
-                            }}
-                        />
-                        <Submit loading={loading}>Update</Submit>
-                    </Form>
+                    {!isHidden && (
+                        <Form onSubmit={handleSubmit}>
+                            <Email
+                                reference={emailRef}
+                                defaultValue={currentUser && currentUser.email}
+                                required={true}
+                                onChange={() => {
+                                    setMessage("");
+                                    setError("");
+                                }}
+                            />
+                            <Submit loading={loading}>Update</Submit>
+                        </Form>
+                    )}
                 </Card.Body>
             </Card>
             <div className={authStyle.link}>

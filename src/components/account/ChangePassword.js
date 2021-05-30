@@ -23,7 +23,10 @@ export default function ChangePassword() {
         setMessage,
         loading,
         setLoading,
+        isHidden,
+        setIsHidden,
     } = useAuthForm("password");
+
     const successMsg = "Successfully updated profile.";
 
     useEffect(() => {
@@ -43,13 +46,17 @@ export default function ChangePassword() {
         }
         setMessage("");
         setError("");
+        setLoading(true);
 
         changePassword(passwordRef.current.value)
             .then(() => {
                 setMessage("Password updated successfully.");
+                setIsHidden(true);
             })
-            .catch((error) => setError(error.message))
-            .finally(() => setLoading(false));
+            .catch((error) => {
+                setError(error.message);
+                setLoading(false);
+            });
     }
 
     const placeholder = "Leave blank to keep the same.";
@@ -59,26 +66,28 @@ export default function ChangePassword() {
                 <Card.Body>
                     <h2 className={authStyle.title}>Change Password</h2>
                     <Message error={error} message={message} />
-                    <Form onSubmit={handleSubmit}>
-                        <Password
-                            reference={passwordRef}
-                            placeholder={placeholder}
-                            onChange={() => {
-                                setMessage("");
-                                setError("");
-                            }}
-                        />
+                    {!isHidden && (
+                        <Form onSubmit={handleSubmit}>
+                            <Password
+                                reference={passwordRef}
+                                placeholder={placeholder}
+                                onChange={() => {
+                                    setMessage("");
+                                    setError("");
+                                }}
+                            />
 
-                        <PasswordConfirm
-                            reference={passwordConfirmRef}
-                            placeholder={placeholder}
-                            onChange={() => {
-                                setMessage("");
-                                setError("");
-                            }}
-                        />
-                        <Submit loading={loading}>Update</Submit>
-                    </Form>
+                            <PasswordConfirm
+                                reference={passwordConfirmRef}
+                                placeholder={placeholder}
+                                onChange={() => {
+                                    setMessage("");
+                                    setError("");
+                                }}
+                            />
+                            <Submit loading={loading}>Update</Submit>
+                        </Form>
+                    )}
                 </Card.Body>
             </Card>
             <div className={authStyle.link}>
