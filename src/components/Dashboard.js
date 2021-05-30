@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Button, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import Navigation from "./Navigation";
 
 function Dashboard() {
     const { currentUser, logout } = useAuth();
@@ -20,6 +21,7 @@ function Dashboard() {
 
     return (
         <>
+            <Navigation />
             {error && <Alert variant="danger">{error}</Alert>}
             {message && <Alert variant="success">{message}</Alert>}
             {currentUser && (
@@ -28,7 +30,7 @@ function Dashboard() {
                     <div></div>
                     <Button onClick={handleLogout}>Log out</Button>
                     <div style={{ padding: "2pt" }}></div>
-                    <Button onClick={() => history.push("/update-email")}>
+                    <Button onClick={() => history.push("/change-email")}>
                         Change Email
                     </Button>
                     <div style={{ padding: "2pt" }}></div>
