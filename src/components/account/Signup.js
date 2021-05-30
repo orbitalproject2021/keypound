@@ -1,5 +1,4 @@
 import React from "react";
-import { Form, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
 import {
@@ -44,21 +43,19 @@ export default function Signup() {
     }
     return (
         <Dialog>
-            <Card>
-                <Card.Body>
-                    <h2 className={authStyle.title}>Sign Up</h2>
-                    <Message error={error} />
-                    <Form onSubmit={handleSubmit}>
-                        <Email reference={emailRef} required={true} />
-                        <Password reference={passwordRef} required={true} />
-                        <PasswordConfirm
-                            reference={passwordConfirmRef}
-                            required={true}
-                        />
-                        <Submit loading={loading}>Sign Up</Submit>
-                    </Form>
-                </Card.Body>
-            </Card>
+            <div>
+                <h2 className={authStyle.title}>Sign Up</h2>
+                <Message error={error} />
+                <form onSubmit={handleSubmit}>
+                    <Email reference={emailRef} required={true} />
+                    <Password reference={passwordRef} required={true} />
+                    <PasswordConfirm
+                        reference={passwordConfirmRef}
+                        required={true}
+                    />
+                    <Submit loading={loading}>Sign Up</Submit>
+                </form>
+            </div>
             <div className={authStyle.link}>
                 Already have an account? Log in <Link to="/login">here</Link>.
             </div>

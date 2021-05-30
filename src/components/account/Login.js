@@ -1,5 +1,4 @@
 import React from "react";
-import { Form, Card } from "react-bootstrap";
 import {
     Email,
     Password,
@@ -38,20 +37,18 @@ export default function Login() {
 
     return (
         <Dialog>
-            <Card>
-                <Card.Body>
-                    <h2 className={authStyle.title}>Log In</h2>
-                    <Message error={error} />
-                    <Form onSubmit={handleSubmit}>
-                        <Email reference={emailRef} required={true} />
-                        <Password reference={passwordRef} required={true} />
-                        <Submit loading={loading}>Log In</Submit>
-                    </Form>
-                    <div className={authStyle.cardLink}>
-                        <Link to="/forgot-password">Forgot Password?</Link>
-                    </div>
-                </Card.Body>
-            </Card>
+            <div>
+                <h2 className={authStyle.title}>Log In</h2>
+                <Message error={error} />
+                <form onSubmit={handleSubmit}>
+                    <Email reference={emailRef} required={true} />
+                    <Password reference={passwordRef} required={true} />
+                    <Submit loading={loading}>Log In</Submit>
+                </form>
+                <div className={authStyle.cardLink}>
+                    <Link to="/forgot-password">Forgot Password?</Link>
+                </div>
+            </div>
             <div className={authStyle.link}>
                 Need an account? Sign up <Link to="/signup">here</Link>.
             </div>

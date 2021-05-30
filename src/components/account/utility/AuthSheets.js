@@ -1,16 +1,15 @@
 import React from "react";
-import { Form, Button, Alert, Container } from "react-bootstrap";
 
 export function Dialog(props) {
     return (
-        <Container
+        <div
             className="d-flex align-items-center justify-content-center"
             style={{ minHeight: "100vh" }}
         >
             <div className="w-100" style={{ maxWidth: "400px" }}>
                 {props.children}
             </div>
-        </Container>
+        </div>
     );
 }
 
@@ -19,10 +18,15 @@ export function Email({ reference, ...properties }) {
         throw Error("Reference required.");
     }
     return (
-        <Form.Group id="email">
-            <Form.Label>Email</Form.Label>
-            <Form.Control type="email" ref={reference} {...properties} />
-        </Form.Group>
+        <div>
+            <label for="email">Email</label>
+            <input
+                type="email"
+                id="email"
+                ref={reference}
+                {...properties}
+            ></input>
+        </div>
     );
 }
 
@@ -31,10 +35,15 @@ export function Password({ reference, ...properties }) {
         throw Error("Reference required.");
     }
     return (
-        <Form.Group id="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" ref={reference} {...properties} />
-        </Form.Group>
+        <div>
+            <label for="password">Password</label>
+            <input
+                type="password"
+                id="password"
+                ref={reference}
+                {...properties}
+            ></input>
+        </div>
     );
 }
 
@@ -43,10 +52,15 @@ export function PasswordConfirm({ reference, ...properties }) {
         throw Error("Reference required.");
     }
     return (
-        <Form.Group id="passwordConfirm">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control type="password" ref={reference} {...properties} />
-        </Form.Group>
+        <div>
+            <label for="passwordConfirm">Password</label>
+            <input
+                type="password"
+                id="passwordConfirm"
+                ref={reference}
+                {...properties}
+            ></input>
+        </div>
     );
 }
 
@@ -54,14 +68,14 @@ export function Submit({ children, loading, ...properties }) {
     return (
         <>
             <div style={{ padding: "10pt" }}></div>
-            <Button
+            <button
                 {...properties}
                 disabled={loading}
                 className={authStyle.button}
                 type="submit"
             >
                 {children}
-            </Button>
+            </button>
         </>
     );
 }
@@ -69,8 +83,8 @@ export function Submit({ children, loading, ...properties }) {
 export function Message({ message, error }) {
     return (
         <>
-            {message && <Alert variant="success">{message}</Alert>}
-            {error && <Alert variant="danger">{error}</Alert>}
+            {message && <h2>{message}</h2>}
+            {error && <h2>{error}</h2>}
         </>
     );
 }
