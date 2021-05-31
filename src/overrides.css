@@ -132,8 +132,7 @@ a:hover {
 .content {
     padding: 1em;
     margin: 0;
-    border: 1px solid white;
-    display: flex;
+    display: block;
     flex-direction: row;
     color: white;
     background: #4b4b4b;
@@ -144,19 +143,18 @@ a:hover {
 
 .content-title {
     font-weight: 600;
-    border: 1px solid white;
+    border-bottom: 1px solid white;
     margin: 0;
     padding: 0.5em 1em;
     color: #ececec;
     background: #2d455d;
     display: block;
-    grid-area: 1 / 1 / 2 / 3;
 }
 
 .wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(auto-fill, 40px auto);
+    grid-template-rows: 40px auto 40px auto 40px auto;
 
     justify-content: stretch;
     align-content: center;

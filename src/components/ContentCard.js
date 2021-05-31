@@ -10,15 +10,33 @@ export function ContentCard({ children }) {
     );
 }
 
-export function Content({ children, title, area, fg, bg, topbg, topfg }) {
+export function Content({
+    children,
+    title,
+    area,
+    fg,
+    bg,
+    topbg,
+    topfg,
+    border,
+    display,
+    ...properties
+}) {
+    // [1, 2, 1, 3]
     return (
-        <div className={"title-window"}>
+        <div
+            className={"title-window"}
+            style={{
+                gridArea: `${area[0]}/${area[2]}/${area[3]}/${area[1]}`,
+            }}
+        >
             <div
                 className={"content-title"}
                 style={{
-                    gridArea: `${area[0] - 1}/${area[1]}/${area[0]}/${area[3]}`,
+                    gridArea: `${area[0]}/${area[2]}/${area[0] + 1}/${area[1]}`,
                     backgroundColor: topbg || "2d455d",
                     color: topfg || "#ececec",
+                    borderBottom: "1px solid " + border || "white",
                 }}
             >
                 {title}
@@ -28,7 +46,9 @@ export function Content({ children, title, area, fg, bg, topbg, topfg }) {
                 style={{
                     backgroundColor: bg || "#4b4b4b",
                     color: fg || "white",
-                    gridArea: `${area[0]}/${area[1]}/${area[2]}/${area[3]}`,
+                    gridArea: `${area[0] + 1}/${area[2]}/${area[3]}/${area[1]}`,
+                    display: display || "block",
+                    ...properties,
                 }}
             >
                 {children}
