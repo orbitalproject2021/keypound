@@ -24,7 +24,7 @@ function Navigation({ active }) {
         <Navbar bg="dark" expand="md" variant="dark">
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="m-auto appleBar">
+                <Nav id="width" className="m-auto appleBar">
                     <div onClick={() => history.push("/")}>
                         <span
                             className={
@@ -32,6 +32,7 @@ function Navigation({ active }) {
                             }
                         >
                             <img className="navIcon" src={home} alt="" />
+                            <span className="mobile">home</span>
                         </span>
                     </div>
                     <div onClick={() => history.push("/advisor")}>
@@ -102,6 +103,7 @@ function Navigation({ active }) {
                             }
                         >
                             <img className="navIcon" src={expense} alt="" />
+                            <span className="mobile">add expense</span>
                         </span>
                     </div>
                     <div onClick={() => history.push("/settings")}>
@@ -112,6 +114,7 @@ function Navigation({ active }) {
                             }
                         >
                             <img className="navIcon" src={settings} alt="" />
+                            <span className="mobile">settings</span>
                         </span>
                     </div>
                     <NavDropdown
@@ -122,6 +125,7 @@ function Navigation({ active }) {
                                     src={account}
                                     alt=""
                                 />
+                                <span className="mobile">account</span>
                             </span>
                         }
                         id="basic-nav-dropdown"

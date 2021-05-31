@@ -3,6 +3,10 @@
     box-sizing: border-box;
 }
 
+body {
+    background: #4b4b4b;
+}
+
 .card,
 .btn,
 .form-control {
@@ -44,4 +48,65 @@
 
 .dropdownItem:hover {
     background-color: #bedfff;
+}
+
+.card-body {
+    background-color: #212830;
+    color: #ececec;
+}
+
+.custom-button {
+    background-color: #f8a66c;
+    color: black;
+    border-color: #dd762e;
+    transition: all 300ms ease-in-out;
+}
+
+.custom-button:hover {
+    background-color: #ffb886;
+    border-color: #f8a66c;
+    color: black;
+}
+
+.custom-button:active {
+    background-color: #bd7a4a;
+    border-color: #dd762e;
+    color: black;
+    box-shadow: none;
+}
+
+.custom-button:disabled {
+    background-color: #bd7a4a;
+    border-color: #dd762e;
+    color: black;
+    box-shadow: none;
+}
+
+a {
+    color: #bedfff;
+    transition: color 300ms ease-in-out;
+}
+
+a:hover {
+    color: #7fc0ff;
+}
+
+.light-text {
+    color: white;
+}
+
+.mobile {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .navIcon {
+        display: none;
+    }
+    .mobile {
+        display: inline;
+    }
+    .active {
+        border-bottom: 4px solid transparent;
+    }
 }
