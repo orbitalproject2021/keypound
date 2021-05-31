@@ -5,9 +5,11 @@ import account from "../icons/account.png";
 import expense from "../icons/expense.png";
 import settings from "../icons/settings.png";
 import { useAuth } from "../contexts/AuthContext";
+import { useHistory } from "react-router-dom";
 
 function Navigation({ active }) {
     const { currentUser, logout } = useAuth();
+    const history = useHistory();
 
     async function handleLogout() {
         try {
@@ -22,8 +24,8 @@ function Navigation({ active }) {
         <Navbar bg="dark" expand="md" variant="dark">
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="m-auto">
-                    <Nav.Link href="/">
+                <Nav className="m-auto appleBar">
+                    <div onClick={() => history.push("/")}>
                         <span
                             className={
                                 "navItem" + (active === "home" ? " active" : "")
@@ -31,8 +33,8 @@ function Navigation({ active }) {
                         >
                             <img className="navIcon" src={home} alt="" />
                         </span>
-                    </Nav.Link>
-                    <Nav.Link href="advisor">
+                    </div>
+                    <div onClick={() => history.push("/advisor")}>
                         <span
                             className={
                                 "navItem" +
@@ -41,8 +43,8 @@ function Navigation({ active }) {
                         >
                             advisor
                         </span>
-                    </Nav.Link>
-                    <Nav.Link href="breakdown">
+                    </div>
+                    <div onClick={() => history.push("/breakdown")}>
                         <span
                             className={
                                 "navItem" +
@@ -51,8 +53,8 @@ function Navigation({ active }) {
                         >
                             breakdown
                         </span>
-                    </Nav.Link>
-                    <Nav.Link href="goals">
+                    </div>
+                    <div onClick={() => history.push("/goals")}>
                         <span
                             className={
                                 "navItem" +
@@ -61,8 +63,8 @@ function Navigation({ active }) {
                         >
                             goals
                         </span>
-                    </Nav.Link>
-                    <Nav.Link href="credit">
+                    </div>
+                    <div onClick={() => history.push("/credit")}>
                         <span
                             className={
                                 "navItem" +
@@ -71,8 +73,8 @@ function Navigation({ active }) {
                         >
                             credit
                         </span>
-                    </Nav.Link>
-                    <Nav.Link href="loans">
+                    </div>
+                    <div onClick={() => history.push("/loans")}>
                         <span
                             className={
                                 "navItem" +
@@ -81,8 +83,8 @@ function Navigation({ active }) {
                         >
                             loans
                         </span>
-                    </Nav.Link>
-                    <Nav.Link href="reminders">
+                    </div>
+                    <div onClick={() => history.push("/reminders")}>
                         <span
                             className={
                                 "navItem" +
@@ -91,8 +93,8 @@ function Navigation({ active }) {
                         >
                             reminders
                         </span>
-                    </Nav.Link>
-                    <Nav.Link href="add-expense">
+                    </div>
+                    <div onClick={() => history.push("/add-expense")}>
                         <span
                             className={
                                 "navItem" +
@@ -101,8 +103,8 @@ function Navigation({ active }) {
                         >
                             <img className="navIcon" src={expense} alt="" />
                         </span>
-                    </Nav.Link>
-                    <Nav.Link href="settings">
+                    </div>
+                    <div onClick={() => history.push("/settings")}>
                         <span
                             className={
                                 "navItem" +
@@ -111,7 +113,7 @@ function Navigation({ active }) {
                         >
                             <img className="navIcon" src={settings} alt="" />
                         </span>
-                    </Nav.Link>
+                    </div>
                     <NavDropdown
                         title={
                             <span className={"navItem"}>
@@ -128,16 +130,22 @@ function Navigation({ active }) {
                             {currentUser && currentUser.email}
                         </div>
 
-                        <NavDropdown.Item href="/change-email">
+                        <div
+                            className={"dropdownItem"}
+                            onClick={() => history.push("/change-email")}
+                        >
                             Change Email
-                        </NavDropdown.Item>
-                        <NavDropdown.Item href="/change-password">
+                        </div>
+                        <div
+                            className={"dropdownItem"}
+                            onClick={() => history.push("/change-password")}
+                        >
                             Change Password
-                        </NavDropdown.Item>
+                        </div>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item onClick={handleLogout}>
+                        <div className={"dropdownItem"} onClick={handleLogout}>
                             Log Out
-                        </NavDropdown.Item>
+                        </div>
                     </NavDropdown>
                 </Nav>
             </Navbar.Collapse>
