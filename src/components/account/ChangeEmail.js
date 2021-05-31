@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Form, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
 import {
     Email,
@@ -23,6 +22,7 @@ export default function ChangeEmail() {
         setLoading,
         isHidden,
         setIsHidden,
+        history,
     } = useAuthForm();
     const successMsg = "Successfully updated profile.";
 
@@ -78,7 +78,9 @@ export default function ChangeEmail() {
                 </Card.Body>
             </Card>
             <div className={authStyle.link}>
-                <Link to="/">Back to Home</Link>
+                <span className="dark-link" onClick={() => history.push("/")}>
+                    Back to home
+                </span>
             </div>
         </Dialog>
     );

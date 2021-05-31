@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Form, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
 import {
     Email,
@@ -20,6 +19,7 @@ export default function ForgotPassword() {
         setMessage,
         loading,
         setLoading,
+        history,
     } = useAuthForm();
     const [timer, setTimer] = useState(0);
 
@@ -70,8 +70,13 @@ export default function ForgotPassword() {
                                 : "Send password reset email"}
                         </Submit>
                     </Form>
-                    <div className={authStyle.cardLink}>
-                        <Link to="/login">Cancel</Link>
+                    <div className={authStyle.link}>
+                        <span
+                            className="dark-link"
+                            onClick={() => history.push("/")}
+                        >
+                            Cancel
+                        </span>
                     </div>
                 </Card.Body>
             </Card>

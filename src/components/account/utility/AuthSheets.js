@@ -78,6 +78,6 @@ export function Message({ message, error }) {
 export const authStyle = {
     title: "text-center mb-4",
     cardLink: "w-100 text-center mt-3",
-    link: "w-100 text-center mt-2 light-text",
+    link: "w-100 text-center mt-2 dark-text",
     button: "w-100 custom-button",
 };

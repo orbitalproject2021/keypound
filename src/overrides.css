@@ -91,8 +91,15 @@ a:hover {
     color: #7fc0ff;
 }
 
-.light-text {
-    color: white;
+.dark-text {
+    color: black;
+}
+
+.dark-link {
+    color: #ff6a00;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .mobile {
