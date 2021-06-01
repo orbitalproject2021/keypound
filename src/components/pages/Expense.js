@@ -45,7 +45,7 @@ function Expense() {
 
     return (
         <>
-            <Navigation active="expense" />
+            <Navigation active="add expense" />
             <ContentCard>
                 {error && <Alert>{error}</Alert>}
                 <Content area={[1, 3, 1, 3]} title="Expenses">

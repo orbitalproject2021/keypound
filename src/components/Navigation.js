@@ -6,6 +6,7 @@ import expense from "../icons/expense.png";
 import settings from "../icons/settings.png";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
+import NavItem from "./NavItem";
 
 function Navigation({ active }) {
     const { currentUser, logout } = useAuth();
@@ -25,98 +26,34 @@ function Navigation({ active }) {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav id="width" className="m-auto appleBar">
-                    <div onClick={() => history.push("/")}>
-                        <span
-                            className={
-                                "navItem" + (active === "home" ? " active" : "")
-                            }
-                        >
-                            <img className="navIcon" src={home} alt="" />
-                            <span className="mobile">home</span>
-                        </span>
-                    </div>
-                    <div onClick={() => history.push("/advisor")}>
-                        <span
-                            className={
-                                "navItem" +
-                                (active === "advisor" ? " active" : "")
-                            }
-                        >
-                            advisor
-                        </span>
-                    </div>
-                    <div onClick={() => history.push("/breakdown")}>
-                        <span
-                            className={
-                                "navItem" +
-                                (active === "breakdown" ? " active" : "")
-                            }
-                        >
-                            breakdown
-                        </span>
-                    </div>
-                    <div onClick={() => history.push("/goals")}>
-                        <span
-                            className={
-                                "navItem" +
-                                (active === "goals" ? " active" : "")
-                            }
-                        >
-                            goals
-                        </span>
-                    </div>
-                    <div onClick={() => history.push("/credit")}>
-                        <span
-                            className={
-                                "navItem" +
-                                (active === "credit" ? " active" : "")
-                            }
-                        >
-                            credit
-                        </span>
-                    </div>
-                    <div onClick={() => history.push("/loans")}>
-                        <span
-                            className={
-                                "navItem" +
-                                (active === "loans" ? " active" : "")
-                            }
-                        >
-                            loans
-                        </span>
-                    </div>
-                    <div onClick={() => history.push("/reminders")}>
-                        <span
-                            className={
-                                "navItem" +
-                                (active === "reminders" ? " active" : "")
-                            }
-                        >
-                            reminders
-                        </span>
-                    </div>
-                    <div onClick={() => history.push("/add-expense")}>
-                        <span
-                            className={
-                                "navItem" +
-                                (active === "expense" ? " active" : "")
-                            }
-                        >
-                            <img className="navIcon" src={expense} alt="" />
-                            <span className="mobile">add expense</span>
-                        </span>
-                    </div>
-                    <div onClick={() => history.push("/settings")}>
-                        <span
-                            className={
-                                "navItem" +
-                                (active === "settings" ? " active" : "")
-                            }
-                        >
-                            <img className="navIcon" src={settings} alt="" />
-                            <span className="mobile">settings</span>
-                        </span>
-                    </div>
+                    <NavItem active={active} image={home} url="/">
+                        home
+                    </NavItem>
+                    <NavItem active={active} url="/advisor">
+                        advisor
+                    </NavItem>
+                    <NavItem active={active} url="/breakdown">
+                        breakdown
+                    </NavItem>
+                    <NavItem active={active} url="/goals">
+                        goals
+                    </NavItem>
+
+                    <NavItem active={active} url="/credit">
+                        credit
+                    </NavItem>
+                    <NavItem active={active} url="/loans">
+                        loans
+                    </NavItem>
+                    <NavItem active={active} url="/reminders">
+                        reminders
+                    </NavItem>
+                    <NavItem active={active} image={expense} url="/add-expense">
+                        add expense
+                    </NavItem>
+                    <NavItem active={active} image={settings} url="/settings">
+                        settings
+                    </NavItem>
                     <NavDropdown
                         title={
                             <span className={"navItem"}>

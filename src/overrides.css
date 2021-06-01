@@ -17,18 +17,31 @@ body {
     align-items: baseline;
 }
 
+.navBar {
+    height: 40px;
+}
+
+nav {
+    padding: 0 !important;
+}
+
 .navIcon {
     height: 25px;
 }
 
 .navItem {
-    height: inherit;
-    padding: 16px 1px;
+    padding: 6px 0px;
     margin: 0px 15px;
+    border-top: 4px solid transparent;
     border-bottom: 4px solid transparent;
     color: white;
     font-size: 1.1em;
     cursor: pointer;
+    transition: text-shadow 300ms ease-in-out;
+}
+
+.navItem:hover {
+    text-shadow: 1px 1px 5px #aaa, 1px 1px 5px #999;
 }
 
 .active {
@@ -104,6 +117,10 @@ a:hover {
 
 .mobile {
     display: none;
+}
+
+.nav-div {
+    cursor: pointer;
 }
 
 @media (max-width: 767px) {
