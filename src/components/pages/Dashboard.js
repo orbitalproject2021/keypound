@@ -6,21 +6,20 @@ import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 
 function Dashboard() {
-    useEffect(() => {
-        document.title = "Dashboard - Spendee";
-        getData();
-    }, []);
-
     const [message] = useState("");
     const [error] = useState("");
     const { currentUser } = useAuth();
 
-    async function getData() {
-        const snapshot = await db.collection(currentUser.uid).get();
-        snapshot.forEach((doc) => {
-            console.log(doc.data());
-        });
-    }
+    useEffect(() => {
+        async function getData() {
+            const snapshot = await db.collection(currentUser.uid).get();
+            snapshot.forEach((doc) => {
+                console.log(doc.data());
+            });
+        }
+        document.title = "Dashboard - Spendee";
+        getData();
+    }, [currentUser.uid]);
 
     return (
         <>
