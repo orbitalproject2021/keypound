@@ -6,6 +6,7 @@ import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 
 function Expense() {
+    var maxDate = new Date().toISOString().substring(0, 10);
     useEffect(() => {
         document.title = "Add Expense - Spendee";
     }, []);
@@ -62,7 +63,11 @@ function Expense() {
                         <div style={{ padding: "10pt" }}></div>
                         <Form.Group id="date">
                             <Form.Label>Date</Form.Label>
-                            <Form.Control type="date" ref={dateRef} />
+                            <Form.Control
+                                type="date"
+                                max={maxDate}
+                                ref={dateRef}
+                            />
                         </Form.Group>
                         <div style={{ padding: "10pt" }}></div>
                         <Button type={"submit"} className={"custom-button"}>
