@@ -23,6 +23,7 @@ function Navigation({ active }) {
     return (
         <Navbar bg="dark" expand="md" variant="dark">
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <span className="logo">Spendee</span>
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav id="width" className="m-auto appleBar">
                     <NavItem active={active} image={home} url="/">

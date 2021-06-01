@@ -14,12 +14,10 @@ body {
     border-radius: 0;
 }
 
-.appleBar {
-    align-items: center;
-}
-
-.navBar {
-    height: 40px;
+.navbar {
+    justify-content: flex-start;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+        rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 
 nav {
@@ -33,7 +31,7 @@ nav {
 
 .navItem {
     padding: 4px 0px;
-    margin: 0px 15px;
+    margin: 0px 18px;
     border-top: 5px solid transparent;
     border-bottom: 4px solid transparent;
     color: #ececec;
@@ -132,6 +130,15 @@ a:hover {
     cursor: pointer;
 }
 
+.logo {
+    margin-left: 1em;
+    font-size: 1.2em;
+    font-weight: 600;
+    z-index: 1000;
+    color: #ffffff;
+    display: none;
+}
+
 @media (max-width: 767px) {
     .navIcon {
         display: none;
@@ -141,7 +148,8 @@ a:hover {
     }
     .active {
         border-bottom: 4px solid transparent;
-        text-shadow: 1px 1px 15px #687b94, 1px 1px 15px #687b94;
+        text-shadow: 1px 1px 15px white, 1px 1px 15px #687b94;
+        padding-bottom: 0px;
     }
     .active:hover {
         text-shadow: 1px 1px 15px #687b94, 1px 1px 15px #687b94;
@@ -162,9 +170,15 @@ a:hover {
     button.navbar-toggler:focus {
         outline: 1px none;
     }
+    .logo {
+        display: inline;
+    }
 }
 
 @media (min-width: 768px) {
+    .appleBar {
+        align-items: center;
+    }
     .navbar-expand-md .navbar-nav .nav-link {
         padding: 0px;
     }
