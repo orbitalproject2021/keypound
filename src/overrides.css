@@ -9,7 +9,8 @@ body {
 
 .card,
 .btn,
-.form-control {
+.form-control,
+.alert {
     border-radius: 0;
 }
 
@@ -35,14 +36,11 @@ nav {
     margin: 0px 15px;
     border-top: 5px solid transparent;
     border-bottom: 4px solid transparent;
-    color: white;
-    font-size: 1.1em;
+    color: #ececec;
+    font-size: 1em;
+    font-weight: 300;
     cursor: pointer;
     transition: text-shadow 300ms ease-in-out;
-}
-
-.navItem:hover {
-    text-shadow: 1px 1px 5px #aaa, 1px 1px 5px #999;
 }
 
 .active {
@@ -99,6 +97,13 @@ nav {
     box-shadow: none;
 }
 
+.custom-button:focus {
+    background-color: #bd7a4a;
+    border-color: #dd762e;
+    color: black;
+    box-shadow: none;
+}
+
 a {
     color: #bedfff;
     transition: color 300ms ease-in-out;
@@ -136,6 +141,32 @@ a:hover {
     }
     .active {
         border-bottom: 4px solid transparent;
+        text-shadow: 1px 1px 15px #687b94, 1px 1px 15px #687b94;
+    }
+    .active:hover {
+        text-shadow: 1px 1px 15px #687b94, 1px 1px 15px #687b94;
+    }
+    .navItem:hover {
+        text-shadow: 1px 1px 12px #687b94, 1px 1px 12px #687b94;
+    }
+    .navbar-nav .dropdown-menu {
+        position: absolute;
+    }
+    .navbar-toggler {
+        border-radius: 0;
+    }
+    .navbar-toggler-icon:focus {
+        outline: none;
+        box-shadow: none;
+    }
+    button.navbar-toggler:focus {
+        outline: 1px none;
+    }
+}
+
+@media (min-width: 768px) {
+    .navbar-expand-md .navbar-nav .nav-link {
+        padding: 0px;
     }
 }
 
@@ -172,6 +203,11 @@ a:hover {
     display: block;
 }
 
+.body-title {
+    font-weight: 100;
+    font-size: 1.5em;
+}
+
 .wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -184,4 +220,8 @@ a:hover {
 
 .title-window {
     margin: 0.5em;
+}
+
+.dropdown-menu {
+    right: 1%;
 }

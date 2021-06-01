@@ -5,12 +5,11 @@ import account from "../icons/account.png";
 import expense from "../icons/expense.png";
 import settings from "../icons/settings.png";
 import { useAuth } from "../contexts/AuthContext";
-import { useHistory } from "react-router-dom";
 import NavItem from "./NavItem";
+import DropItem, { DropMenu } from "./DropItem";
 
 function Navigation({ active }) {
     const { currentUser, logout } = useAuth();
-    const history = useHistory();
 
     async function handleLogout() {
         try {
@@ -54,40 +53,20 @@ function Navigation({ active }) {
                     <NavItem active={active} image={settings} url="/settings">
                         settings
                     </NavItem>
-                    <NavDropdown
-                        title={
-                            <span className={"navItem"}>
-                                <img
-                                    className={"navIcon"}
-                                    src={account}
-                                    alt=""
-                                />
-                                <span className="mobile">account</span>
-                            </span>
-                        }
-                        id="basic-nav-dropdown"
-                    >
+                    <DropMenu img={account} title="account">
                         <div id="userEmail">
                             {currentUser && currentUser.email}
                         </div>
 
-                        <div
-                            className={"dropdownItem"}
-                            onClick={() => history.push("/change-email")}
-                        >
-                            Change Email
-                        </div>
-                        <div
-                            className={"dropdownItem"}
-                            onClick={() => history.push("/change-password")}
-                        >
+                        <DropItem url="/change-email">Change Email</DropItem>
+                        <DropItem url="/change-password">
                             Change Password
-                        </div>
+                        </DropItem>
                         <NavDropdown.Divider />
-                        <div className={"dropdownItem"} onClick={handleLogout}>
+                        <DropItem click={() => handleLogout()}>
                             Log Out
-                        </div>
-                    </NavDropdown>
+                        </DropItem>
+                    </DropMenu>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

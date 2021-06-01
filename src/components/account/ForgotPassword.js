@@ -7,6 +7,7 @@ import {
     Message,
     authStyle,
     Dialog,
+    ExtLink,
 } from "./utility/AuthSheets";
 
 export default function ForgotPassword() {
@@ -19,7 +20,6 @@ export default function ForgotPassword() {
         setMessage,
         loading,
         setLoading,
-        history,
     } = useAuthForm();
     const [timer, setTimer] = useState(0);
 
@@ -71,12 +71,7 @@ export default function ForgotPassword() {
                         </Submit>
                     </Form>
                     <div className={authStyle.link}>
-                        <span
-                            className="dark-link"
-                            onClick={() => history.push("/")}
-                        >
-                            Cancel
-                        </span>
+                        <ExtLink url="/">Cancel</ExtLink>
                     </div>
                 </Card.Body>
             </Card>

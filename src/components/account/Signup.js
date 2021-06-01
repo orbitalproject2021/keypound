@@ -9,6 +9,7 @@ import {
     authStyle,
     Message,
     Dialog,
+    ExtLink,
 } from "./utility/AuthSheets";
 
 export default function Signup() {
@@ -64,13 +65,7 @@ export default function Signup() {
             </Card>
             <div className={authStyle.link}>
                 {"Already have an account? Log in "}
-                <span
-                    className="dark-link"
-                    onClick={() => history.push("/login")}
-                >
-                    here
-                </span>
-                .
+                <ExtLink url="/login">here</ExtLink>.
             </div>
         </Dialog>
     );

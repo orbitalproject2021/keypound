@@ -7,6 +7,7 @@ import {
     Message,
     authStyle,
     Dialog,
+    ExtLink,
 } from "./utility/AuthSheets";
 import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
@@ -57,14 +58,7 @@ export default function Login() {
                 </Card.Body>
             </Card>
             <div className={authStyle.link}>
-                Need an account? Sign up{" "}
-                <span
-                    className="dark-link"
-                    onClick={() => history.push("/signup")}
-                >
-                    here
-                </span>
-                .
+                Need an account? Sign up <ExtLink url="/signup">here</ExtLink>.
             </div>
         </Dialog>
     );

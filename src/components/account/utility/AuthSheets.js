@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Button, Alert, Container } from "react-bootstrap";
+import { useHistory } from "react-router";
 
 export function Dialog(props) {
     return (
@@ -72,6 +73,24 @@ export function Message({ message, error }) {
             {message && <Alert variant="success">{message}</Alert>}
             {error && <Alert variant="danger">{error}</Alert>}
         </>
+    );
+}
+
+export function ExtLink({ url, children }) {
+    const history = useHistory();
+    return (
+        <span
+            tabIndex="0"
+            className="dark-link"
+            onClick={() => history.push(url)}
+            onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    history.push(url);
+                }
+            }}
+        >
+            {children}
+        </span>
     );
 }
 

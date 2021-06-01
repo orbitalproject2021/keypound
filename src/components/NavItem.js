@@ -6,6 +6,13 @@ export function NavItem({ url, image, active, children }) {
     return (
         <>
             <span
+                role="button"
+                onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                        history.push(url);
+                    }
+                }}
+                tabIndex="0"
                 onClick={() => history.push(url)}
                 className={"navItem" + (active === children ? " active" : "")}
             >

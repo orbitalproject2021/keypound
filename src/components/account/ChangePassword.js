@@ -8,6 +8,7 @@ import {
     authStyle,
     Message,
     Dialog,
+    ExtLink,
 } from "./utility/AuthSheets";
 
 export default function ChangePassword() {
@@ -24,7 +25,6 @@ export default function ChangePassword() {
         setLoading,
         isHidden,
         setIsHidden,
-        history,
     } = useAuthForm("password");
 
     const successMsg = "Successfully updated profile.";
@@ -94,9 +94,7 @@ export default function ChangePassword() {
                 </Card.Body>
             </Card>
             <div className={authStyle.link}>
-                <span className="dark-link" onClick={() => history.push("/")}>
-                    Back to home
-                </span>
+                <ExtLink url="/">Back to home</ExtLink>
             </div>
         </Dialog>
     );

@@ -28,7 +28,7 @@ function Dashboard() {
             {message && <Alert variant="success">{message}</Alert>}
             <ContentCard>
                 <Content area={[1, 3, 1, 3]} title="home">
-                    <h4>Balance History</h4>
+                    <h4 className="body-title">balance history</h4>
                 </Content>
             </ContentCard>
         </>

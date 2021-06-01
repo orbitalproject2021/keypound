@@ -7,6 +7,7 @@ import {
     authStyle,
     Message,
     Dialog,
+    ExtLink,
 } from "./utility/AuthSheets";
 
 export default function ChangeEmail() {
@@ -18,12 +19,12 @@ export default function ChangeEmail() {
         setError,
         message,
         setMessage,
-        loading,
-        setLoading,
         isHidden,
         setIsHidden,
-        history,
+        loading,
+        setLoading,
     } = useAuthForm();
+
     const successMsg = "Successfully updated profile.";
 
     useEffect(() => {
@@ -65,7 +66,6 @@ export default function ChangeEmail() {
                         <Form onSubmit={handleSubmit}>
                             <Email
                                 reference={emailRef}
-                                defaultValue={currentUser && currentUser.email}
                                 required={true}
                                 onChange={() => {
                                     setMessage("");
@@ -78,9 +78,7 @@ export default function ChangeEmail() {
                 </Card.Body>
             </Card>
             <div className={authStyle.link}>
-                <span className="dark-link" onClick={() => history.push("/")}>
-                    Back to home
-                </span>
+                <ExtLink url="/">Back to home</ExtLink>
             </div>
         </Dialog>
     );
