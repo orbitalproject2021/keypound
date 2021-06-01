@@ -73,7 +73,11 @@ function Expense() {
                                 step="any"
                                 ref={descriptionRef}
                                 required
-                                onChange={() => setDisabled(false)}
+                                onChange={() => {
+                                    setDisabled(false);
+                                    setError("");
+                                    setMessage("");
+                                }}
                             />
                         </Form.Group>
                         <div style={{ padding: "10pt" }}></div>
@@ -85,7 +89,11 @@ function Expense() {
                                 ref={expenseRef}
                                 min="0.01"
                                 required
-                                onChange={() => setDisabled(false)}
+                                onChange={() => {
+                                    setDisabled(false);
+                                    setError("");
+                                    setMessage("");
+                                }}
                             />
                         </Form.Group>
                         <div style={{ padding: "10pt" }}></div>
@@ -96,7 +104,11 @@ function Expense() {
                                 max={maxDate}
                                 ref={dateRef}
                                 required
-                                onChange={() => setDisabled(false)}
+                                onChange={() => {
+                                    setDisabled(false);
+                                    setError("");
+                                    setMessage("");
+                                }}
                             />
                         </Form.Group>
                         <div style={{ padding: "10pt" }}></div>
