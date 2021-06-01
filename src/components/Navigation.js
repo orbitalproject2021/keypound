@@ -7,9 +7,11 @@ import settings from "../icons/settings.png";
 import { useAuth } from "../contexts/AuthContext";
 import NavItem from "./NavItem";
 import DropItem, { DropMenu } from "./DropItem";
+import { useHistory } from "react-router";
 
 function Navigation({ active }) {
     const { currentUser, logout } = useAuth();
+    const history = useHistory();
 
     async function handleLogout() {
         try {
@@ -23,7 +25,18 @@ function Navigation({ active }) {
     return (
         <Navbar bg="dark" expand="md" variant="dark">
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <span className="logo">Spendee</span>
+            <span
+                className="logo"
+                tabIndex="0"
+                onClick={() => history.push("/")}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                        useHistory.push("/");
+                    }
+                }}
+            >
+                Spendee
+            </span>
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav id="width" className="m-auto appleBar">
                     <NavItem active={active} image={home} url="/">

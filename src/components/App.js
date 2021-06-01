@@ -33,8 +33,14 @@ function App() {
                     <PrivateRoute path="/settings" component={Settings} />
                     <Route path="/signup" component={Signup} />
                     <Route path="/login" component={Login} />
-                    <Route path="/change-email" component={ChangeEmail} />
-                    <Route path="/change-password" component={ChangePassword} />
+                    <PrivateRoute
+                        path="/change-email"
+                        component={ChangeEmail}
+                    />
+                    <PrivateRoute
+                        path="/change-password"
+                        component={ChangePassword}
+                    />
                     <Route path="/forgot-password" component={ForgotPassword} />
                 </Switch>
             </AuthProvider>

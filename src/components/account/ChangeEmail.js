@@ -7,8 +7,8 @@ import {
     authStyle,
     Message,
     Dialog,
-    ExtLink,
 } from "./utility/AuthSheets";
+import Navigation from "../Navigation";
 
 export default function ChangeEmail() {
     const {
@@ -57,29 +57,29 @@ export default function ChangeEmail() {
     }
 
     return (
-        <Dialog>
-            <Card>
-                <Card.Body>
-                    <h2 className={authStyle.title}>Change Email</h2>
-                    <Message error={error} message={message} />
-                    {!isHidden && (
-                        <Form onSubmit={handleSubmit}>
-                            <Email
-                                reference={emailRef}
-                                required={true}
-                                onChange={() => {
-                                    setMessage("");
-                                    setError("");
-                                }}
-                            />
-                            <Submit loading={loading}>Update</Submit>
-                        </Form>
-                    )}
-                </Card.Body>
-            </Card>
-            <div className={authStyle.link}>
-                <ExtLink url="/">Back to home</ExtLink>
-            </div>
-        </Dialog>
+        <>
+            <Navigation />
+            <Dialog>
+                <Card>
+                    <Card.Body>
+                        <h2 className={authStyle.title}>Change Email</h2>
+                        <Message error={error} message={message} />
+                        {!isHidden && (
+                            <Form onSubmit={handleSubmit}>
+                                <Email
+                                    reference={emailRef}
+                                    required={true}
+                                    onChange={() => {
+                                        setMessage("");
+                                        setError("");
+                                    }}
+                                />
+                                <Submit loading={loading}>Update</Submit>
+                            </Form>
+                        )}
+                    </Card.Body>
+                </Card>
+            </Dialog>
+        </>
     );
 }

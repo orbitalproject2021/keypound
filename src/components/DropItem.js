@@ -6,7 +6,7 @@ export function DropMenu({ img, title, children }) {
     return (
         <NavDropdown
             title={
-                <span className={"navItem"}>
+                <span className={"navItem drop"}>
                     <img className={"navIcon"} src={img} alt="" />
                     <span className="mobile">{title}</span>
                 </span>

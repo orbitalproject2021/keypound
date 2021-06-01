@@ -140,6 +140,29 @@ a:hover {
 }
 
 @media (max-width: 767px) {
+    /* Mobile */
+    .navItem {
+        font-weight: 400;
+        padding: 0.25em 1em;
+        margin: 0;
+        border: none;
+        background-color: #333333;
+        color: white;
+    }
+
+    .dropdown {
+        background-color: #333333;
+    }
+    .dropdown-toggle {
+        padding: 0.25em 1em;
+        transition: none;
+    }
+    .dropdown-toggle:hover {
+        background-color: #666666;
+    }
+    .dropdown-toggle:hover .drop {
+        background-color: #666666;
+    }
     .navIcon {
         display: none;
     }
@@ -148,34 +171,40 @@ a:hover {
     }
     .active {
         border-bottom: 4px solid transparent;
-        text-shadow: 1px 1px 15px white, 1px 1px 15px #687b94;
         padding-bottom: 0px;
-    }
-    .active:hover {
-        text-shadow: 1px 1px 15px #687b94, 1px 1px 15px #687b94;
+        background: #f7a56b;
+        color: #4d3321;
+        font-weight: 600;
     }
     .navItem:hover {
-        text-shadow: 1px 1px 12px #687b94, 1px 1px 12px #687b94;
+        background-color: #666666;
     }
-    .navbar-nav .dropdown-menu {
-        position: absolute;
+    .active:hover {
+        background-color: #ffc094;
+        color: #332216;
     }
     .navbar-toggler {
         border-radius: 0;
+        box-shadow: none;
+        border: none;
     }
-    .navbar-toggler-icon:focus {
-        outline: none;
+    .navbar-toggler:active {
         box-shadow: none;
     }
-    button.navbar-toggler:focus {
-        outline: 1px none;
+    .navbar-toggler:focus {
+        box-shadow: none;
     }
     .logo {
         display: inline;
+        cursor: pointer;
+    }
+    [class~="drop"]:hover {
+        background-color: inherit;
     }
 }
 
 @media (min-width: 768px) {
+    /* Desktop */
     .appleBar {
         align-items: center;
     }
