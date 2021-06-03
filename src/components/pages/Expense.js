@@ -3,7 +3,7 @@ import Navigation from "../Navigation";
 
 function Expense() {
     useEffect(() => {
-        document.title = "Expense - Spendee";
+        document.title = "Add Expense - Spendee";
     }, []);
 
     return <Navigation active="expense" />;

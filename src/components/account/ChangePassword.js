@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Form, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
 import {
     Password,
@@ -25,6 +24,7 @@ export default function ChangePassword() {
         setLoading,
         isHidden,
         setIsHidden,
+        history,
     } = useAuthForm("password");
 
     const successMsg = "Successfully updated profile.";
@@ -94,7 +94,9 @@ export default function ChangePassword() {
                 </Card.Body>
             </Card>
             <div className={authStyle.link}>
-                <Link to="/">Back to Home</Link>
+                <span className="dark-link" onClick={() => history.push("/")}>
+                    Back to home
+                </span>
             </div>
         </Dialog>
     );

@@ -4,7 +4,7 @@
 }
 
 body {
-    background: #4b4b4b;
+    background: #ececec;
 }
 
 .card,
@@ -91,8 +91,15 @@ a:hover {
     color: #7fc0ff;
 }
 
-.light-text {
-    color: white;
+.dark-text {
+    color: black;
+}
+
+.dark-link {
+    color: #ff6a00;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .mobile {
@@ -109,4 +116,53 @@ a:hover {
     .active {
         border-bottom: 4px solid transparent;
     }
+}
+
+.body-container {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: no-wrap;
+}
+
+.body-margin {
+    flex: 1 5 10vw;
+}
+
+.content {
+    padding: 1em;
+    margin: 0;
+    border: 1px solid white;
+    display: flex;
+    flex-direction: row;
+    color: white;
+    background: #4b4b4b;
+    box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+        rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+        rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.content-title {
+    font-weight: 600;
+    border: 1px solid white;
+    margin: 0;
+    padding: 0.5em 1em;
+    color: #ececec;
+    background: #2d455d;
+    display: block;
+    grid-area: 1 / 1 / 2 / 3;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(auto-fill, 40px auto);
+
+    justify-content: stretch;
+    align-content: center;
+    flex: 0 1 800px;
+}
+
+.title-window {
+    margin: 0.5em;
 }

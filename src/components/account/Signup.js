@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Form, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
 import {
     Email,
@@ -64,7 +63,14 @@ export default function Signup() {
                 </Card.Body>
             </Card>
             <div className={authStyle.link}>
-                Already have an account? Log in <Link to="/login">here</Link>.
+                {"Already have an account? Log in "}
+                <span
+                    className="dark-link"
+                    onClick={() => history.push("/login")}
+                >
+                    here
+                </span>
+                .
             </div>
         </Dialog>
     );
