@@ -10,6 +10,11 @@ import {
     ExtLink,
 } from "./utility/AuthSheets";
 
+/**
+ * A component for the user to reset their password if they have forgotten it.
+ *
+ * @returns The React component for resetting password.
+ */
 export default function ForgotPassword() {
     const {
         emailRef,
@@ -21,6 +26,9 @@ export default function ForgotPassword() {
         loading,
         setLoading,
     } = useAuthForm();
+
+    // Timer variable for displaying time left before sending another email.
+    // To be displayed as button label.
     const [timer, setTimer] = useState(0);
 
     useEffect(() => {
@@ -28,20 +36,35 @@ export default function ForgotPassword() {
     }, []);
 
     useEffect(() => {
+        // Decrement the timer every second
         const interval = setInterval(
             () => setTimer((timer) => timer - 1),
             1000
         );
+
+        // Once the timer hits zero, re-enable the form
         if (timer === 0) {
             setLoading(false);
             setMessage("");
             clearInterval(interval);
         }
+
+        // After the component unmounts, remove the timer
         return () => {
             clearInterval(interval);
         };
     }, [timer, setLoading, setMessage]);
 
+    /**
+     * Handles form submission.
+     *
+     * Sends password reset request to Firebase Auth and sets any alerts to be
+     * displayed if the request succeeds or fails. If the email is sent
+     * successfully, there is a delay before the next email can be sent.
+     *
+     * @param {Object} e The submit event. Used for preventing the default
+     *                   submit behaviour.
+     */
     async function handleSubmit(e) {
         e.preventDefault();
         try {

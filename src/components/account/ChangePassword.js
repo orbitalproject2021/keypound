@@ -11,12 +11,17 @@ import {
 } from "./utility/AuthSheets";
 import Navigation from "../Navigation";
 
+/**
+ * A component for the user to change their password. If the user is not
+ * logged in, they should be redirected using PrivateRoute.
+ *
+ * @returns The React component for changing password
+ */
 export default function ChangePassword() {
     const {
         passwordRef,
         passwordConfirmRef,
         changePassword,
-        currentUser,
         error,
         setError,
         message,
@@ -33,33 +38,38 @@ export default function ChangePassword() {
         document.title = "Change Password";
     }, []);
 
-    useEffect(() => {
-        !currentUser &&
-            setError((prev) =>
-                message === successMsg ? prev : "Error: You must be logged in."
-            );
-    }, [message, setError, currentUser]);
-
+    /**
+     * Handles form submission.
+     *
+     * Sends change password request to Firebase Auth and sets any alerts to be
+     * displayed if the request succeeds or fails. Prevents accidental multiple
+     * submissions of the form by disabling the button until the form is
+     * updated.
+     *
+     * @param {Object} e The submit event. Used for preventing the default
+     *                   submit behaviour.
+     */
     function handleSubmit(e) {
-        e.preventDefault();
-        if (!currentUser) {
-            return;
-        }
+        e.preventDefault(); // prevents form from refreshing upon submission
+
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
             return setError("Passwords do not match");
         }
+
+        // Clear messages, errors and disable form
         setMessage("");
         setError("");
         setLoading(true);
 
+        // Send change password request
         changePassword(passwordRef.current.value)
             .then(() => {
-                setMessage("Password updated successfully.");
-                setIsHidden(true);
+                setMessage(successMsg);
+                setIsHidden(true); // password changed, hide form
             })
             .catch((error) => {
                 setError(error.message);
-                setLoading(false);
+                setLoading(false); // re-enable form to let user retry
             });
     }
 

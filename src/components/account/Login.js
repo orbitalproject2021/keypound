@@ -12,6 +12,11 @@ import {
 import { Link } from "react-router-dom";
 import useAuthForm from "./utility/useAuthForm";
 
+/**
+ * A component for the user to log in.
+ *
+ * @returns The React component for the login page.
+ */
 export default function Login() {
     const {
         emailRef,
@@ -28,8 +33,18 @@ export default function Login() {
         document.title = "Log In - Spendee";
     }, []);
 
+    /**
+     * Handles form submission.
+     *
+     * Sends login request to Firebase Auth and sets any alerts to be
+     * displayed if the request succeeds or fails. Redirects user to home
+     * page if login is successful.
+     *
+     * @param {Object} e The submit event. Used for preventing the default
+     *                   submit behaviour.
+     */
     async function handleSubmit(e) {
-        e.preventDefault();
+        e.preventDefault(); // prevent form from refreshing upon submission
         try {
             setError("");
             setLoading(true);
