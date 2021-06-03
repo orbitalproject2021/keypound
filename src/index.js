@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./components/App";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./overrides.css"; // important to import after bootstrap
 
 ReactDOM.render(
     <React.StrictMode>
