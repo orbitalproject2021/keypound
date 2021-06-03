@@ -9,10 +9,6 @@ import "./Expense.css";
 function Expense() {
     const date = new Date();
     const maxDate = date.toISOString().substring(0, 10);
-    useEffect(() => {
-        document.title = "Add Expense - Spendee";
-        dateRef.current.value = new Date().toISOString().substr(0, 10);
-    }, []);
 
     const expenseRef = useRef();
     const dateRef = useRef();
@@ -21,6 +17,12 @@ function Expense() {
     const [message, setMessage] = useState("");
     const [disabled, setDisabled] = useState(false);
     const { currentUser } = useAuth();
+
+    useEffect(() => {
+        document.title = "Add Expense - Spendee";
+        descriptionRef.current.focus();
+        dateRef.current.value = new Date().toISOString().substr(0, 10);
+    }, []);
 
     const parseMoney = (str) => {
         try {
