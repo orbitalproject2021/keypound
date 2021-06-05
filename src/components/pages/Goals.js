@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Form } from "react-bootstrap";
+import { Form, Dropdown, DropdownButton, Button, Alert } from "react-bootstrap";
 import { ContentCard, Content } from "../ContentCard";
 import Navigation from "../Navigation";
 
@@ -7,6 +7,8 @@ function Goals() {
   const typeRef = useRef();
   const amountRef = useRef();
   const motivationsRef = useRef();
+
+  const [type, setType] = useState("Type");
 
   useEffect(() => {
     document.title = "Goals - Spendee";
@@ -21,8 +23,34 @@ function Goals() {
           <Form>
             <Form.Group id="type">
               <Form.Label>Type</Form.Label>
-              <Form.Control type="text" step="any" ref={typeRef} required />
+              <DropdownButton
+                id="dropdown-basic-button"
+                title={type}
+                ref={typeRef}
+                required
+              >
+                <Dropdown.Item
+                  href="#/action-1"
+                  onClick={() => setType("Saving")}
+                >
+                  Saving
+                </Dropdown.Item>
+                <Dropdown.Item
+                  href="#/action-2"
+                  onClick={() => setType("Investing")}
+                >
+                  Investing
+                </Dropdown.Item>
+                <Dropdown.Item
+                  href="#/action-3"
+                  onClick={() => setType("Spending")}
+                >
+                  Spending
+                </Dropdown.Item>
+              </DropdownButton>
             </Form.Group>
+
+            <div style={{ padding: "10pt" }}></div>
 
             <Form.Group id="amount">
               <Form.Label>Amount</Form.Label>
@@ -35,6 +63,8 @@ function Goals() {
               />
             </Form.Group>
 
+            <div style={{ padding: "10pt" }}></div>
+
             <Form.Group id="motivations">
               <Form.Label>Motivations</Form.Label>
               <Form.Control
@@ -44,6 +74,12 @@ function Goals() {
                 required
               />
             </Form.Group>
+
+            <div style={{ padding: "10pt" }}></div>
+
+            <Button type={"submit"} className={"custom-button"}>
+              Submit
+            </Button>
           </Form>
         </Content>
       </ContentCard>
