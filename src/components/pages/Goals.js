@@ -14,6 +14,10 @@ function Goals() {
     document.title = "Goals - Spendee";
   }, []);
 
+  useEffect(() => {
+    amountRef.current.focus();
+  });
+
   return (
     <>
       <Navigation active="goals" />;
