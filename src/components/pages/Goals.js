@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Form, Dropdown, DropdownButton, Button, Alert } from "react-bootstrap";
 import { ContentCard, Content } from "../ContentCard";
 import Navigation from "../Navigation";
+import { useHistory } from "react-router";
 
 function Goals() {
   const typeRef = useRef();
@@ -23,8 +24,10 @@ function Goals() {
       <Navigation active="goals" />;
       <ContentCard>
         <Content area={[1, 3, 1, 3]} title="Add goals">
-          <p>Add Goals Here</p>
+          <Button url="/GoalsOverview">Goals Overview</Button>
           <Form>
+            <div style={{ padding: "5pt" }}></div>
+            <p>Add Goals Here</p>
             <Form.Group id="type">
               <Form.Label>Type</Form.Label>
               <DropdownButton
