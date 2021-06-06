@@ -3,6 +3,7 @@ import { Form, Dropdown, DropdownButton, Button, Alert } from "react-bootstrap";
 import { ContentCard, Content } from "../ContentCard";
 import Navigation from "../Navigation";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
 function Goals() {
   const typeRef = useRef();
@@ -10,6 +11,8 @@ function Goals() {
   const motivationsRef = useRef();
 
   const [type, setType] = useState("Type");
+
+  const history = useHistory();
 
   useEffect(() => {
     document.title = "Goals - Spendee";
@@ -24,7 +27,9 @@ function Goals() {
       <Navigation active="goals" />;
       <ContentCard>
         <Content area={[1, 3, 1, 3]} title="Add goals">
-          <Button url="/GoalsOverview">Goals Overview</Button>
+          <Link to="/goals-overview" className="btn btn-primary">
+            Goals Overview
+          </Link>
           <Form>
             <div style={{ padding: "5pt" }}></div>
             <p>Add Goals Here</p>

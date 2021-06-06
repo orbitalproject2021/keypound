@@ -6,7 +6,7 @@ function GoalsOverview() {
     document.title = "GoalsOverview - Spendee";
   }, []);
 
-  return <Navigation active="credit" />;
+  return <Navigation active="goals" />;
 }
 
 export default GoalsOverview;
