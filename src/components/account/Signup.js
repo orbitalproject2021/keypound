@@ -12,6 +12,11 @@ import {
     ExtLink,
 } from "./utility/AuthSheets";
 
+/**
+ * A component for the user to sign up.
+ *
+ * @returns The React component for the sign up page.
+ */
 export default function Signup() {
     const {
         emailRef,
@@ -29,8 +34,18 @@ export default function Signup() {
         document.title = "Sign Up - Spendee";
     }, []);
 
+    /**
+     * Handles form submission.
+     *
+     * Sends signup request to Firebase Auth and sets any alerts to be
+     * displayed if the request succeeds or fails. Redirects user to home
+     * page if signup is successful.
+     *
+     * @param {Object} e The submit event. Used for preventing the default
+     *                   submit behaviour.
+     */
     async function handleSubmit(e) {
-        e.preventDefault();
+        e.preventDefault(); // prevent form from refreshing
 
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
             return setError("Passwords do not match");

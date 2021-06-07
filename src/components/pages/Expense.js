@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import Navigation from "../Navigation";
 import { ContentCard, Content } from "../ContentCard";
-import { Alert, Form, Button } from "react-bootstrap";
+import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import "./Expense.css";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
 
 function Expense() {
     const date = new Date();
@@ -16,6 +19,7 @@ function Expense() {
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [disabled, setDisabled] = useState(false);
+    const [type, setType] = useState("Need");
     const { currentUser } = useAuth();
 
     useEffect(() => {
@@ -34,29 +38,27 @@ function Expense() {
     };
 
     const handleSubmit = (e) => {
-        setDisabled(true);
+        setDisabled(true); // prevent re-submission during request time
         e.preventDefault();
+        console.log(type);
+
+        // reference to user document
+        var docRef = db.collection("users").doc(currentUser.uid);
+
         const [day, month, year] = dateRef.current.value.split("/");
         const date = new Date(`${year}-${month}-${day}`);
-        let json;
-        try {
-            json = {
-                description: descriptionRef.current.value,
-                date: date.toISOString(),
-                expense: parseMoney(expenseRef.current.value) * 100,
-            };
-        } catch (e) {
-            setError(e);
-        }
 
-        db.collection(currentUser.uid)
-            .add(json)
-            .then((docRef) => {
-                console.log("Document written with ID: ", docRef.id);
-                setMessage("Expense added successfully.");
+        docRef
+            .update({
+                expenses: firebase.firestore.FieldValue.arrayUnion({
+                    description: descriptionRef.current.value,
+                    date: firebase.firestore.Timestamp.fromDate(date),
+                    type: type,
+                    value: parseMoney(expenseRef.current.value) * 100,
+                }),
             })
-            .catch((e) => {
-                setError(`${error} \n${e}`);
+            .then(() => {
+                setMessage("Expense added successfully.");
             });
     };
 
@@ -81,6 +83,34 @@ function Expense() {
                                     setMessage("");
                                 }}
                             />
+                        </Form.Group>
+                        <div style={{ padding: "10pt" }}></div>
+                        <Form.Group id="type">
+                            <Form.Label>Type</Form.Label>
+                            <DropdownButton
+                                id="dropdown-basic-button"
+                                title={type}
+                                required
+                            >
+                                <Dropdown.Item
+                                    href="#/action-1"
+                                    onClick={() => setType("Need")}
+                                >
+                                    Need
+                                </Dropdown.Item>
+                                <Dropdown.Item
+                                    href="#/action-2"
+                                    onClick={() => setType("Want")}
+                                >
+                                    Want
+                                </Dropdown.Item>
+                                <Dropdown.Item
+                                    href="#/action-3"
+                                    onClick={() => setType("Unexpected")}
+                                >
+                                    Unexpected
+                                </Dropdown.Item>
+                            </DropdownButton>
                         </Form.Group>
                         <div style={{ padding: "10pt" }}></div>
                         <Form.Group id="expense">

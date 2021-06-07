@@ -1,7 +1,21 @@
+/**
+ * Provides authentication bootstrap elements.
+ *
+ * The elements include Dialog, Email, Password,  PasswordConfirm, Submit,
+ * Message, ExtLink and authStyle. Import by surrounding desired elements in
+ * brace brackets, removing the unnecessary elements.
+ */
 import React from "react";
 import { Form, Button, Alert, Container } from "react-bootstrap";
 import { useHistory } from "react-router";
 
+/**
+ * Provides a container for form elements or other HTML elements to center them
+ * on the screen.
+ *
+ * @param {Object} props Element properties to be passed to the div
+ * @returns              A container flex element styled in a centred box
+ */
 export function Dialog(props) {
     return (
         <Container
@@ -15,6 +29,13 @@ export function Dialog(props) {
     );
 }
 
+/**
+ * Provides an email field for user input.
+ *
+ * @param {Object} props.reference A reference object created using the useRef
+ *                                 hook
+ * @returns                        An email user input field
+ */
 export function Email({ reference, ...properties }) {
     if (!reference) {
         throw Error("Reference required.");
@@ -27,6 +48,13 @@ export function Email({ reference, ...properties }) {
     );
 }
 
+/**
+ * Provides a password field for user input.
+ *
+ * @param {Object} props.reference A reference object created using the useRef
+ *                                 hook
+ * @returns                        A password user input field
+ */
 export function Password({ reference, ...properties }) {
     if (!reference) {
         throw Error("Reference required.");
@@ -39,6 +67,13 @@ export function Password({ reference, ...properties }) {
     );
 }
 
+/**
+ * Provides a password conformation field for user input.
+ *
+ * @param {Object} props.reference A reference object created using the useRef
+ *                                 hook
+ * @returns                        A password confirmation user input field
+ */
 export function PasswordConfirm({ reference, ...properties }) {
     if (!reference) {
         throw Error("Reference required.");
@@ -51,6 +86,14 @@ export function PasswordConfirm({ reference, ...properties }) {
     );
 }
 
+/**
+ * Provides a submit button for submitting the entire form.
+ *
+ * @param {string} props.children  The label for the button
+ * @param {boolean} props.loading  An optional state which, if true, dictates
+ *                                 that the button cannot be clicked
+ * @returns                        A submit button
+ */
 export function Submit({ children, loading, ...properties }) {
     return (
         <>
@@ -67,6 +110,16 @@ export function Submit({ children, loading, ...properties }) {
     );
 }
 
+/**
+ * Provides a Bootstrap Alert to display a message or error. If the text is
+ * passed in as a message, it will be displayed in a green success box. If the
+ * text is passed in as an error, it will be displayed in a red error box.
+ *
+ * @param {string} props.message  The success message to be rendered, if any
+ * @param {string} props.error    The error message to be rendered, if any
+ * @returns                       An element which displays an error or success
+ *                                message, or both, if any
+ */
 export function Message({ message, error }) {
     return (
         <>
@@ -76,6 +129,14 @@ export function Message({ message, error }) {
     );
 }
 
+/**
+ * Provides a link which can redirect a user to a different page on the site. It
+ * supports tab-enter accessibility functionality.
+ *
+ * @param {string} props.url      The path of the destination page
+ * @param {string} props.children The text label of the link
+ * @returns
+ */
 export function ExtLink({ url, children }) {
     const history = useHistory();
     return (
@@ -94,6 +155,10 @@ export function ExtLink({ url, children }) {
     );
 }
 
+/**
+ * An object that provides preset CSS class names to be used for styling
+ * certain authentication components.
+ */
 export const authStyle = {
     title: "text-center mb-4",
     cardLink: "w-100 text-center mt-3",
