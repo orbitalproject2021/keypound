@@ -36,19 +36,16 @@ function Goals() {
                                 required
                             >
                                 <Dropdown.Item
-                                    href="#/action-1"
                                     onClick={() => setType("Saving")}
                                 >
                                     Saving
                                 </Dropdown.Item>
                                 <Dropdown.Item
-                                    href="#/action-2"
                                     onClick={() => setType("Investing")}
                                 >
                                     Investing
                                 </Dropdown.Item>
                                 <Dropdown.Item
-                                    href="#/action-3"
                                     onClick={() => setType("Spending")}
                                 >
                                     Spending
