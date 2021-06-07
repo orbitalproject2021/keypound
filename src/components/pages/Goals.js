@@ -5,7 +5,6 @@ import Navigation from "../Navigation";
 import { Link } from "react-router-dom";
 
 function Goals() {
-    const typeRef = useRef();
     const amountRef = useRef();
     const motivationsRef = useRef();
     const [type, setType] = useState("Type");
@@ -34,7 +33,6 @@ function Goals() {
                             <DropdownButton
                                 id="dropdown-basic-button"
                                 title={type}
-                                ref={typeRef}
                                 required
                             >
                                 <Dropdown.Item
