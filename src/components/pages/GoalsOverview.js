@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import Navigation from "../Navigation";
 
 function GoalsOverview() {
-    useEffect(() => {
-        document.title = "Goals Overview - Spendee";
-    }, []);
+  useEffect(() => {
+    document.title = "GoalsOverview - Spendee";
+  }, []);
 
-    return <Navigation active="goals" />;
+  return <Navigation active="goals" />;
 }
 
 export default GoalsOverview;
