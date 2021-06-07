@@ -31,10 +31,8 @@ function Goals() {
             Goals Overview
           </Link>
           <Form>
-            <div style={{ padding: "8pt" }}></div>
-
+            <div style={{ padding: "5pt" }}></div>
             <p>Add Goals Here</p>
-
             <Form.Group id="type">
               <Form.Label>Type</Form.Label>
               <DropdownButton
