@@ -5,6 +5,9 @@ import { Alert, Form, Button } from "react-bootstrap";
 import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import "./Expense.css";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
 
 function Expense() {
     const date = new Date();
@@ -22,6 +25,10 @@ function Expense() {
     const [disabled, setDisabled] = useState(false);
     const { currentUser } = useAuth();
 
+    useEffect(() => {
+        descriptionRef.current.focus();
+    });
+
     const parseMoney = (str) => {
         try {
             return parseFloat(str.replaceAll(/[^\d+.?\d*]/g, ""));
@@ -32,29 +39,26 @@ function Expense() {
     };
 
     const handleSubmit = (e) => {
-        setDisabled(true);
+        setDisabled(true); // prevent re-submission during request time
         e.preventDefault();
+
+        // reference to user document
+        var docRef = db.collection("users").doc(currentUser.uid);
+
         const [day, month, year] = dateRef.current.value.split("/");
         const date = new Date(`${year}-${month}-${day}`);
-        let json;
-        try {
-            json = {
-                description: descriptionRef.current.value,
-                date: date.toISOString(),
-                expense: parseMoney(expenseRef.current.value) * 100,
-            };
-        } catch (e) {
-            setError(e);
-        }
 
-        db.collection(currentUser.uid)
-            .add(json)
-            .then((docRef) => {
-                console.log("Document written with ID: ", docRef.id);
-                setMessage("Expense added successfully.");
+        docRef
+            .update({
+                expenses: firebase.firestore.FieldValue.arrayUnion({
+                    description: descriptionRef.current.value,
+                    date: date.toISOString(),
+                    type: "need", // TODO: implement data types
+                    value: parseMoney(expenseRef.current.value) * 100,
+                }),
             })
-            .catch((e) => {
-                setError(`${error} \n${e}`);
+            .then(() => {
+                setMessage("Expense added successfully.");
             });
     };
 

@@ -11,15 +11,26 @@ function Dashboard() {
     const { currentUser } = useAuth();
 
     useEffect(() => {
-        async function getData() {
-            const snapshot = await db.collection(currentUser.uid).get();
-            snapshot.forEach((doc) => {
-                console.log(doc.data());
-            });
-        }
         document.title = "Dashboard - Spendee";
-        getData();
-    }, [currentUser.uid]);
+        // TODO: change param to currentUser.uid
+
+        // Reference to current user document from 'users' collection
+        var docRef = db.collection("users").doc(currentUser.uid);
+
+        docRef
+            .get()
+            .then((doc) => {
+                if (doc.exists) {
+                    console.log(doc.data());
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                }
+            })
+            .catch((error) => {
+                console.log("Error getting document:", error);
+            });
+    });
 
     return (
         <>
