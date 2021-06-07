@@ -3,7 +3,7 @@ import Navigation from "../Navigation";
 
 function GoalsOverview() {
   useEffect(() => {
-    document.title = "GoalsOverview - Spendee";
+    document.title = "Goals Overview - Spendee";
   }, []);
 
   return <Navigation active="goals" />;

@@ -1,18 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Form, Dropdown, DropdownButton, Button, Alert } from "react-bootstrap";
+import { Form, Dropdown, DropdownButton, Button } from "react-bootstrap";
 import { ContentCard, Content } from "../ContentCard";
 import Navigation from "../Navigation";
-import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 
 function Goals() {
-  const typeRef = useRef();
   const amountRef = useRef();
   const motivationsRef = useRef();
-
   const [type, setType] = useState("Type");
-
-  const history = useHistory();
 
   useEffect(() => {
     document.title = "Goals - Spendee";
@@ -35,28 +30,14 @@ function Goals() {
             <p>Add Goals Here</p>
             <Form.Group id="type">
               <Form.Label>Type</Form.Label>
-              <DropdownButton
-                id="dropdown-basic-button"
-                title={type}
-                ref={typeRef}
-                required
-              >
-                <Dropdown.Item
-                  href="#/action-1"
-                  onClick={() => setType("Saving")}
-                >
+              <DropdownButton id="dropdown-basic-button" title={type} required>
+                <Dropdown.Item onClick={() => setType("Saving")}>
                   Saving
                 </Dropdown.Item>
-                <Dropdown.Item
-                  href="#/action-2"
-                  onClick={() => setType("Investing")}
-                >
+                <Dropdown.Item onClick={() => setType("Investing")}>
                   Investing
                 </Dropdown.Item>
-                <Dropdown.Item
-                  href="#/action-3"
-                  onClick={() => setType("Spending")}
-                >
+                <Dropdown.Item onClick={() => setType("Spending")}>
                   Spending
                 </Dropdown.Item>
               </DropdownButton>
