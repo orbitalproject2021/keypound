@@ -76,8 +76,8 @@ export function Content({
                 className={"content-title"}
                 style={{
                     gridArea: `${area[0]}/${area[2]}/${area[0] + 1}/${area[1]}`,
-                    backgroundColor: topbg || "2d455d",
-                    color: topfg || "#ececec",
+                    backgroundColor: topbg,
+                    color: topfg,
                     borderBottom: "1px solid " + border || "white",
                 }}
             >
@@ -86,8 +86,8 @@ export function Content({
             <div
                 className="content"
                 style={{
-                    backgroundColor: bg || "#4b4b4b",
-                    color: fg || "white",
+                    backgroundColor: bg,
+                    color: fg,
                     gridArea: `${area[0] + 1}/${area[2]}/${area[3]}/${area[1]}`,
                     display: display || "block",
                     ...properties,
