@@ -5,51 +5,13 @@ import Navigation from "../Navigation";
 import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import DashboardPie from "./DashboardPie";
+import { monthlyBreakdown, getMonthlyExpenseArr } from "../../backendUtils";
 
 function Dashboard() {
     const [message] = useState("");
     const [error] = useState("");
     const { currentUser } = useAuth();
     const [data, setData] = useState([]);
-
-    function parseFirestoreData(firestoreData) {
-        const firstOfMonthSeconds = Math.round(
-            new Date(
-                new Date().getFullYear(),
-                new Date().getMonth(),
-                1
-            ).getTime() / 1000
-        );
-        function reducer(accumulator, current) {
-            switch (current.type) {
-                case "Need":
-                    accumulator[0].value += current.value;
-                    break;
-                case "Want":
-                    accumulator[1].value += current.value;
-                    break;
-                case "Unexpected":
-                    accumulator[2].value += current.value;
-                    break;
-                default:
-                    throw new Error("Invalid expense type");
-            }
-            return accumulator;
-        }
-        const data = firestoreData.expenses
-            .filter((obj) => obj.date.seconds >= firstOfMonthSeconds)
-            .reduce(reducer, [
-                { name: "Needs", value: 0 },
-                { name: "Wants", value: 0 },
-                { name: "Unexpected", value: 0 },
-            ]);
-
-        if (data[0].value === 0 && data[1].value === 0 && data[2].value === 0) {
-            return "none";
-        } else {
-            return data;
-        }
-    }
 
     useEffect(() => {
         document.title = "Dashboard - Spendee";
@@ -61,7 +23,8 @@ function Dashboard() {
             .get()
             .then((doc) => {
                 if (doc.exists) {
-                    setData(parseFirestoreData(doc.data()));
+                    setData(monthlyBreakdown(doc.data()));
+                    console.log(getMonthlyExpenseArr(doc.data()));
                 } else {
                     // doc.data() will be undefined in this case
                     console.log("No such document!");
