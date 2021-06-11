@@ -1,10 +1,32 @@
+:root {
+    --bg1: #ececec; /* white */
+    --bg2: #666666; /* md grey */
+    --bg3: #4b4b4b; /* dark md grey */
+    --bg4: #333333; /* dark grey */
+
+    --em1: #ffb886; /* lt orange */
+    --em2: #f8a66c; /* md orange */
+    --em3: #dd762e; /* st orange */
+    --em4: #ff6a00; /* hot orange */
+    --em5: #bd7a4a; /* dk orange */
+    --em6: #4d3321; /* brown */
+
+    --tm1: #bedfff; /* baby blue */
+    --tm2: #7fc0ff; /* sky blue */
+    --tm3: #2d455d; /* lighter navy */
+    --tm4: #212830; /* navy blue */
+
+    --ac-green: #98ddca;
+    --ac-red: #fea5ab;
+}
+
 * {
     font-family: "Roboto";
     box-sizing: border-box;
 }
 
 body {
-    background: #ececec;
+    background: var(--bg1);
 }
 
 .card,
@@ -34,7 +56,7 @@ nav {
     margin: 0px 18px;
     border-top: 5px solid transparent;
     border-bottom: 4px solid transparent;
-    color: #ececec;
+    color: var(--bg1);
     font-size: 1em;
     font-weight: 300;
     cursor: pointer;
@@ -42,7 +64,7 @@ nav {
 }
 
 .active {
-    border-bottom: 4px solid #f8a66c;
+    border-bottom: 4px solid var(--em2);
 }
 
 #userEmail {
@@ -57,58 +79,58 @@ nav {
 }
 
 .dropdownItem:hover {
-    background-color: #bedfff;
+    background-color: var(--tm1);
 }
 
 .card-body {
-    background-color: #212830;
-    color: #ececec;
+    background-color: var(--tm4);
+    color: var(--bg1);
     box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
         rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
         rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 
 .custom-button {
-    background-color: #f8a66c;
+    background-color: var(--em2);
     color: black;
-    border-color: #dd762e;
+    border-color: var(--em3);
     transition: all 300ms ease-in-out;
 }
 
 .custom-button:hover {
-    background-color: #ffb886;
-    border-color: #f8a66c;
+    background-color: var(--em1);
+    border-color: var(--em2);
     color: black;
 }
 
 .custom-button:active {
-    background-color: #bd7a4a;
-    border-color: #dd762e;
+    background-color: var(--em5);
+    border-color: var(--em3);
     color: black;
     box-shadow: none;
 }
 
 .custom-button:disabled {
-    background-color: #bd7a4a;
-    border-color: #dd762e;
+    background-color: var(--em5);
+    border-color: var(--em3);
     color: black;
     box-shadow: none;
 }
 
 .custom-button:focus {
-    background-color: #bd7a4a;
-    border-color: #dd762e;
+    background-color: var(--em5);
+    border-color: var(--em3);
     color: black;
     box-shadow: none;
 }
 
 a {
-    color: #bedfff;
+    color: var(--tm1);
     transition: color 300ms ease-in-out;
 }
 
 a:hover {
-    color: #7fc0ff;
+    color: var(--tm2);
 }
 
 .dark-text {
@@ -116,7 +138,7 @@ a:hover {
 }
 
 .dark-link {
-    color: #ff6a00;
+    color: var(--em4);
     font-weight: 600;
     text-decoration: underline;
     cursor: pointer;
@@ -135,7 +157,7 @@ a:hover {
     font-size: 1.2em;
     font-weight: 600;
     z-index: 1000;
-    color: #ffffff;
+    color: white;
     display: none;
 }
 
@@ -146,22 +168,22 @@ a:hover {
         padding: 0.25em 1em;
         margin: 0;
         border: none;
-        background-color: #333333;
+        background-color: var(--bg4);
         color: white;
     }
 
     .dropdown {
-        background-color: #333333;
+        background-color: var(--bg4);
     }
     .dropdown-toggle {
         padding: 0.25em 1em;
         transition: none;
     }
     .dropdown-toggle:hover {
-        background-color: #666666;
+        background-color: var(--bg2);
     }
     .dropdown-toggle:hover .drop {
-        background-color: #666666;
+        background-color: var(--bg2);
     }
     .navIcon {
         display: none;
@@ -172,16 +194,16 @@ a:hover {
     .active {
         border-bottom: 4px solid transparent;
         padding-bottom: 0px;
-        background: #f7a56b;
-        color: #4d3321;
+        background: var(--em2);
+        color: var(--em5);
         font-weight: 600;
     }
     .navItem:hover {
-        background-color: #666666;
+        background-color: var(--bg2);
     }
     .active:hover {
-        background-color: #ffc094;
-        color: #332216;
+        background-color: var(--em1);
+        color: var(--em6);
     }
     .navbar-toggler {
         border-radius: 0;
@@ -230,7 +252,7 @@ a:hover {
     display: block;
     flex-direction: row;
     color: white;
-    background: #4b4b4b;
+    background: var(--bg3);
     box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
         rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
         rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
@@ -241,8 +263,8 @@ a:hover {
     border-bottom: 1px solid white;
     margin: 0;
     padding: 0.5em 1em;
-    color: #ececec;
-    background: #2d455d;
+    color: var(--bg1);
+    background: var(--tm3);
     display: block;
 }
 
