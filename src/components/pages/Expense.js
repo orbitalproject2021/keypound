@@ -26,6 +26,7 @@ function Expense() {
         document.title = "Add Expense - Spendee";
         descriptionRef.current.focus();
         dateRef.current.value = new Date().toISOString().substr(0, 10);
+        expenseRef.current.value = "0";
     }, []);
 
     const parseMoney = (str) => {
@@ -61,13 +62,26 @@ function Expense() {
             });
     };
 
+    function clearPage() {
+        descriptionRef.current.value = "";
+        dateRef.current.value = new Date().toISOString().substr(0, 10);
+        setType("Need");
+        expenseRef.current.value = 0;
+        descriptionRef.current.focus();
+    }
+
     return (
         <>
             <Navigation active="add expense" />
             <ContentCard>
                 {error && <Alert>{error}</Alert>}
                 <Content area={[1, 3, 1, 3]} title="add expense">
-                    <p>Input your expenses here.</p>
+                    <p>
+                        Input your expenses here.{" "}
+                        <span className="dark-link" onClick={clearPage}>
+                            Clear
+                        </span>
+                    </p>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group id="description">
                             <Form.Label>Description</Form.Label>

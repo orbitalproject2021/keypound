@@ -68,6 +68,7 @@ function Dashboard() {
                     db.collection("users").doc(currentUser.uid).set({
                         expenses: [],
                     });
+                    setData("none");
                 }
             })
             .catch((error) => {
