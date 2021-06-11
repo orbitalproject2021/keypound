@@ -215,6 +215,7 @@ a:hover {
     }
     .navbar-toggler:focus {
         box-shadow: none;
+        background-color: var(--tm3);
     }
     .logo {
         display: inline;

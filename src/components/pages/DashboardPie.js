@@ -22,8 +22,6 @@ function DashboardPie({ data }) {
         const x = cx + radius * Math.cos(-midAngle * RADIAN);
         const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-        console.log(percent);
-
         if (percent >= 0.05) {
             return (
                 <text
