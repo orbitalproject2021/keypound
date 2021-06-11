@@ -12,7 +12,6 @@ function Dashboard() {
 
     useEffect(() => {
         document.title = "Dashboard - Spendee";
-        // TODO: change param to currentUser.uid
 
         // Reference to current user document from 'users' collection
         var docRef = db.collection("users").doc(currentUser.uid);
@@ -32,6 +31,7 @@ function Dashboard() {
             });
     });
 
+    // TODO: Get needs, wants, unexpected expenses over past month and render in pie chart
     return (
         <>
             <Navigation active="home" />

@@ -19,29 +19,38 @@ import Reminders from "./pages/Reminders";
 import Settings from "./pages/Settings";
 
 function App() {
-  return (
-    <Router>
-      <AuthProvider>
-        <Switch>
-          <PrivateRoute exact path="/" component={Dashboard} />
-          <PrivateRoute path="/advisor" component={Advisor} />
-          <PrivateRoute path="/breakdown" component={Breakdown} />
-          <PrivateRoute path="/credit" component={Credit} />
-          <PrivateRoute path="/add-expense" component={Expense} />
-          <PrivateRoute path="/goals" component={Goals} />
-          <PrivateRoute path="/goals-overview" component={GoalsOverview} />
-          <PrivateRoute path="/loans" component={Loans} />
-          <PrivateRoute path="/reminders" component={Reminders} />
-          <PrivateRoute path="/settings" component={Settings} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/login" component={Login} />
-          <PrivateRoute path="/change-email" component={ChangeEmail} />
-          <PrivateRoute path="/change-password" component={ChangePassword} />
-          <Route path="/forgot-password" component={ForgotPassword} />
-        </Switch>
-      </AuthProvider>
-    </Router>
-  );
+    return (
+        <Router>
+            <AuthProvider>
+                <Switch>
+                    <PrivateRoute exact path="/" component={Dashboard} />
+                    <PrivateRoute path="/advisor" component={Advisor} />
+                    <PrivateRoute path="/breakdown" component={Breakdown} />
+                    <PrivateRoute path="/credit" component={Credit} />
+                    <PrivateRoute path="/add-expense" component={Expense} />
+                    <PrivateRoute path="/goals" component={Goals} />
+                    <PrivateRoute
+                        path="/goals-overview"
+                        component={GoalsOverview}
+                    />
+                    <PrivateRoute path="/loans" component={Loans} />
+                    <PrivateRoute path="/reminders" component={Reminders} />
+                    <PrivateRoute path="/settings" component={Settings} />
+                    <Route path="/signup" component={Signup} />
+                    <Route path="/login" component={Login} />
+                    <PrivateRoute
+                        path="/change-email"
+                        component={ChangeEmail}
+                    />
+                    <PrivateRoute
+                        path="/change-password"
+                        component={ChangePassword}
+                    />
+                    <Route path="/forgot-password" component={ForgotPassword} />
+                </Switch>
+            </AuthProvider>
+        </Router>
+    );
 }
 
 export default App;
