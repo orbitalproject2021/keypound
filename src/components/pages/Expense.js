@@ -93,18 +93,21 @@ function Expense() {
                                 required
                             >
                                 <Dropdown.Item
+                                    className="dropdownItem"
                                     href="#/action-1"
                                     onClick={() => setType("Need")}
                                 >
                                     Need
                                 </Dropdown.Item>
                                 <Dropdown.Item
+                                    className="dropdownItem"
                                     href="#/action-2"
                                     onClick={() => setType("Want")}
                                 >
                                     Want
                                 </Dropdown.Item>
                                 <Dropdown.Item
+                                    className="dropdownItem"
                                     href="#/action-3"
                                     onClick={() => setType("Unexpected")}
                                 >

@@ -118,10 +118,10 @@ nav {
 }
 
 .custom-button:focus {
-    background-color: var(--em5);
-    border-color: var(--em3);
+    background-color: var(--em1);
+    border-color: var(--em2);
     color: black;
-    box-shadow: none;
+    box-shadow: var(--em1) 0px 0px 6px 0px;
 }
 
 a {
@@ -289,4 +289,20 @@ a:hover {
 
 .dropdown-menu {
     right: 1%;
+}
+
+#dropdown-basic-button {
+    background-color: var(--tm2);
+    border: 1px solid var(--tm2);
+    color: black;
+}
+
+#dropdown-basic-button:hover {
+    background-color: var(--tm1);
+    border: 1px solid var(--tm2);
+    color: black;
+}
+
+#dropdown-basic-button:focus {
+    box-shadow: var(--tm2) 0px 0px 6px 0px;
 }
