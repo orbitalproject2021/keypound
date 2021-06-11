@@ -10,6 +10,46 @@ function Dashboard() {
     const [message] = useState("");
     const [error] = useState("");
     const { currentUser } = useAuth();
+    const [data, setData] = useState([]);
+
+    function parseFirestoreData(firestoreData) {
+        console.log(firestoreData.expenses[0].date.seconds);
+
+        const firstOfMonthSeconds = Math.round(
+            new Date(
+                new Date().getFullYear(),
+                new Date().getMonth(),
+                1
+            ).getTime() / 1000
+        );
+        function reducer(accumulator, current) {
+            console.log(current.type);
+            switch (current.type) {
+                case "Need":
+                    accumulator[0].value += current.value;
+                    break;
+                case "Want":
+                    accumulator[1].value += current.value;
+                    break;
+                case "Unexpected":
+                    accumulator[2].value += current.value;
+                    break;
+                default:
+                    throw new Error("Invalid expense type");
+            }
+            return accumulator;
+        }
+        const data = firestoreData.expenses
+            .filter((obj) => obj.date.seconds >= firstOfMonthSeconds)
+            .reduce(reducer, [
+                { name: "Needs", value: 0 },
+                { name: "Wants", value: 0 },
+                { name: "Unexpected", value: 0 },
+            ]);
+        console.log(data);
+
+        return data;
+    }
 
     useEffect(() => {
         document.title = "Dashboard - Spendee";
@@ -21,7 +61,7 @@ function Dashboard() {
             .get()
             .then((doc) => {
                 if (doc.exists) {
-                    console.log(doc.data());
+                    setData(parseFirestoreData(doc.data()));
                 } else {
                     // doc.data() will be undefined in this case
                     console.log("No such document!");
@@ -30,9 +70,8 @@ function Dashboard() {
             .catch((error) => {
                 console.log("Error getting document:", error);
             });
-    });
+    }, [currentUser.uid]);
 
-    // TODO: Get needs, wants, unexpected expenses over past month and render in pie chart
     return (
         <>
             <Navigation active="home" />
@@ -41,7 +80,7 @@ function Dashboard() {
             <ContentCard>
                 <Content area={[1, 3, 1, 3]} title="home">
                     <h4 className="body-title">Balance History</h4>
-                    <DashboardPie />
+                    {data && <DashboardPie data={data} />}
                 </Content>
             </ContentCard>
         </>

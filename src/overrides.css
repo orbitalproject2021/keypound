@@ -195,7 +195,7 @@ a:hover {
         border-bottom: 4px solid transparent;
         padding-bottom: 0px;
         background: var(--em2);
-        color: var(--em5);
+        color: var(--em6);
         font-weight: 600;
     }
     .navItem:hover {

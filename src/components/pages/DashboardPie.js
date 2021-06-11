@@ -1,13 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
-function DashboardPie() {
-    const DUMMYDATA = [
-        { name: "Needs", value: 5000 },
-        { name: "Wants", value: 4000 },
-        { name: "Unexpected", value: 1000 },
-    ];
-
+function DashboardPie({ data }) {
+    // TODO: Fix the issue whereby screen is blank when there is no data
     const COLORS = ["--ac-red", "--ac-green", "--em2"].map((id) =>
         getComputedStyle(document.documentElement).getPropertyValue(id)
     );
@@ -42,7 +37,7 @@ function DashboardPie() {
         <ResponsiveContainer width="95%" height={250}>
             <PieChart>
                 <Pie
-                    data={DUMMYDATA}
+                    data={data}
                     dataKey="value"
                     nameKey="name"
                     innerRadius={60}
@@ -53,7 +48,7 @@ function DashboardPie() {
                     labelLine={false}
                     stroke="none"
                 >
-                    {DUMMYDATA.map((entry, index) => (
+                    {data.map((entry, index) => (
                         <Cell
                             key={`cell-${index}`}
                             fill={COLORS[index % COLORS.length]}
