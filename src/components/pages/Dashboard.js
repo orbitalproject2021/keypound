@@ -4,6 +4,7 @@ import { ContentCard, Content } from "../ContentCard";
 import Navigation from "../Navigation";
 import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
+import DashboardPie from "./DashboardPie";
 
 function Dashboard() {
     const [message] = useState("");
@@ -39,7 +40,8 @@ function Dashboard() {
             {message && <Alert variant="success">{message}</Alert>}
             <ContentCard>
                 <Content area={[1, 3, 1, 3]} title="home">
-                    <h4 className="body-title">balance history</h4>
+                    <h4 className="body-title">Balance History</h4>
+                    <DashboardPie />
                 </Content>
             </ContentCard>
         </>
