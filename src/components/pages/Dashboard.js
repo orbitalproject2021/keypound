@@ -13,8 +13,6 @@ function Dashboard() {
     const [data, setData] = useState([]);
 
     function parseFirestoreData(firestoreData) {
-        console.log(firestoreData.expenses[0].date.seconds);
-
         const firstOfMonthSeconds = Math.round(
             new Date(
                 new Date().getFullYear(),
@@ -23,7 +21,6 @@ function Dashboard() {
             ).getTime() / 1000
         );
         function reducer(accumulator, current) {
-            console.log(current.type);
             switch (current.type) {
                 case "Need":
                     accumulator[0].value += current.value;
@@ -46,7 +43,6 @@ function Dashboard() {
                 { name: "Wants", value: 0 },
                 { name: "Unexpected", value: 0 },
             ]);
-        console.log(data);
 
         return data;
     }

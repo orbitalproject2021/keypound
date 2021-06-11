@@ -40,7 +40,6 @@ function Expense() {
     const handleSubmit = (e) => {
         setDisabled(true); // prevent re-submission during request time
         e.preventDefault();
-        console.log(type);
 
         // reference to user document
         var docRef = db.collection("users").doc(currentUser.uid);
