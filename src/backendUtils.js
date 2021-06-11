@@ -3,12 +3,30 @@
  * backend data. Divided by page.
  */
 
-/* DASHBOARD */
+// * DASHBOARD
+
+/**
+ * Returns an array of objects. Each object has a name, which is either Needs,
+ * Wants or Unexpected, and a value which is the sum of all expenses of each
+ * category for that particular month.
+ *
+ * @param {*} firestoreData The document object to be retrieved from Firestore
+ * @param {*} monthsAgo     The number of months to go back from the current
+ *                          month. Default is 0, which is the current month
+ * @returns                 An array of objects
+ */
 export function monthlyBreakdown(firestoreData, monthsAgo = 0) {
     const firstOfMonthSeconds = Math.round(
         new Date(
             new Date().getFullYear(),
             new Date().getMonth() - monthsAgo,
+            1
+        ).getTime() / 1000
+    );
+    const lastOfMonthSeconds = Math.round(
+        new Date(
+            new Date().getFullYear(),
+            new Date().getMonth() - monthsAgo + 1,
             1
         ).getTime() / 1000
     );
@@ -29,24 +47,31 @@ export function monthlyBreakdown(firestoreData, monthsAgo = 0) {
         return accumulator;
     }
     const data = firestoreData.expenses
-        .filter((obj) => obj.date.seconds >= firstOfMonthSeconds)
+        .filter(
+            (obj) =>
+                obj.date.seconds >= firstOfMonthSeconds &&
+                obj.date.seconds < lastOfMonthSeconds
+        )
         .reduce(reducer, [
             { name: "Needs", value: 0 },
             { name: "Wants", value: 0 },
             { name: "Unexpected", value: 0 },
+            { name: "Total", value: 0 },
         ]);
-
-    if (data[0].value === 0 && data[1].value === 0 && data[2].value === 0) {
-        return "none";
-    } else {
-        data[3] = {
-            name: "Total",
-            value: data[0].value + data[1].value + data[2].value,
-        };
-        return data;
-    }
+    data[3].value = data[0].value + data[1].value + data[2].value;
+    return data;
 }
 
+/**
+ * Returns an array of objects of the following form:
+ * {id: %d, month: %s, year: %d, expenses: Array(4)}, e.g.
+ * {id: 12, month: "Jun", year: 21, expenses: Array(4)} where expenses is an
+ * array of objects which contains expenditure on needs, wants, unexpected and
+ * total spending for that month.
+ *
+ * @param {*} firestoreData The document object to be retrieved from Firestore
+ * @returns                 An array of objects
+ */
 export function getMonthlyExpenseArr(firestoreData) {
     const MONTHS = {
         0: "Jan",
@@ -72,7 +97,7 @@ export function getMonthlyExpenseArr(firestoreData) {
             id: i,
             month: MONTHS[(i + currentMonth) % 12],
             year: i + currentMonth >= 12 ? currentYear : currentYear - 1,
-            expenses: monthlyBreakdown(firestoreData, i),
+            expenses: monthlyBreakdown(firestoreData, 12 - i),
         });
     }
     return output;

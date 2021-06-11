@@ -47,7 +47,7 @@ function Dashboard() {
             <ContentCard>
                 <Content area={[1, 3, 1, 3]} title="home">
                     <h4 className="body-title">this month</h4>
-                    {data && <DashboardPie data={data} />}
+                    {data && <DashboardPie data={data.slice(0, 3)} />}
                 </Content>
             </ContentCard>
         </>
