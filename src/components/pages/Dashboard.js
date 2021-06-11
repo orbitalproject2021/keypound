@@ -44,7 +44,11 @@ function Dashboard() {
                 { name: "Unexpected", value: 0 },
             ]);
 
-        return data;
+        if (data[0].value === 0 && data[1].value === 0 && data[2].value === 0) {
+            return "none";
+        } else {
+            return data;
+        }
     }
 
     useEffect(() => {
@@ -61,6 +65,9 @@ function Dashboard() {
                 } else {
                     // doc.data() will be undefined in this case
                     console.log("No such document!");
+                    db.collection("users").doc(currentUser.uid).set({
+                        expenses: [],
+                    });
                 }
             })
             .catch((error) => {
@@ -75,7 +82,7 @@ function Dashboard() {
             {message && <Alert variant="success">{message}</Alert>}
             <ContentCard>
                 <Content area={[1, 3, 1, 3]} title="home">
-                    <h4 className="body-title">Balance History</h4>
+                    <h4 className="body-title">this month</h4>
                     {data && <DashboardPie data={data} />}
                 </Content>
             </ContentCard>

@@ -268,9 +268,14 @@ a:hover {
     display: block;
 }
 
+.content-text {
+    font-weight: 300;
+    color: var(--bg1);
+}
+
 .body-title {
     font-weight: 100;
-    font-size: 1.5em;
+    font-size: 1.8em;
 }
 
 .wrapper {

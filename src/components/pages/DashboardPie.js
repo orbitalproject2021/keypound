@@ -1,8 +1,9 @@
 import React from "react";
+import { useHistory } from "react-router";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 function DashboardPie({ data }) {
-    // TODO: Fix the issue whereby screen is blank when there is no data
+    const history = useHistory();
     const COLORS = ["--ac-red", "--ac-green", "--em2"].map((id) =>
         getComputedStyle(document.documentElement).getPropertyValue(id)
     );
@@ -33,6 +34,20 @@ function DashboardPie({ data }) {
             </text>
         );
     };
+    if (data === "none") {
+        return (
+            <p className="content-text">
+                No expenses this month. Click{" "}
+                <span
+                    className={"dark-link"}
+                    onClick={() => history.push("/add-expense")}
+                >
+                    here
+                </span>{" "}
+                to add expenses and get insight on your spendings.
+            </p>
+        );
+    }
     return (
         <ResponsiveContainer width="95%" height={250}>
             <PieChart>
