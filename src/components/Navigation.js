@@ -38,7 +38,7 @@ function Navigation({ active }) {
                 onClick={() => history.push("/")}
                 onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
-                        useHistory.push("/");
+                        history.push("/");
                     }
                 }}
             >
