@@ -66,6 +66,9 @@ function Expense() {
         descriptionRef.current.value = "";
         dateRef.current.value = new Date().toISOString().substr(0, 10);
         setType("Need");
+        setDisabled(false);
+        setError("");
+        setMessage("");
         expenseRef.current.value = 0;
         descriptionRef.current.focus();
     }
