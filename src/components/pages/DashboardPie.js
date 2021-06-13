@@ -10,7 +10,6 @@ function DashboardPie({ data, total }) {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const renderActiveShape = (props) => {
-        console.log("active");
         const RADIAN = Math.PI / 180;
         const {
             cx,
