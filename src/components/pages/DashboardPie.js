@@ -3,39 +3,11 @@ import { useHistory } from "react-router";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 function DashboardPie({ data }) {
-    const history = useHistory();
     const COLORS = ["--ac-red", "--ac-green", "--em2"].map((id) =>
         getComputedStyle(document.documentElement).getPropertyValue(id)
     );
-    const RADIAN = Math.PI / 180;
-    const renderCustomizedLabel = ({
-        cx,
-        cy,
-        midAngle,
-        innerRadius,
-        outerRadius,
-        percent,
-        index,
-        name,
-    }) => {
-        const radius = innerRadius + (outerRadius - innerRadius) * 2;
-        const x = cx + radius * Math.cos(-midAngle * RADIAN);
-        const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    const history = useHistory();
 
-        if (percent >= 0.05) {
-            return (
-                <text
-                    x={x}
-                    y={y}
-                    fill="white"
-                    textAnchor={x > cx ? "start" : "end"}
-                    dominantBaseline="central"
-                >
-                    {name}
-                </text>
-            );
-        }
-    };
     if (data === "none") {
         return (
             <p className="content-text">
@@ -61,7 +33,6 @@ function DashboardPie({ data }) {
                     outerRadius={80}
                     fill="#8884d8"
                     paddingAngle={1}
-                    label={renderCustomizedLabel}
                     labelLine={false}
                     stroke="none"
                 >
