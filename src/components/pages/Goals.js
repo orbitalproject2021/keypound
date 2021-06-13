@@ -16,9 +16,9 @@ function Goals() {
 
     return (
         <>
-            <Navigation active="goals" />;
+            <Navigation active="goals" />
             <ContentCard>
-                <Content area={[1, 3, 1, 3]} title="Add goals">
+                <Content title="Add goals">
                     <Link to="/goals-overview" className="btn btn-primary">
                         Goals Overview
                     </Link>

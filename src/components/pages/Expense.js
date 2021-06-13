@@ -75,7 +75,7 @@ function Expense() {
             <Navigation active="add expense" />
             <ContentCard>
                 {error && <Alert>{error}</Alert>}
-                <Content area={[1, 3, 1, 3]} title="add expense">
+                <Content title="add expense">
                     <p>
                         Input your expenses here.{" "}
                         <span className="dark-link" onClick={clearPage}>
