@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts";
 
-function DashboardPie({ data, total }) {
+function DashboardPie({ data }) {
     const COLORS = ["--ac-red", "--ac-green", "--em2"].map((id) =>
         getComputedStyle(document.documentElement).getPropertyValue(id)
     );
@@ -77,10 +77,7 @@ function DashboardPie({ data, total }) {
                     fill={fill}
                     style={{ fontSize: "1.2em", fontWeight: "300" }}
                 >
-                    {(value / 100).toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                    })}
+                    {`$${Math.round(value / 100)}`}
                 </text>
             </g>
         );
@@ -104,7 +101,7 @@ function DashboardPie({ data, total }) {
         );
     }
     return (
-        <ResponsiveContainer width="100%" height={250}>
+        <ResponsiveContainer height={250}>
             <PieChart>
                 <Pie
                     isAnimationActive={false}
@@ -113,8 +110,8 @@ function DashboardPie({ data, total }) {
                     data={data}
                     dataKey="value"
                     nameKey="name"
-                    innerRadius={60}
-                    outerRadius={80}
+                    innerRadius={"50%"}
+                    outerRadius={"65%"}
                     fill="#8884d8"
                     paddingAngle={1}
                     labelLine={false}
