@@ -5,7 +5,6 @@ import Navigation from "../Navigation";
 import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import DashboardPie from "./DashboardPie";
-import DashboardPieLegend from "./DashboardPieLegend";
 import { monthlyBreakdown, getMonthlyExpenseArr } from "../../backendUtils";
 
 function Dashboard() {
@@ -46,22 +45,16 @@ function Dashboard() {
             {error && <Alert variant="danger">{error}</Alert>}
             {message && <Alert variant="success">{message}</Alert>}
             <ContentCard>
-                <Content area={[1, 3, 1, 3]} title="home">
+                <Content
+                    display="flex"
+                    flexWrap="wrap"
+                    flexDirection="column"
+                    title="home"
+                >
                     <h4 className="body-title">this month</h4>
                     {data && (
                         <>
                             <DashboardPie data={data.slice(0, 3)} />
-                            <div style={styles.legendContainer}>
-                                <DashboardPieLegend color={0}>
-                                    Needs
-                                </DashboardPieLegend>
-                                <DashboardPieLegend color={1}>
-                                    Wants
-                                </DashboardPieLegend>
-                                <DashboardPieLegend color={2}>
-                                    Unexpected
-                                </DashboardPieLegend>
-                            </div>
                         </>
                     )}
                 </Content>
@@ -69,13 +62,5 @@ function Dashboard() {
         </>
     );
 }
-
-const styles = {
-    legendContainer: {
-        display: "flex",
-        height: "50px",
-        justifyContent: "space-evenly",
-    },
-};
 
 export default Dashboard;

@@ -280,12 +280,6 @@ a:hover {
 }
 
 .wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 40px auto 40px auto 40px auto;
-
-    justify-content: stretch;
-    align-content: center;
     flex: 0 1 800px;
 }
 
