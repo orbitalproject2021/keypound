@@ -54,7 +54,6 @@ function Start() {
                                 type="number"
                                 step="any"
                                 ref={incomeRef}
-                                min="0.01"
                                 required
                             />
                         </Form.Group>
