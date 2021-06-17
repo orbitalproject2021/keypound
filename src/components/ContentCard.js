@@ -25,9 +25,7 @@ import React from "react";
 export function ContentCard({ children }) {
     return (
         <div className="body-container">
-            <div className="body-margin"></div>
             <div className="wrapper">{children}</div>
-            <div className="body-margin"></div>
         </div>
     );
 }

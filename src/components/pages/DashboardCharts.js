@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts";
+import {
+    PieChart,
+    Pie,
+    Cell,
+    ResponsiveContainer,
+    Sector,
+    Bar,
+    BarChart,
+} from "recharts";
 
-function DashboardPie({ data }) {
+export function DashboardPie({ data }) {
     const COLORS = ["--ac-red", "--ac-green", "--em2"].map((id) =>
         getComputedStyle(document.documentElement).getPropertyValue(id)
     );
@@ -101,33 +109,39 @@ function DashboardPie({ data }) {
         );
     }
     return (
-        <ResponsiveContainer height={250}>
-            <PieChart>
-                <Pie
-                    isAnimationActive={false}
-                    activeIndex={activeIndex}
-                    activeShape={renderActiveShape}
-                    data={data}
-                    dataKey="value"
-                    nameKey="name"
-                    innerRadius={"50%"}
-                    outerRadius={"65%"}
-                    fill="#8884d8"
-                    paddingAngle={1}
-                    labelLine={false}
-                    stroke="none"
-                    onMouseEnter={onPieEnter}
-                >
-                    {data.map((entry, index) => (
-                        <Cell
-                            key={`cell-${index}`}
-                            fill={COLORS[index % COLORS.length]}
-                        />
-                    ))}
-                </Pie>
-            </PieChart>
-        </ResponsiveContainer>
+        <PieChart height={250} width={250}>
+            <Pie
+                isAnimationActive={false}
+                activeIndex={activeIndex}
+                activeShape={renderActiveShape}
+                data={data}
+                dataKey="value"
+                nameKey="name"
+                innerRadius={"50%"}
+                outerRadius={"65%"}
+                fill="#8884d8"
+                paddingAngle={1}
+                labelLine={false}
+                stroke="none"
+                onMouseEnter={onPieEnter}
+            >
+                {data.map((entry, index) => (
+                    <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                    />
+                ))}
+            </Pie>
+        </PieChart>
     );
 }
 
-export default DashboardPie;
+export function DashboardBar({ data }) {
+    return (
+        <ResponsiveContainer width="100%" height="250px">
+            <BarChart width={150} height={40} data={data}>
+                <Bar dataKey="value" fill="#8884d8" />
+            </BarChart>
+        </ResponsiveContainer>
+    );
+}

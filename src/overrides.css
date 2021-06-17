@@ -240,11 +240,13 @@ a:hover {
     margin-top: 1em;
     display: flex;
     flex-direction: row;
-    flex-wrap: no-wrap;
+    flex-wrap: nowrap;
+    justify-content: center;
 }
 
-.body-margin {
-    flex: 1 5 10vw;
+.wrapper {
+    flex-grow: 1;
+    max-width: 800px;
 }
 
 .content {
@@ -277,10 +279,6 @@ a:hover {
 .body-title {
     font-weight: 100;
     font-size: 1.8em;
-}
-
-.wrapper {
-    flex: 0 1 800px;
 }
 
 .title-window {
