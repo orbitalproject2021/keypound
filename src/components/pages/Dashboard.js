@@ -18,6 +18,7 @@ function Dashboard() {
 
     useEffect(() => {
         document.title = "Dashboard - Spendee";
+        console.log(window.innerWidth);
 
         // Reference to current user document from 'users' collection
         var docRef = db.collection("users").doc(currentUser.uid);

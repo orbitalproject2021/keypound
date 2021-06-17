@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import {
     PieChart,
@@ -20,13 +20,28 @@ export function DashboardPie({ data, variant }) {
 
     const history = useHistory();
     const [activeIndex, setActiveIndex] = useState(0);
+    // eslint-disable-next-line
+    const [dimensions, setDimensions] = useState({
+        height: window.innerHeight,
+        width: window.innerWidth,
+    });
+
+    useEffect(() => {
+        function handleResize() {
+            setDimensions({
+                height: window.innerHeight,
+                width: window.innerWidth,
+            });
+        }
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    });
 
     const renderActiveShape = (props) => {
-        const RADIAN = Math.PI / 180;
+        // const RADIAN = Math.PI / 180;
         const {
             cx,
             cy,
-            midAngle,
             innerRadius,
             outerRadius,
             startAngle,
@@ -34,28 +49,39 @@ export function DashboardPie({ data, variant }) {
             fill,
             payload,
             value,
+            // midAngle,
         } = props;
-        const sin = Math.sin(-RADIAN * midAngle);
-        const cos = Math.cos(-RADIAN * midAngle);
-        const sx = cx + (outerRadius + 10) * cos;
-        const sy = cy + (outerRadius + 10) * sin;
-        const mx = cx + (outerRadius + 30) * cos;
-        const my = cy + (outerRadius + 30) * sin;
-        const ex = mx + (cos >= 0 ? 1 : -1) * 22;
-        const ey = my;
-        const textAnchor = cos >= 0 ? "start" : "end";
+        // const sin = Math.sin(-RADIAN * midAngle);
+        // const cos = Math.cos(-RADIAN * midAngle);
+        // const mx = cx + (outerRadius + 30) * cos;
+        // const my = cy + (outerRadius + 30) * sin;
+        // const sx = cx + (outerRadius + 10) * cos;
+        // const sy = cy + (outerRadius + 10) * sin;
+        // const ex = mx + (cos >= 0 ? 1 : -1) * 22;
+        // const ey = my;
+        // const textAnchor = cos >= 0 ? "start" : "end";
 
         return (
             <g>
                 <text
                     x={cx}
                     y={cy}
-                    dy={8}
+                    dy={-3}
                     textAnchor="middle"
                     fill={fill}
-                    style={{ fontSize: "1.2em", fontWeight: 300 }}
+                    style={{ fontSize: "1em", fontWeight: 300 }}
                 >
                     {payload.name}
+                </text>
+                <text
+                    x={cx}
+                    y={cy}
+                    dy={19}
+                    textAnchor="middle"
+                    fill={fill}
+                    style={{ fontSize: "1em", fontWeight: 300 }}
+                >
+                    {`$${(value / 100).toFixed(2)}`}
                 </text>
                 <Sector
                     cx={cx}
@@ -75,22 +101,6 @@ export function DashboardPie({ data, variant }) {
                     outerRadius={outerRadius + 10}
                     fill={fill}
                 />
-                <path
-                    d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
-                    stroke={fill}
-                    fill="none"
-                />
-                <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-                <text
-                    x={ex + (cos >= 0 ? 1 : -1) * 12}
-                    y={ey}
-                    dy={6}
-                    textAnchor={textAnchor}
-                    fill={fill}
-                    style={{ fontSize: "1.2em", fontWeight: "300" }}
-                >
-                    {`$${(value / 100).toFixed(2)}`}
-                </text>
             </g>
         );
     };
@@ -120,7 +130,9 @@ export function DashboardPie({ data, variant }) {
     return (
         <ResponsiveContainer
             width={"99%"}
-            aspect={variant === "desktop" ? 2.5 : 1}
+            aspect={
+                variant === "desktop" ? 2.5 : window.innerWidth > 500 ? 1.8 : 1
+            }
         >
             <PieChart height={300} width={400}>
                 <Pie
@@ -157,7 +169,7 @@ export function DashboardBar({ data, variant }) {
     return (
         <ResponsiveContainer
             width={"99%"}
-            aspect={variant === "desktop" ? 4 : 2.5}
+            aspect={variant === "desktop" ? 4.5 : 2.5}
         >
             <BarChart data={data}>
                 <XAxis
@@ -176,7 +188,11 @@ export function DashboardBar({ data, variant }) {
                     hide={true}
                 />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="value" fill={COLORS[0]} />
+                <Bar
+                    dataKey="value"
+                    fill={COLORS[0]}
+                    isAnimationActive={false}
+                />
             </BarChart>
         </ResponsiveContainer>
         // <></>
@@ -188,12 +204,25 @@ const CustomTooltip = ({ active, payload, label }) => {
         return (
             <div className="custom-tooltip">
                 <p className="tooltip-label">{label}</p>
-                <p className="tooltip-label">{`$${(
-                    payload[0].value / 100
-                ).toFixed(2)}`}</p>
+                <p className="tooltip-label">{`$${
+                    payload && (payload[0].value / 100).toFixed(2)
+                }`}</p>
             </div>
         );
     }
 
     return null;
 };
+
+// TODO
+// export function ExpenseTable({data}) {
+
+// }
+
+// function TableItem({data}) {
+//     return (
+//         <div className="dashboard-table-item">
+
+//         </div>
+//     )
+// }
