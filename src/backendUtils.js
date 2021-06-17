@@ -102,3 +102,24 @@ export function getMonthlyExpenseArr(firestoreData) {
     }
     return output;
 }
+
+export function dashboardBarData(firestoreData) {
+    const monthlyExpense = getMonthlyExpenseArr(firestoreData).map((obj) => {
+        return {
+            id: obj.id,
+            expense: obj.expenses[3].value,
+            date: `${obj.month} '${obj.year}`,
+        };
+    });
+
+    const output = [];
+    const income = firestoreData.income;
+    let balance = firestoreData.balance;
+    for (let i = 0; i < monthlyExpense.length; i++) {
+        output.push({ value: balance, date: monthlyExpense[i].date });
+        balance += monthlyExpense[i].expense;
+        balance -= income;
+    }
+    console.log(output);
+    return output.reverse();
+}

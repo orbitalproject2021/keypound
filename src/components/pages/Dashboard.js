@@ -5,7 +5,8 @@ import Navigation from "../Navigation";
 import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { DashboardPie, DashboardBar } from "./DashboardCharts";
-import { monthlyBreakdown, getMonthlyExpenseArr } from "../../backendUtils";
+import { monthlyBreakdown, dashboardBarData } from "../../backendUtils";
+import { useHistory } from "react-router-dom";
 
 function Dashboard() {
     const [message] = useState("");
@@ -13,14 +14,7 @@ function Dashboard() {
     const { currentUser } = useAuth();
     const [piechartData, setPiechartData] = useState([]);
     const [barchartData, setBarchartData] = useState([]);
-
-    const DUMMY = [
-        {
-            name: "Jan",
-            value: 1,
-        },
-        { name: "Feb", value: 2 },
-    ];
+    const history = useHistory();
 
     useEffect(() => {
         document.title = "Dashboard - Spendee";
@@ -32,21 +26,21 @@ function Dashboard() {
             .get()
             .then((doc) => {
                 if (doc.exists) {
+                    console.log(doc.data());
                     setPiechartData(monthlyBreakdown(doc.data()));
-                    setBarchartData(getMonthlyExpenseArr(doc.data()));
+                    setBarchartData(dashboardBarData(doc.data()));
                 } else {
                     // doc.data() will be undefined in this case
-                    console.log("No such document!");
-                    db.collection("users").doc(currentUser.uid).set({
-                        expenses: [],
-                    });
-                    setPiechartData("none");
+                    console.log("First Time user - proceeding to setup");
+                    setPiechartData([]);
+                    setBarchartData([]);
+                    history.push("/start");
                 }
             })
             .catch((error) => {
                 console.log("Error getting document:", error);
             });
-    }, [currentUser.uid]);
+    }, [currentUser.uid, history]);
 
     return (
         <>
@@ -61,12 +55,37 @@ function Dashboard() {
                     title="home"
                     justifyContent="center"
                 >
-                    <h4 className="body-title">this month</h4>
-                    {barchartData && <DashboardBar data={DUMMY} />}
+                    {barchartData && (
+                        <>
+                            <h4 className="body-title">balance history</h4>
+                            <div className="dashboard-bar-div desktop-only">
+                                <DashboardBar
+                                    data={barchartData.slice(0, 12)}
+                                    variant="desktop"
+                                />
+                            </div>
+                            <div className="dashboard-bar-div mobile-only">
+                                <DashboardBar
+                                    data={barchartData.slice(0, 6)}
+                                    variant="mobile"
+                                />
+                            </div>
+                        </>
+                    )}
                     {piechartData && (
                         <>
-                            <div style={styles.piechartDiv}>
-                                <DashboardPie data={piechartData.slice(0, 3)} />
+                            <h4 className="body-title">this month</h4>
+                            <div className="dashboard-pie-div desktop-only">
+                                <DashboardPie
+                                    data={piechartData.slice(0, 3)}
+                                    variant="desktop"
+                                />
+                            </div>
+                            <div className="dashboard-pie-div mobile-only">
+                                <DashboardPie
+                                    data={piechartData.slice(0, 3)}
+                                    variant="mobile"
+                                />
                             </div>
                         </>
                     )}
@@ -77,10 +96,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-
-const styles = {
-    piechartDiv: {
-        display: "flex",
-        justifyContent: "center",
-    },
-};

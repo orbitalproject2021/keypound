@@ -4,16 +4,20 @@ import {
     PieChart,
     Pie,
     Cell,
-    ResponsiveContainer,
+    XAxis,
     Sector,
     Bar,
     BarChart,
+    Tooltip,
+    YAxis,
+    ResponsiveContainer,
 } from "recharts";
 
-export function DashboardPie({ data }) {
+export function DashboardPie({ data, variant }) {
     const COLORS = ["--ac-red", "--ac-green", "--em2"].map((id) =>
         getComputedStyle(document.documentElement).getPropertyValue(id)
     );
+
     const history = useHistory();
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -85,7 +89,7 @@ export function DashboardPie({ data }) {
                     fill={fill}
                     style={{ fontSize: "1.2em", fontWeight: "300" }}
                 >
-                    {`$${Math.round(value / 100)}`}
+                    {`$${(value / 100).toFixed(2)}`}
                 </text>
             </g>
         );
@@ -94,7 +98,12 @@ export function DashboardPie({ data }) {
         setActiveIndex(index);
     };
 
-    if (data === "none") {
+    console.log(data);
+
+    if (
+        data.length === 0 ||
+        (data[0].value === 0 && data[1].value === 0 && data[2].value === 0)
+    ) {
         return (
             <p className="content-text">
                 No expenses this month. Click{" "}
@@ -109,39 +118,82 @@ export function DashboardPie({ data }) {
         );
     }
     return (
-        <PieChart height={250} width={250}>
-            <Pie
-                isAnimationActive={false}
-                activeIndex={activeIndex}
-                activeShape={renderActiveShape}
-                data={data}
-                dataKey="value"
-                nameKey="name"
-                innerRadius={"50%"}
-                outerRadius={"65%"}
-                fill="#8884d8"
-                paddingAngle={1}
-                labelLine={false}
-                stroke="none"
-                onMouseEnter={onPieEnter}
-            >
-                {data.map((entry, index) => (
-                    <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                    />
-                ))}
-            </Pie>
-        </PieChart>
-    );
-}
-
-export function DashboardBar({ data }) {
-    return (
-        <ResponsiveContainer width="100%" height="250px">
-            <BarChart width={150} height={40} data={data}>
-                <Bar dataKey="value" fill="#8884d8" />
-            </BarChart>
+        <ResponsiveContainer
+            width={"99%"}
+            aspect={variant === "desktop" ? 2.5 : 1}
+        >
+            <PieChart height={300} width={400}>
+                <Pie
+                    isAnimationActive={false}
+                    activeIndex={activeIndex}
+                    activeShape={renderActiveShape}
+                    data={data}
+                    dataKey="value"
+                    nameKey="name"
+                    innerRadius={"40%"}
+                    outerRadius={"55%"}
+                    fill="#8884d8"
+                    paddingAngle={1}
+                    labelLine={false}
+                    stroke="none"
+                    onMouseEnter={onPieEnter}
+                >
+                    {data.map((entry, index) => (
+                        <Cell
+                            key={`cell-${index}`}
+                            fill={COLORS[index % COLORS.length]}
+                        />
+                    ))}
+                </Pie>
+            </PieChart>
         </ResponsiveContainer>
     );
 }
+
+export function DashboardBar({ data, variant }) {
+    const COLORS = ["--tm1"].map((id) =>
+        getComputedStyle(document.documentElement).getPropertyValue(id)
+    );
+    return (
+        <ResponsiveContainer
+            width={"99%"}
+            aspect={variant === "desktop" ? 4 : 2.5}
+        >
+            <BarChart data={data}>
+                <XAxis
+                    dataKey="date"
+                    stroke="#aaaaaa"
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{
+                        fontWeight: 300,
+                        fontSize: variant === "desktop" ? 14 : 12,
+                    }}
+                    interval={0}
+                />
+                <YAxis
+                    domain={[(dataMin) => 0.9 * dataMin, (dataMax) => dataMax]}
+                    hide={true}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar dataKey="value" fill={COLORS[0]} />
+            </BarChart>
+        </ResponsiveContainer>
+        // <></>
+    );
+}
+
+const CustomTooltip = ({ active, payload, label }) => {
+    if (active) {
+        return (
+            <div className="custom-tooltip">
+                <p className="tooltip-label">{label}</p>
+                <p className="tooltip-label">{`$${(
+                    payload[0].value / 100
+                ).toFixed(2)}`}</p>
+            </div>
+        );
+    }
+
+    return null;
+};

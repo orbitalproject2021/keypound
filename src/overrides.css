@@ -163,6 +163,9 @@ a:hover {
 
 @media (max-width: 767px) {
     /* Mobile */
+    .desktop-only {
+        display: none;
+    }
     .navItem {
         font-weight: 400;
         padding: 0.25em 1em;
@@ -234,6 +237,9 @@ a:hover {
     .navbar-expand-md .navbar-nav .nav-link {
         padding: 0px;
     }
+    .mobile-only {
+        display: none;
+    }
 }
 
 .body-container {
@@ -245,7 +251,7 @@ a:hover {
 }
 
 .wrapper {
-    flex-grow: 1;
+    flex: 1;
     max-width: 800px;
 }
 
@@ -303,4 +309,29 @@ a:hover {
 
 #dropdown-basic-button:focus {
     box-shadow: var(--tm2) 0px 0px 6px 0px;
+}
+
+.custom-tooltip {
+    background-color: var(--bg4);
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.tooltip-label {
+    color: var(--bg1);
+    font-size: 1em;
+    margin: 0;
+}
+
+.dashboard-bar-div {
+    margin: 10;
+    display: "flex";
+    justify-content: "center";
+}
+
+.dashboard-pie-div {
+    max-width: 300;
+    margin: 10;
+    display: "flex";
+    justify-content: center;
 }

@@ -17,6 +17,7 @@ import GoalsOverview from "./pages/GoalsOverview";
 import Loans from "./pages/Loans";
 import Reminders from "./pages/Reminders";
 import Settings from "./pages/Settings";
+import Start from "./account/Start";
 
 function App() {
     return (
@@ -46,6 +47,7 @@ function App() {
                         path="/change-password"
                         component={ChangePassword}
                     />
+                    <PrivateRoute path="/start" component={Start} />
                     <Route path="/forgot-password" component={ForgotPassword} />
                 </Switch>
             </AuthProvider>
