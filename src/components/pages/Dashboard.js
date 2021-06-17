@@ -61,13 +61,13 @@ function Dashboard() {
                             <h4 className="body-title">balance history</h4>
                             <div className="dashboard-bar-div desktop-only">
                                 <DashboardBar
-                                    data={barchartData.slice(0, 12)}
+                                    data={barchartData.slice(-12)}
                                     variant="desktop"
                                 />
                             </div>
                             <div className="dashboard-bar-div mobile-only">
                                 <DashboardBar
-                                    data={barchartData.slice(0, 6)}
+                                    data={barchartData.slice(-6)}
                                     variant="mobile"
                                 />
                             </div>
