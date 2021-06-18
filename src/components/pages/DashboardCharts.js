@@ -165,8 +165,7 @@ export function DashboardBar({ data, variant }) {
     useEffect(() => {
         const numOfBars = Math.round((window.innerWidth - 48) / 52) - 1;
         setTruncatedData(data.slice(-numOfBars));
-        // eslint-disable-next-line
-    }, [dimensions]);
+    }, [dimensions, data]);
 
     return (
         <ResponsiveContainer width={"99%"} height={150}>
@@ -194,7 +193,6 @@ export function DashboardBar({ data, variant }) {
                 />
             </BarChart>
         </ResponsiveContainer>
-        // <></>
     );
 }
 
