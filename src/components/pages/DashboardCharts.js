@@ -20,22 +20,6 @@ export function DashboardPie({ data, variant }) {
 
     const history = useHistory();
     const [activeIndex, setActiveIndex] = useState(0);
-    // eslint-disable-next-line
-    const [dimensions, setDimensions] = useState({
-        height: window.innerHeight,
-        width: window.innerWidth,
-    });
-
-    useEffect(() => {
-        function handleResize() {
-            setDimensions({
-                height: window.innerHeight,
-                width: window.innerWidth,
-            });
-        }
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    });
 
     const renderActiveShape = (props) => {
         // const RADIAN = Math.PI / 180;
@@ -128,12 +112,7 @@ export function DashboardPie({ data, variant }) {
         );
     }
     return (
-        <ResponsiveContainer
-            width={"99%"}
-            aspect={
-                variant === "desktop" ? 2.5 : window.innerWidth > 500 ? 1.8 : 1
-            }
-        >
+        <ResponsiveContainer width={"99%"} height={300}>
             <PieChart height={300} width={400}>
                 <Pie
                     isAnimationActive={false}
@@ -166,12 +145,34 @@ export function DashboardBar({ data, variant }) {
     const COLORS = ["--tm1"].map((id) =>
         getComputedStyle(document.documentElement).getPropertyValue(id)
     );
+
+    const [truncatedData, setTruncatedData] = useState([]);
+    // eslint-disable-next-line
+    const [dimensions, setDimensions] = useState({
+        height: window.innerHeight,
+        width: window.innerWidth,
+    });
+
+    useEffect(() => {
+        function handleResize() {
+            setDimensions({
+                height: window.innerHeight,
+                width: window.innerWidth,
+            });
+        }
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    });
+
+    useEffect(() => {
+        console.log("sizing");
+        const numOfBars = Math.round((window.innerWidth - 48) / 52) - 1;
+        setTruncatedData(data.slice(-numOfBars));
+    }, [dimensions]);
+
     return (
-        <ResponsiveContainer
-            width={"99%"}
-            aspect={variant === "desktop" ? 4.5 : 2.5}
-        >
-            <BarChart data={data}>
+        <ResponsiveContainer width={"99%"} height={150}>
+            <BarChart data={truncatedData}>
                 <XAxis
                     dataKey="date"
                     stroke="#aaaaaa"
@@ -187,7 +188,7 @@ export function DashboardBar({ data, variant }) {
                     domain={[(dataMin) => 0.9 * dataMin, (dataMax) => dataMax]}
                     hide={true}
                 />
-                <Tooltip content={<CustomTooltip />} />
+                <Tooltip cursor={false} content={<CustomTooltip />} />
                 <Bar
                     dataKey="value"
                     fill={COLORS[0]}

@@ -61,13 +61,13 @@ function Dashboard() {
                             <h4 className="body-title">balance history</h4>
                             <div className="dashboard-bar-div desktop-only">
                                 <DashboardBar
-                                    data={barchartData.slice(-12)}
+                                    data={barchartData}
                                     variant="desktop"
                                 />
                             </div>
                             <div className="dashboard-bar-div mobile-only">
                                 <DashboardBar
-                                    data={barchartData.slice(-6)}
+                                    data={barchartData}
                                     variant="mobile"
                                 />
                             </div>
@@ -76,16 +76,10 @@ function Dashboard() {
                     {piechartData && (
                         <>
                             <h4 className="body-title">this month</h4>
-                            <div className="dashboard-pie-div desktop-only">
+                            <div className="dashboard-pie-div">
                                 <DashboardPie
                                     data={piechartData.slice(0, 3)}
                                     variant="desktop"
-                                />
-                            </div>
-                            <div className="dashboard-pie-div mobile-only">
-                                <DashboardPie
-                                    data={piechartData.slice(0, 3)}
-                                    variant="mobile"
                                 />
                             </div>
                         </>
