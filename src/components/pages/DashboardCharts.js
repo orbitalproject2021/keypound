@@ -92,8 +92,6 @@ export function DashboardPie({ data, variant }) {
         setActiveIndex(index);
     };
 
-    console.log(data);
-
     if (
         data.length === 0 ||
         (data[0].value === 0 && data[1].value === 0 && data[2].value === 0)
@@ -165,9 +163,9 @@ export function DashboardBar({ data, variant }) {
     });
 
     useEffect(() => {
-        console.log("sizing");
         const numOfBars = Math.round((window.innerWidth - 48) / 52) - 1;
         setTruncatedData(data.slice(-numOfBars));
+        // eslint-disable-next-line
     }, [dimensions]);
 
     return (

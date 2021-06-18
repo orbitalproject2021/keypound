@@ -18,7 +18,6 @@ function Dashboard() {
 
     useEffect(() => {
         document.title = "Dashboard - Spendee";
-        console.log(window.innerWidth);
 
         // Reference to current user document from 'users' collection
         var docRef = db.collection("users").doc(currentUser.uid);
@@ -27,7 +26,6 @@ function Dashboard() {
             .get()
             .then((doc) => {
                 if (doc.exists) {
-                    console.log(doc.data());
                     setPiechartData(monthlyBreakdown(doc.data()));
                     setBarchartData(dashboardBarData(doc.data()));
                 } else {

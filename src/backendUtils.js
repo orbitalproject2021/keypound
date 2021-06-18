@@ -120,6 +120,5 @@ export function dashboardBarData(firestoreData) {
         balance += monthlyExpense[i].expense;
         balance -= income;
     }
-    console.log(output);
     return output.reverse();
 }
