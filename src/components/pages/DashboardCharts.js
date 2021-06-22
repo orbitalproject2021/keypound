@@ -182,7 +182,10 @@ export function DashboardBar({ data, variant }) {
                     interval={0}
                 />
                 <YAxis
-                    domain={[(dataMin) => 0.9 * dataMin, (dataMax) => dataMax]}
+                    domain={[
+                        (dataMin) => (dataMin > 0 ? 0.9 : 1.1) * dataMin,
+                        (dataMax) => dataMax,
+                    ]}
                     hide={true}
                 />
                 <Tooltip cursor={false} content={<CustomTooltip />} />
