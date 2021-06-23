@@ -5,7 +5,7 @@ import Navigation from "../Navigation";
 import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { DashboardPie, DashboardBar } from "./DashboardCharts";
-import { monthlyBreakdown, dashboardBarData } from "../../backendUtils";
+import { dashboardPieData, dashboardBarData } from "../../backendUtils";
 import { useHistory } from "react-router-dom";
 
 function Dashboard() {
@@ -26,7 +26,7 @@ function Dashboard() {
             .get()
             .then((doc) => {
                 if (doc.exists) {
-                    setPiechartData(monthlyBreakdown(doc.data()));
+                    setPiechartData(dashboardPieData(doc.data()));
                     setBarchartData(dashboardBarData(doc.data()));
                 } else {
                     // doc.data() will be undefined in this case

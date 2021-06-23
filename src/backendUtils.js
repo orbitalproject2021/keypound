@@ -15,54 +15,40 @@
  *                          month. Default is 0, which is the current month
  * @returns                 An array of objects
  */
-export function monthlyBreakdown(firestoreData, monthsAgo = 0) {
-    const firstOfMonthSeconds = Math.round(
-        new Date(
-            new Date().getFullYear(),
-            new Date().getMonth() - monthsAgo,
-            1
-        ).getTime() / 1000
-    );
-    const lastOfMonthSeconds = Math.round(
-        new Date(
-            new Date().getFullYear(),
-            new Date().getMonth() - monthsAgo + 1,
-            1
-        ).getTime() / 1000
-    );
+export function dashboardPieData(firestoreData, monthsAgo = 0) {
+    const thisMonthTransactions =
+        firestoreData.monthArr[firestoreData.monthArr.length - 1 - monthsAgo]
+            .transactions;
+
     function reducer(accumulator, current) {
+        // Note that expenses are negative in value
         switch (current.type) {
             case "Need":
-                accumulator[0].value += current.value;
+                accumulator[0].value -= current.value;
                 break;
             case "Want":
-                accumulator[1].value += current.value;
+                accumulator[1].value -= current.value;
                 break;
             case "Unexpected":
-                accumulator[2].value += current.value;
+                accumulator[2].value -= current.value;
                 break;
             default:
                 throw new Error("Invalid expense type");
         }
         return accumulator;
     }
-    const data = firestoreData.expenses
-        .filter(
-            (obj) =>
-                obj.date.seconds >= firstOfMonthSeconds &&
-                obj.date.seconds < lastOfMonthSeconds
-        )
-        .reduce(reducer, [
-            { name: "Needs", value: 0 },
-            { name: "Wants", value: 0 },
-            { name: "Unexpected", value: 0 },
-            { name: "Total", value: 0 },
-        ]);
+    const data = thisMonthTransactions.reduce(reducer, [
+        { name: "Needs", value: 0 },
+        { name: "Wants", value: 0 },
+        { name: "Unexpected", value: 0 },
+        { name: "Total", value: 0 },
+    ]);
     data[3].value = data[0].value + data[1].value + data[2].value;
     return data;
 }
 
 /**
+ * Depracated.
  * Returns an array of objects of the following form:
  * {id: %d, month: %s, year: %d, expenses: Array(4)}, e.g.
  * {id: 12, month: "Jun", year: 21, expenses: Array(4)} where expenses is an
@@ -97,28 +83,19 @@ export function getMonthlyExpenseArr(firestoreData) {
             id: i,
             month: MONTHS[(i + currentMonth) % 12],
             year: i + currentMonth >= 12 ? currentYear : currentYear - 1,
-            expenses: monthlyBreakdown(firestoreData, 12 - i),
+            expenses: dashboardPieData(firestoreData, 12 - i),
         });
     }
     return output;
 }
 
 export function dashboardBarData(firestoreData) {
-    const monthlyExpense = getMonthlyExpenseArr(firestoreData).map((obj) => {
+    const monthlyBalance = firestoreData.monthArr.map((obj) => {
         return {
             id: obj.id,
-            expense: obj.expenses[3].value,
-            date: `${obj.month} '${obj.year}`,
+            value: obj.balance,
+            date: obj.date,
         };
     });
-
-    const output = [];
-    const income = firestoreData.income;
-    let balance = firestoreData.balance;
-    for (let i = 0; i < monthlyExpense.length; i++) {
-        output.push({ value: balance, date: monthlyExpense[i].date });
-        balance += monthlyExpense[i].expense;
-        balance -= income;
-    }
-    return output.reverse();
+    return monthlyBalance.reverse();
 }

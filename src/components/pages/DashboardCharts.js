@@ -193,6 +193,7 @@ export function DashboardBar({ data, variant }) {
                     dataKey="value"
                     fill={COLORS[0]}
                     isAnimationActive={false}
+                    maxBarSize={60}
                 />
             </BarChart>
         </ResponsiveContainer>
