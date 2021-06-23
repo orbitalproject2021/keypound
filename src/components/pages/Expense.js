@@ -64,8 +64,8 @@ function Expense() {
                     monthArr: monthArr,
                 })
                 .then(() => {
-                    updateBalance(value, currentUser);
-                    setMessage("Expense added successfully.");
+                    updateBalance(currentUser, value);
+                    setMessage("Expense added successfully."); // TODO: Ensure message correctness for both money in and money out
                 });
         });
     };

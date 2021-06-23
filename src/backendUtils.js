@@ -114,7 +114,7 @@ export function monthsSinceDateString(str) {
     return 0;
 }
 
-export function updateBalance(delta, currentUser, monthsAgo = 0) {
+export function updateBalance(currentUser, delta, monthsAgo = 0) {
     const isBetween = (num, start, end) => num >= start && num <= end;
     var docRef = db.collection("users").doc(currentUser.uid);
     docRef.get().then((doc) => {
