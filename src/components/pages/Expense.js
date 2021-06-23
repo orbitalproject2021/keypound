@@ -4,6 +4,11 @@ import { ContentCard, Content } from "../ContentCard";
 import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
+import {
+    dateToDateString,
+    monthsSinceDateString,
+    updateBalance,
+} from "../../backendUtils";
 import "./Expense.css";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -29,15 +34,6 @@ function Expense() {
         expenseRef.current.value = "0";
     }, []);
 
-    const parseMoney = (str) => {
-        try {
-            return parseFloat(str.replaceAll(/[^\d+.?\d*]/g, ""));
-        } catch (e) {
-            console.log(e);
-            setError(e);
-        }
-    };
-
     const handleSubmit = (e) => {
         setDisabled(true); // prevent re-submission during request time
         e.preventDefault();
@@ -47,19 +43,31 @@ function Expense() {
 
         const [day, month, year] = dateRef.current.value.split("/");
         const date = new Date(`${year}-${month}-${day}`);
+        const value = expenseRef.current.value * -100; // TODO: conditional statement to handle money in
 
-        docRef
-            .update({
-                expenses: firebase.firestore.FieldValue.arrayUnion({
-                    description: descriptionRef.current.value,
-                    date: firebase.firestore.Timestamp.fromDate(date),
-                    type: type,
-                    value: parseMoney(expenseRef.current.value) * 100,
-                }),
-            })
-            .then(() => {
-                setMessage("Expense added successfully.");
+        docRef.get().then((doc) => {
+            const index =
+                doc.data().monthArr.length -
+                1 -
+                monthsSinceDateString(dateToDateString(date));
+            let monthArr = doc.data().monthArr;
+            let transactions = monthArr[index].transactions;
+            transactions.push({
+                description: descriptionRef.current.value,
+                date: firebase.firestore.Timestamp.fromDate(date),
+                type: type,
+                value: value,
             });
+            monthArr[index].transactions = transactions;
+            docRef
+                .update({
+                    monthArr: monthArr,
+                })
+                .then(() => {
+                    updateBalance(value, currentUser);
+                    setMessage("Expense added successfully.");
+                });
+        });
     };
 
     function clearPage() {

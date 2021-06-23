@@ -3,6 +3,8 @@
  * backend data. Divided by page.
  */
 
+import { db } from "./firebase";
+
 // * DASHBOARD
 
 /**
@@ -98,4 +100,35 @@ export function dashboardBarData(firestoreData) {
         };
     });
     return monthlyBalance.reverse();
+}
+
+// * ADD EXPENSE / TRANSACTION
+
+export function dateToDateString(dateObj) {
+    // TODO: implement
+    return "Jun '21";
+}
+
+export function monthsSinceDateString(str) {
+    // TODO: implement
+    return 0;
+}
+
+export function updateBalance(delta, currentUser, monthsAgo = 0) {
+    const isBetween = (num, start, end) => num >= start && num <= end;
+    var docRef = db.collection("users").doc(currentUser.uid);
+    docRef.get().then((doc) => {
+        let monthArr = doc.data().monthArr;
+        const endIndex = monthArr.length - 1;
+        const startIndex = endIndex - monthsAgo;
+        monthArr = monthArr.map((obj) =>
+            isBetween(obj.id, startIndex, endIndex)
+                ? { ...obj, balance: obj.balance + delta }
+                : obj
+        );
+        console.log(monthArr);
+        docRef.update({
+            monthArr: monthArr,
+        });
+    });
 }
