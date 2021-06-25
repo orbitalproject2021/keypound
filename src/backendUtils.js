@@ -140,22 +140,20 @@ export function dateToDateString(dateObj) {
   );
 }
 
-export function monthsSinceDateString(str) {
+export function dateStringToDateObject(str) {
   const month = DATE_MAP[str.slice(0, 3)];
-  console.log(month);
   const year = parseInt(str.slice(5, 7)) + 2000;
-  console.log(year);
-  const current = new Date();
-  console.log(current);
-  const past = new Date(year.toString(), month.toString());
-  console.log(past);
-  const month_intime = 1000 * 60 * 60 * 24 * 30;
-  const difference = Math.abs(
-    (current.getTime() - past.getTime()) / month_intime
-  );
-  console.log(difference);
+  const dateObj = new Date(year, month);
+  return dateObj;
+}
 
-  return Math.floor(difference);
+export function monthsSinceDateString(str) {
+  const dateObj_past = dateStringToDateObject(str);
+  const current = new Date();
+  const current_months = current.getFullYear() * 12 + current.getMonth();
+  const past_months = dateObj_past.getFullYear() * 12 + dateObj_past.getMonth();
+  const difference = current_months - past_months;
+  return difference;
 }
 
 export function updateBalance(currentUser, delta, monthsAgo = 0) {
