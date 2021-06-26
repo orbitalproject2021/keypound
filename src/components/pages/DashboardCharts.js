@@ -207,7 +207,11 @@ const CustomTooltip = ({ active, payload, label }) => {
             <div className="custom-tooltip">
                 <p className="tooltip-label">{label}</p>
                 <p className="tooltip-label">{`$${
-                    payload && (payload[0].value / 100).toFixed(2)
+                    payload &&
+                    (payload[0].value / 100)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, " ") // put spaces between groups of 3 digits
                 }`}</p>
             </div>
         );
