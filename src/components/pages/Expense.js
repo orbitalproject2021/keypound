@@ -96,10 +96,12 @@ function Expense() {
       <ContentCard>
         {error && <Alert>{error}</Alert>}
         <Content
-          title={category === "Money Out" ? "Add Expense" : "Add Income"}
+          title={category === "Money Out" ? "add expense" : "add income"}
         >
           <p>
-            Input your expenses here.{" "}
+            {`Input your ${
+              category === "Money Out" ? "expenses" : "income"
+            } here. `}
             <span className="dark-link" onClick={clearPage}>
               Clear
             </span>
