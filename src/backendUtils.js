@@ -77,6 +77,13 @@ export function monthsSinceDateString(str) {
     return current_months - past_months;
 }
 
+/**
+ * Returns a date string based on the input date string added to a
+ * user-specified number of months
+ * @param {String} str The date string input
+ * @param {Number} delta The number of months to add to the input date string
+ * @returns A new date string
+ */
 export function nextDateString(str, delta = 1) {
     const prevDate = dateStringToDateObject(str);
     return dateToDateString(
@@ -84,6 +91,13 @@ export function nextDateString(str, delta = 1) {
     );
 }
 
+/**
+ * Returns a Date object representing the last possible millisecond of the month
+ * as given by the input date string
+ *
+ * @param {String} str Date string in the form "Jan '20"
+ * @returns Date object
+ */
 export function getLastTimeOfMonth(str) {
     const date = dateStringToDateObject(nextDateString(str));
     return new Date(
@@ -104,10 +118,11 @@ export function getLastTimeOfMonth(str) {
  * Wants or Unexpected, and a value which is the sum of all expenses of each
  * category for that particular month.
  *
- * @param {*} firestoreData The document object to be retrieved from Firestore
- * @param {*} monthsAgo     The number of months to go back from the current
- *                          month. Default is 0, which is the current month
- * @returns                 An array of objects
+ * @param {Object} firestoreData The document object to be retrieved
+ * @param {Number} monthsAgo     The number of months to go back from the
+ *                               current month. Default is 0, which is the
+ *                               current month
+ * @returns                      An array of objects
  */
 export function dashboardPieData(firestoreData, monthsAgo = 0) {
     const thisMonthTransactions =
@@ -154,6 +169,16 @@ export function dashboardBarData(firestoreData) {
 
 // * ADD EXPENSE / TRANSACTION
 
+/**
+ * Updates the database to reflect the correct balance based on a transaction
+ * that happened at some point in time, which can be positive or negative in
+ * value.
+ *
+ * @param {firebase.User} currentUser The authenticated user
+ * @param {Number} delta The relative amount used to update the balance
+ * @param {Number} monthsAgo The number of additional months, starting with the
+ *                           previous month, to be updated
+ */
 export function updateBalance(currentUser, delta, monthsAgo = 0) {
     const isBetween = (num, start, end) => num >= start && num <= end;
     var docRef = db.collection("users").doc(currentUser.uid);
@@ -177,8 +202,11 @@ export function updateBalance(currentUser, delta, monthsAgo = 0) {
  * Returns a Promise that ensures monthArr contains objects for all months up
  * to the current month and adds income and subscription amounts to
  * transactions list for that month.
+ *
+ * @param {firebase.User} currentUser The authenticated user
+ * @returns Promise to update the database with entries for each month and
+ *          handle income and subscription transactions
  */
-
 // ! Must be updated for any further database changes.
 export async function updateDatabase(currentUser) {
     var docRef = db.collection("users").doc(currentUser.uid);
@@ -189,12 +217,14 @@ export async function updateDatabase(currentUser) {
         );
         let dateString = latestObj.date;
         const numOfMissingMonths = monthsSinceDateString(dateString);
+
+        // Use a loop to add month objects to monthArr
         for (let i = 0; i < numOfMissingMonths; i++) {
             dateString = nextDateString(dateString);
             const monthObj = {
                 ...latestObj,
                 date: dateString,
-                id: latestObj.id + i + 1,
+                id: latestObj.id + 1,
                 transactions: [],
                 isIncomeAdded: false,
                 isSubscriptionAdded: false,
@@ -202,16 +232,32 @@ export async function updateDatabase(currentUser) {
             latestObj = handleIncomeAndSubscriptions(monthObj);
             monthArr.push(latestObj);
         }
+
+        // save changes on database
         docRef.update({
             monthArr: monthArr,
         });
     });
 }
 
+/**
+ * Returns a month object with income and subscriptions handled if the month
+ * has ended, or the original object otherwise.
+ *
+ * @param {Object} monthObj
+ * @returns Month object with income updated
+ */
 export function handleIncomeAndSubscriptions(monthObj) {
     return handleSubscriptions(handleIncome(monthObj));
 }
 
+/**
+ * Returns a month object with income added to the balance and transaction list
+ * if the month has ended, or the original object otherwise.
+ *
+ * @param {Object} monthObj
+ * @returns Month object with income updated
+ */
 export function handleIncome(monthObj) {
     if (
         monthsSinceDateString(monthObj.date) > 0 &&
@@ -238,6 +284,14 @@ export function handleIncome(monthObj) {
     return monthObj;
 }
 
+/**
+ * Returns a month object with subscriptions removed from the balance and added
+ * to the transaction list if the month has ended, or the original object
+ * otherwise.
+ *
+ * @param {Object} monthObj
+ * @returns Month object with subscription payments updated
+ */
 export function handleSubscriptions(monthObj) {
     // ! Assumes subscription amount in database is negative
     if (
