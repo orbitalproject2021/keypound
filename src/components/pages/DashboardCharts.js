@@ -13,8 +13,8 @@ import {
     ResponsiveContainer,
 } from "recharts";
 
-export function DashboardPie({ data, variant }) {
-    const COLORS = ["--ac-red", "--ac-green", "--em2"].map((id) =>
+export function DashboardPie({ data, variant = "desktop" }) {
+    const COLORS = ["--ac-red", "--ac-green", "--em2", "--tm1"].map((id) =>
         getComputedStyle(document.documentElement).getPropertyValue(id)
     );
 
@@ -92,10 +92,20 @@ export function DashboardPie({ data, variant }) {
         setActiveIndex(index);
     };
 
-    if (
-        data.length === 0 ||
-        (data[0].value === 0 && data[1].value === 0 && data[2].value === 0)
-    ) {
+    function allValuesZero(arr) {
+        for (const obj of arr) {
+            if (obj.value !== 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    if (allValuesZero(data)) {
+        if (data.length === 4) {
+            // no need to show the same message twice
+            return <></>;
+        }
         return (
             <p className="content-text">
                 No expenses this month. Click{" "}
@@ -110,7 +120,10 @@ export function DashboardPie({ data, variant }) {
         );
     }
     return (
-        <ResponsiveContainer width={"99%"} height={300}>
+        <ResponsiveContainer
+            width={variant === "desktop" ? "30%" : "99%"}
+            height={200}
+        >
             <PieChart height={300} width={400}>
                 <Pie
                     isAnimationActive={false}
@@ -119,8 +132,8 @@ export function DashboardPie({ data, variant }) {
                     data={data}
                     dataKey="value"
                     nameKey="name"
-                    innerRadius={"40%"}
-                    outerRadius={"55%"}
+                    innerRadius={"60%"}
+                    outerRadius={"80%"}
                     fill="#8884d8"
                     paddingAngle={1}
                     labelLine={false}
@@ -171,7 +184,6 @@ export function DashboardBar({ data, variant }) {
         <ResponsiveContainer width={"99%"} height={150}>
             <BarChart data={truncatedData}>
                 <XAxis
-                    reversed={true}
                     dataKey="date"
                     stroke="#aaaaaa"
                     axisLine={false}

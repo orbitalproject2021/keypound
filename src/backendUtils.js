@@ -141,6 +141,12 @@ export function dashboardPieData(firestoreData, monthsAgo = 0) {
             case "Unexpected":
                 accumulator[2].value -= current.value;
                 break;
+            case "Subscription":
+                accumulator[3].value -= current.value;
+                break;
+            case "Money In":
+                accumulator[5].value += current.value; // not a typo - index 4 is money out total
+                break;
             default:
                 break;
         }
@@ -150,9 +156,12 @@ export function dashboardPieData(firestoreData, monthsAgo = 0) {
         { name: "Needs", value: 0 },
         { name: "Wants", value: 0 },
         { name: "Unexpected", value: 0 },
-        { name: "Total", value: 0 },
+        { name: "Subscription", value: 0 },
+        { name: "Money Out", value: 0 },
+        { name: "Money In", value: 0 },
     ]);
-    data[3].value = data[0].value + data[1].value + data[2].value;
+    data[4].value =
+        data[0].value + data[1].value + data[2].value + data[3].value;
     return data;
 }
 
@@ -164,7 +173,7 @@ export function dashboardBarData(firestoreData) {
             date: obj.date,
         };
     });
-    return monthlyBalance.reverse();
+    return monthlyBalance;
 }
 
 // * ADD EXPENSE / TRANSACTION

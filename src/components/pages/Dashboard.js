@@ -83,10 +83,18 @@ function Dashboard() {
                     {piechartData && (
                         <>
                             <h4 className="body-title">this month</h4>
-                            <div className="dashboard-pie-div">
+                            <div className="dashboard-pie-div desktop-only">
+                                <DashboardPie data={piechartData.slice(0, 4)} />
+                                <DashboardPie data={piechartData.slice(4)} />
+                            </div>
+                            <div className="dashboard-pie-div mobile-only">
                                 <DashboardPie
-                                    data={piechartData.slice(0, 3)}
-                                    variant="desktop"
+                                    data={piechartData.slice(0, 4)}
+                                    variant="mobile"
+                                />
+                                <DashboardPie
+                                    data={piechartData.slice(4)}
+                                    variant="mobile"
                                 />
                             </div>
                         </>

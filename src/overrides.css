@@ -161,6 +161,17 @@ a:hover {
     display: none;
 }
 
+.dashboard-bar-div {
+    display: flex;
+    justify-content: center;
+}
+
+.dashboard-pie-div {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
 @media (max-width: 767px) {
     /* Mobile */
     .desktop-only {
@@ -321,17 +332,4 @@ a:hover {
     color: var(--bg1);
     font-size: 1em;
     margin: 0;
-}
-
-.dashboard-bar-div {
-    margin: 10;
-    display: "flex";
-    justify-content: "center";
-}
-
-.dashboard-pie-div {
-    max-width: 300;
-    margin: 10;
-    display: "flex";
-    justify-content: center;
 }
