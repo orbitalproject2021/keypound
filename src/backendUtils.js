@@ -174,3 +174,17 @@ export function updateBalance(currentUser, delta, monthsAgo = 0) {
     });
   });
 }
+
+/**
+ * Ensures that monthArr contains objects for all months up to the current month
+ */
+export function updateDatabase(currentUser) {
+    var docRef = db.collection("users").doc(currentUser.uid);
+    const date = new Date();
+    docRef.get().then((doc) => {
+        let monthArr = doc.data().monthArr;
+        while (monthArr[monthArr.length - 1].date !== dateToDateString(date)) {
+            monthArr.push({});
+        }
+    });
+}
