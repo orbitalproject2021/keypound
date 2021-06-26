@@ -5,7 +5,11 @@ import Navigation from "../Navigation";
 import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { DashboardPie, DashboardBar } from "./DashboardCharts";
-import { dashboardPieData, dashboardBarData } from "../../backendUtils";
+import {
+    dashboardPieData,
+    dashboardBarData,
+    updateDatabase,
+} from "../../backendUtils";
 import { useHistory } from "react-router-dom";
 
 function Dashboard() {
@@ -14,20 +18,21 @@ function Dashboard() {
     const { currentUser } = useAuth();
     const [piechartData, setPiechartData] = useState([]);
     const [barchartData, setBarchartData] = useState([]);
+    const [updated, setUpdated] = useState(false);
     const history = useHistory();
 
     useEffect(() => {
         document.title = "Dashboard - Spendee";
 
         // Reference to current user document from 'users' collection
-        var docRef = db.collection("users").doc(currentUser.uid);
-
+        const docRef = db.collection("users").doc(currentUser.uid);
         docRef
             .get()
             .then((doc) => {
                 if (doc.exists) {
-                    setPiechartData(dashboardPieData(doc.data()));
-                    setBarchartData(dashboardBarData(doc.data()));
+                    updateDatabase(currentUser).then(() => {
+                        setUpdated(true);
+                    });
                 } else {
                     // doc.data() will be undefined in this case
                     console.log("First Time user - proceeding to setup");
@@ -39,7 +44,17 @@ function Dashboard() {
             .catch((error) => {
                 console.log("Error getting document:", error);
             });
-    }, [currentUser.uid, history]);
+    }, [currentUser, history]);
+
+    useEffect(() => {
+        const docRef = db.collection("users").doc(currentUser.uid);
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+                setPiechartData(dashboardPieData(doc.data()));
+                setBarchartData(dashboardBarData(doc.data()));
+            }
+        });
+    }, [updated, currentUser.uid]);
 
     return (
         <>
@@ -54,7 +69,7 @@ function Dashboard() {
                     title="home"
                     justifyContent="center"
                 >
-                    {barchartData && (
+                    {barchartData && updated && (
                         <>
                             <h4 className="body-title">balance history</h4>
                             <div className="dashboard-bar-div desktop-only">

@@ -171,6 +171,7 @@ export function DashboardBar({ data, variant }) {
         <ResponsiveContainer width={"99%"} height={150}>
             <BarChart data={truncatedData}>
                 <XAxis
+                    reversed={true}
                     dataKey="date"
                     stroke="#aaaaaa"
                     axisLine={false}
