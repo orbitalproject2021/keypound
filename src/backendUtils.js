@@ -18,35 +18,35 @@ import { db } from "./firebase";
  * @returns                 An array of objects
  */
 export function dashboardPieData(firestoreData, monthsAgo = 0) {
-    const thisMonthTransactions =
-        firestoreData.monthArr[firestoreData.monthArr.length - 1 - monthsAgo]
-            .transactions;
+  const thisMonthTransactions =
+    firestoreData.monthArr[firestoreData.monthArr.length - 1 - monthsAgo]
+      .transactions;
 
-    function reducer(accumulator, current) {
-        // Note that expenses are negative in value
-        switch (current.type) {
-            case "Need":
-                accumulator[0].value -= current.value;
-                break;
-            case "Want":
-                accumulator[1].value -= current.value;
-                break;
-            case "Unexpected":
-                accumulator[2].value -= current.value;
-                break;
-            default:
-                throw new Error("Invalid expense type");
-        }
-        return accumulator;
+  function reducer(accumulator, current) {
+    // Note that expenses are negative in value
+    switch (current.type) {
+      case "Need":
+        accumulator[0].value -= current.value;
+        break;
+      case "Want":
+        accumulator[1].value -= current.value;
+        break;
+      case "Unexpected":
+        accumulator[2].value -= current.value;
+        break;
+      default:
+        throw new Error("Invalid expense type");
     }
-    const data = thisMonthTransactions.reduce(reducer, [
-        { name: "Needs", value: 0 },
-        { name: "Wants", value: 0 },
-        { name: "Unexpected", value: 0 },
-        { name: "Total", value: 0 },
-    ]);
-    data[3].value = data[0].value + data[1].value + data[2].value;
-    return data;
+    return accumulator;
+  }
+  const data = thisMonthTransactions.reduce(reducer, [
+    { name: "Needs", value: 0 },
+    { name: "Wants", value: 0 },
+    { name: "Unexpected", value: 0 },
+    { name: "Total", value: 0 },
+  ]);
+  data[3].value = data[0].value + data[1].value + data[2].value;
+  return data;
 }
 
 /**
@@ -61,74 +61,116 @@ export function dashboardPieData(firestoreData, monthsAgo = 0) {
  * @returns                 An array of objects
  */
 export function getMonthlyExpenseArr(firestoreData) {
-    const MONTHS = {
-        0: "Jan",
-        1: "Feb",
-        2: "Mar",
-        3: "Apr",
-        4: "May",
-        5: "Jun",
-        6: "Jul",
-        7: "Aug",
-        8: "Sep",
-        9: "Oct",
-        10: "Nov",
-        11: "Dec",
-    };
-    const currentMonth = new Date().getMonth();
-    const currentYear = new Date().getFullYear() % 2000;
+  const MONTHS = {
+    0: "Jan",
+    1: "Feb",
+    2: "Mar",
+    3: "Apr",
+    4: "May",
+    5: "Jun",
+    6: "Jul",
+    7: "Aug",
+    8: "Sep",
+    9: "Oct",
+    10: "Nov",
+    11: "Dec",
+  };
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear() % 2000;
 
-    const output = [];
+  const output = [];
 
-    for (let i = 12; i > 0; i--) {
-        output.push({
-            id: i,
-            month: MONTHS[(i + currentMonth) % 12],
-            year: i + currentMonth >= 12 ? currentYear : currentYear - 1,
-            expenses: dashboardPieData(firestoreData, 12 - i),
-        });
-    }
-    return output;
+  for (let i = 12; i > 0; i--) {
+    output.push({
+      id: i,
+      month: MONTHS[(i + currentMonth) % 12],
+      year: i + currentMonth >= 12 ? currentYear : currentYear - 1,
+      expenses: dashboardPieData(firestoreData, 12 - i),
+    });
+  }
+  return output;
 }
 
 export function dashboardBarData(firestoreData) {
-    const monthlyBalance = firestoreData.monthArr.map((obj) => {
-        return {
-            id: obj.id,
-            value: obj.balance,
-            date: obj.date,
-        };
-    });
-    return monthlyBalance.reverse();
+  const monthlyBalance = firestoreData.monthArr.map((obj) => {
+    return {
+      id: obj.id,
+      value: obj.balance,
+      date: obj.date,
+    };
+  });
+  return monthlyBalance.reverse();
 }
 
 // * ADD EXPENSE / TRANSACTION
 
+const MONTHS = {
+  0: "Jan",
+  1: "Feb",
+  2: "Mar",
+  3: "Apr",
+  4: "May",
+  5: "Jun",
+  6: "Jul",
+  7: "Aug",
+  8: "Sep",
+  9: "Oct",
+  10: "Nov",
+  11: "Dec",
+};
+
+const DATE_MAP = {
+  Jan: 0,
+  Feb: 1,
+  Mar: 2,
+  Apr: 3,
+  May: 4,
+  Jun: 5,
+  Jul: 6,
+  Aug: 7,
+  Sep: 8,
+  Oct: 9,
+  Nov: 10,
+  Dec: 11,
+};
+
 export function dateToDateString(dateObj) {
-    // TODO: implement
-    return "Jun '21";
+  return (
+    MONTHS[dateObj.getMonth()] + " '" + (dateObj.getFullYear() % 100).toString()
+  );
+}
+
+export function dateStringToDateObject(str) {
+  const month = DATE_MAP[str.slice(0, 3)];
+  const year = parseInt(str.slice(5, 7)) + 2000;
+  const dateObj = new Date(year, month);
+  return dateObj;
 }
 
 export function monthsSinceDateString(str) {
-    // TODO: implement
-    return 0;
+  const dateObj_past = dateStringToDateObject(str);
+  const current = new Date();
+  const current_months = current.getFullYear() * 12 + current.getMonth();
+  const past_months = dateObj_past.getFullYear() * 12 + dateObj_past.getMonth();
+  const difference = current_months - past_months;
+  return difference;
 }
 
 export function updateBalance(currentUser, delta, monthsAgo = 0) {
-    const isBetween = (num, start, end) => num >= start && num <= end;
-    var docRef = db.collection("users").doc(currentUser.uid);
-    docRef.get().then((doc) => {
-        let monthArr = doc.data().monthArr;
-        const endIndex = monthArr.length - 1;
-        const startIndex = endIndex - monthsAgo;
-        monthArr = monthArr.map((obj) =>
-            isBetween(obj.id, startIndex, endIndex)
-                ? { ...obj, balance: obj.balance + delta }
-                : obj
-        );
-        console.log(monthArr);
-        docRef.update({
-            monthArr: monthArr,
-        });
+  const isBetween = (num, start, end) => num >= start && num <= end;
+  var docRef = db.collection("users").doc(currentUser.uid);
+  docRef.get().then((doc) => {
+    let monthArr = doc.data().monthArr;
+    const endIndex = monthArr.length - 1;
+    const startIndex = endIndex - monthsAgo;
+    monthArr = monthArr.map((obj) =>
+      isBetween(obj.id, startIndex, endIndex)
+        ? { ...obj, balance: obj.balance + delta }
+        : obj
+    );
+    console.log(monthArr);
+    docRef.update({
+      monthArr: monthArr,
     });
+  });
 }
