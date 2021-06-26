@@ -4,6 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../firebase";
 import { Submit, authStyle, Dialog } from "./utility/AuthSheets";
 import { Form, Card } from "react-bootstrap";
+import { dateToDateString } from "../../backendUtils";
 
 function Start() {
     const balanceRef = useRef();
@@ -23,9 +24,18 @@ function Start() {
         db.collection("users")
             .doc(currentUser.uid)
             .set({
-                expenses: [],
-                balance: parseFloat(balanceRef.current.value) * 100,
-                income: parseFloat(incomeRef.current.value) * 100,
+                monthArr: [
+                    {
+                        balance: parseFloat(balanceRef.current.value) * 100,
+                        date: dateToDateString(new Date()),
+                        id: 0,
+                        income: parseFloat(incomeRef.current.value) * 100,
+                        isIncomeAdded: false,
+                        isSubscriptionAdded: false,
+                        subscriptionAmount: 0,
+                        transactions: [],
+                    },
+                ],
             })
             .then(() => {
                 history.push("/");
