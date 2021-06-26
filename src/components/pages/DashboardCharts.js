@@ -176,7 +176,10 @@ export function DashboardBar({ data, variant }) {
     });
 
     useEffect(() => {
-        const numOfBars = Math.round((window.innerWidth - 48) / 52) - 1;
+        const numOfBars = Math.min(
+            12,
+            Math.round((window.innerWidth - 48) / 52) - 1
+        );
         setTruncatedData(data.slice(-numOfBars));
     }, [dimensions, data]);
 
