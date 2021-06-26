@@ -18,7 +18,6 @@ function Dashboard() {
     const { currentUser } = useAuth();
     const [piechartData, setPiechartData] = useState([]);
     const [barchartData, setBarchartData] = useState([]);
-    const [updated, setUpdated] = useState(false);
     const history = useHistory();
 
     useEffect(() => {
@@ -31,7 +30,12 @@ function Dashboard() {
             .then((doc) => {
                 if (doc.exists) {
                     updateDatabase(currentUser).then(() => {
-                        setUpdated(true);
+                        docRef.get().then((doc) => {
+                            if (doc.exists) {
+                                setPiechartData(dashboardPieData(doc.data()));
+                                setBarchartData(dashboardBarData(doc.data()));
+                            }
+                        });
                     });
                 } else {
                     // doc.data() will be undefined in this case
@@ -46,16 +50,6 @@ function Dashboard() {
             });
     }, [currentUser, history]);
 
-    useEffect(() => {
-        const docRef = db.collection("users").doc(currentUser.uid);
-        docRef.get().then((doc) => {
-            if (doc.exists) {
-                setPiechartData(dashboardPieData(doc.data()));
-                setBarchartData(dashboardBarData(doc.data()));
-            }
-        });
-    }, [updated, currentUser.uid]);
-
     return (
         <>
             <Navigation active="home" />
@@ -69,7 +63,7 @@ function Dashboard() {
                     title="home"
                     justifyContent="center"
                 >
-                    {barchartData && updated && (
+                    {barchartData && (
                         <>
                             <h4 className="body-title">balance history</h4>
                             <div className="dashboard-bar-div desktop-only">
