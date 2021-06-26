@@ -24,8 +24,8 @@ function Expense() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const [restricted, setRestricted] = useState(false);
-  const [category, setCategory] = useState("Money In");
+  const [restricted, setRestricted] = useState(true);
+  const [category, setCategory] = useState("Money Out");
   const [type, setType] = useState("Need");
   const { currentUser } = useAuth();
 
@@ -46,9 +46,9 @@ function Expense() {
     const [day, month, year] = dateRef.current.value.split("/");
     const date = new Date(`${year}-${month}-${day}`);
     const value =
-      type === "Money In"
-        ? expenseRef.current.value * 100
-        : expenseRef.current.value * -100; // TODO: conditional statement to handle money in
+      category === "Money Out"
+        ? expenseRef.current.value * -100
+        : expenseRef.current.value * 100; // TODO: conditional statement to handle money in
 
     docRef.get().then((doc) => {
       const index =
@@ -71,9 +71,9 @@ function Expense() {
         .then(() => {
           updateBalance(currentUser, value);
           setMessage(
-            type === "Money In"
-              ? "Income added successfully."
-              : "Expense added successfully."
+            category === "Money Out"
+              ? "Expense added successfully."
+              : "Income added successfully."
           ); // TODO: Ensure message correctness for both money in and money out
         });
     });
@@ -82,8 +82,6 @@ function Expense() {
   function clearPage() {
     descriptionRef.current.value = "";
     dateRef.current.value = new Date().toISOString().substr(0, 10);
-    setCategory("Money In");
-    setType("Money In");
     setDisabled(false);
     setRestricted(false);
     setError("");
@@ -97,7 +95,9 @@ function Expense() {
       <Navigation active="add expense" />
       <ContentCard>
         {error && <Alert>{error}</Alert>}
-        <Content title={category === "Money In" ? "Add Income" : "Add Expense"}>
+        <Content
+          title={category === "Money Out" ? "Add Expense" : "Add Income"}
+        >
           <p>
             Input your expenses here.{" "}
             <span className="dark-link" onClick={clearPage}>
@@ -129,18 +129,6 @@ function Expense() {
               >
                 <Dropdown.Item
                   className="dropdownItem"
-                  href="#/action-1"
-                  onClick={() => {
-                    setCategory("Money In");
-                    setRestricted(false);
-                    setType("Money In");
-                  }}
-                >
-                  Money In
-                </Dropdown.Item>
-                <Dropdown.Item
-                  className="dropdownItem"
-                  href="#/action-2"
                   onClick={() => {
                     setCategory("Money Out");
                     setType("Need");
@@ -148,6 +136,16 @@ function Expense() {
                   }}
                 >
                   Money Out
+                </Dropdown.Item>
+                <Dropdown.Item
+                  className="dropdownItem"
+                  onClick={() => {
+                    setCategory("Money In");
+                    setType("Money In");
+                    setRestricted(false);
+                  }}
+                >
+                  Money In
                 </Dropdown.Item>
               </DropdownButton>
             </Form.Group>
@@ -163,21 +161,18 @@ function Expense() {
                   >
                     <Dropdown.Item
                       className="dropdownItem"
-                      href="#/action-1"
                       onClick={() => setType("Need")}
                     >
                       Need
                     </Dropdown.Item>
                     <Dropdown.Item
                       className="dropdownItem"
-                      href="#/action-2"
                       onClick={() => setType("Want")}
                     >
                       Want
                     </Dropdown.Item>
                     <Dropdown.Item
                       className="dropdownItem"
-                      href="#/action-3"
                       onClick={() => setType("Unexpected")}
                     >
                       Unexpected
@@ -189,7 +184,7 @@ function Expense() {
             )}
             <Form.Group id="expense">
               <Form.Label>
-                {category === "Money In" ? "Income" : "Expense"}
+                {category === "Money Out" ? "Expense" : "Income"}
               </Form.Label>
               <Form.Control
                 type="number"
