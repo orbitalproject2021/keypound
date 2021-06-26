@@ -45,7 +45,10 @@ function Expense() {
 
     const [day, month, year] = dateRef.current.value.split("/");
     const date = new Date(`${year}-${month}-${day}`);
-    const value = expenseRef.current.value * -100; // TODO: conditional statement to handle money in
+    const value =
+      type === "Money In"
+        ? expenseRef.current.value * 100
+        : expenseRef.current.value * -100; // TODO: conditional statement to handle money in
 
     docRef.get().then((doc) => {
       const index =
@@ -67,7 +70,11 @@ function Expense() {
         })
         .then(() => {
           updateBalance(currentUser, value);
-          setMessage("Expense added successfully."); // TODO: Ensure message correctness for both money in and money out
+          setMessage(
+            type === "Money In"
+              ? "Income added successfully."
+              : "Expense added successfully."
+          ); // TODO: Ensure message correctness for both money in and money out
         });
     });
   };
@@ -75,8 +82,10 @@ function Expense() {
   function clearPage() {
     descriptionRef.current.value = "";
     dateRef.current.value = new Date().toISOString().substr(0, 10);
-    setType("Need");
+    setCategory("Money In");
+    setType("Money In");
     setDisabled(false);
+    setRestricted(false);
     setError("");
     setMessage("");
     expenseRef.current.value = 0;
