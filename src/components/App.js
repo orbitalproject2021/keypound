@@ -1,6 +1,6 @@
 import React from "react";
 import Signup from "./account/Signup";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "../pages/Dashboard";
 import Login from "./account/Login";
 import ForgotPassword from "./account/ForgotPassword";
 import PrivateRoute from "./PrivateRoute";
@@ -8,15 +8,15 @@ import { AuthProvider } from "../contexts/AuthContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ChangeEmail from "./account/ChangeEmail";
 import ChangePassword from "./account/ChangePassword";
-import Advisor from "./pages/Advisor";
-import Breakdown from "./pages/Breakdown";
-import Credit from "./pages/Credit";
-import Expense from "./pages/Expense";
-import Goals from "./pages/Goals";
-import GoalsOverview from "./pages/GoalsOverview";
-import Loans from "./pages/Loans";
-import Reminders from "./pages/Reminders";
-import Settings from "./pages/Settings";
+import Advisor from "../pages/Advisor";
+import Breakdown from "../pages/Breakdown";
+import Credit from "../pages/Credit";
+import AddTransaction from "../pages/AddTransaction";
+import Goals from "../pages/Goals";
+import GoalsOverview from "../pages/GoalsOverview";
+import Loans from "../pages/Loans";
+import Reminders from "../pages/Reminders";
+import Settings from "../pages/Settings";
 import Start from "./account/Start";
 
 function App() {
@@ -28,7 +28,10 @@ function App() {
                     <PrivateRoute path="/advisor" component={Advisor} />
                     <PrivateRoute path="/breakdown" component={Breakdown} />
                     <PrivateRoute path="/credit" component={Credit} />
-                    <PrivateRoute path="/add-expense" component={Expense} />
+                    <PrivateRoute
+                        path="/add-transaction"
+                        component={AddTransaction}
+                    />
                     <PrivateRoute path="/goals" component={Goals} />
                     <PrivateRoute
                         path="/goals-overview"

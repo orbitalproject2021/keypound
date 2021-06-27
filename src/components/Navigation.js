@@ -67,7 +67,11 @@ function Navigation({ active }) {
                     <NavItem active={active} url="/reminders">
                         reminders
                     </NavItem>
-                    <NavItem active={active} image={expense} url="/add-expense">
+                    <NavItem
+                        active={active}
+                        image={expense}
+                        url="/add-transaction"
+                    >
                         add expense
                     </NavItem>
                     <NavItem active={active} image={settings} url="/settings">

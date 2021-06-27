@@ -1,20 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
-import Navigation from "../Navigation";
-import { ContentCard, Content } from "../ContentCard";
+import Navigation from "../components/Navigation";
+import { ContentCard, Content } from "../components/ContentCard";
 import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
-import { db } from "../../firebase";
-import { useAuth } from "../../contexts/AuthContext";
+import { db } from "../firebase";
+import { useAuth } from "../contexts/AuthContext";
 import {
     dateToDateString,
     monthsSinceDateString,
     updateBalance,
-} from "../../backendUtils";
-import "./Expense.css";
+} from "../backendUtils";
+import "./AddTransaction.css";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 
-function Expense() {
+function AddTransaction() {
     const date = new Date();
     const maxDate = date.toISOString().substring(0, 10);
 
@@ -254,4 +254,4 @@ function Expense() {
     );
 }
 
-export default Expense;
+export default AddTransaction;

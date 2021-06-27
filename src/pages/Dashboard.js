@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Alert } from "react-bootstrap";
-import { ContentCard, Content } from "../ContentCard";
-import Navigation from "../Navigation";
-import { db } from "../../firebase";
-import { useAuth } from "../../contexts/AuthContext";
+import { ContentCard, Content } from "../components/ContentCard";
+import Navigation from "../components/Navigation";
+import { db } from "../firebase";
+import { useAuth } from "../contexts/AuthContext";
 import { DashboardPie, DashboardBar } from "./DashboardCharts";
 import {
     dashboardPieData,
     dashboardBarData,
     updateDatabase,
-} from "../../backendUtils";
+} from "../backendUtils";
 import { useHistory } from "react-router-dom";
 
 function Dashboard() {
