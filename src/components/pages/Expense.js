@@ -122,69 +122,76 @@ function Expense() {
                                 }}
                             />
                         </Form.Group>
-                        <div style={{ padding: "10pt" }}></div>
-                        <Form.Group id="category">
-                            <Form.Label>Category</Form.Label>
-                            <DropdownButton
-                                id="dropdown-basic-button"
-                                title={category}
-                                required
-                            >
-                                <Dropdown.Item
-                                    className="dropdownItem"
-                                    onClick={() => {
-                                        setCategory("Money Out");
-                                        setType("Need");
-                                    }}
+                        <div
+                            style={{
+                                display: "flex",
+                                paddingTop: "10pt",
+                                paddingBottom: "10pt",
+                            }}
+                        >
+                            <Form.Group id="category">
+                                <Form.Label>Category</Form.Label>
+                                <DropdownButton
+                                    id="dropdown-basic-button"
+                                    title={category}
+                                    required
                                 >
-                                    Money Out
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                    className="dropdownItem"
-                                    onClick={() => {
-                                        setCategory("Money In");
-                                        setType("Need");
-                                    }}
-                                >
-                                    Money In
-                                </Dropdown.Item>
-                            </DropdownButton>
-                        </Form.Group>
-                        <div style={{ padding: "10pt" }}></div>
-                        {category !== "Money In" && (
-                            <>
-                                <Form.Group id="type">
-                                    <Form.Label>Type</Form.Label>
-                                    <DropdownButton
-                                        id="dropdown-basic-button"
-                                        title={type}
-                                        required
+                                    <Dropdown.Item
+                                        className="dropdownItem"
+                                        onClick={() => {
+                                            setCategory("Money Out");
+                                            setType("Need");
+                                        }}
                                     >
-                                        <Dropdown.Item
-                                            className="dropdownItem"
-                                            onClick={() => setType("Need")}
+                                        Money Out
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                        className="dropdownItem"
+                                        onClick={() => {
+                                            setCategory("Money In");
+                                            setType("Need");
+                                        }}
+                                    >
+                                        Money In
+                                    </Dropdown.Item>
+                                </DropdownButton>
+                            </Form.Group>
+                            <div style={{ padding: "10pt" }}></div>
+                            {category !== "Money In" && (
+                                <>
+                                    <Form.Group id="type">
+                                        <Form.Label>Type</Form.Label>
+                                        <DropdownButton
+                                            id="dropdown-basic-button"
+                                            title={type}
+                                            required
                                         >
-                                            Need
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                            className="dropdownItem"
-                                            onClick={() => setType("Want")}
-                                        >
-                                            Want
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                            className="dropdownItem"
-                                            onClick={() =>
-                                                setType("Unexpected")
-                                            }
-                                        >
-                                            Unexpected
-                                        </Dropdown.Item>
-                                    </DropdownButton>
-                                </Form.Group>
-                                <div style={{ padding: "10pt" }}></div>
-                            </>
-                        )}
+                                            <Dropdown.Item
+                                                className="dropdownItem"
+                                                onClick={() => setType("Need")}
+                                            >
+                                                Need
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                className="dropdownItem"
+                                                onClick={() => setType("Want")}
+                                            >
+                                                Want
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                className="dropdownItem"
+                                                onClick={() =>
+                                                    setType("Unexpected")
+                                                }
+                                            >
+                                                Unexpected
+                                            </Dropdown.Item>
+                                        </DropdownButton>
+                                    </Form.Group>
+                                    <div style={{ padding: "10pt" }}></div>
+                                </>
+                            )}
+                        </div>
                         <Form.Group id="expense">
                             <Form.Label>
                                 {category === "Money Out"
