@@ -1,23 +1,19 @@
 import React from "react";
 import "./Table.css";
 
-export function TableRow({ expenseObj }) {
+export function TableRow({ expenseObj, id }) {
     const { date, description, type, value } = expenseObj;
+    const COLORS = ["#777777", "#666666"];
     return (
-        <div className="tableRow">
-            <div className="tableRowLeft">
-                <p className="tableRowDetails">
-                    {date.toDate().toISOString().split("T")[0]}
-                </p>
-                <p className="tableRowDetails hide-when-narrow">
-                    {(description + " ".repeat(30)).slice(0, 30)}
-                </p>
-                <p className="tableRowDetails hide-when-narrow">
-                    {(type + " ".repeat(11)).slice(0, 11)}
-                </p>
-            </div>
-            <p className="tableRowDetails">
-                {`$${(value / 100)
+        <div className="tableRow" style={{ backgroundColor: COLORS[id % 2] }}>
+            <p className="tableRowDetails hide-when-tiny">
+                {date.toDate().toISOString().split("T")[0]}
+            </p>
+            <p className="tableRowDetails">{description}</p>
+            <p className="tableRowDetails hide-when-narrow">{type}</p>
+            <div></div>
+            <p className="tableRowDetails right-align">
+                {`${value > 0 && "+"}$${(value / 100)
                     .toFixed(2)
                     .toString()
                     .replace("/B(?=(d{3})+(?!d))/g", " ")}`}
@@ -27,9 +23,23 @@ export function TableRow({ expenseObj }) {
 }
 
 export function TableHeader() {
-    return <></>;
+    return (
+        <>
+            <div className="tableRow" style={{ backgroundColor: "#ffb886" }}>
+                <p className="tableRowDetails hide-when-tiny">Date</p>
+                <p className="tableRowDetails">Description</p>
+                <p className="tableRowDetails hide-when-narrow">Type</p>
+                <div></div>
+                <p className="tableRowDetails right-align">Amount</p>
+            </div>
+        </>
+    );
 }
 
-export function Table() {
-    return <></>;
+export function Table({ array }) {
+    return (
+        <>
+            <TableHeader />
+        </>
+    );
 }
