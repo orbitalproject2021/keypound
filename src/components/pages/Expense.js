@@ -149,7 +149,7 @@ function Expense() {
                                         className="dropdownItem"
                                         onClick={() => {
                                             setCategory("Money In");
-                                            setType("Need");
+                                            setType("Money In");
                                         }}
                                     >
                                         Money In

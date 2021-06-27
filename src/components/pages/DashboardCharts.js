@@ -104,20 +104,21 @@ export function DashboardPie({ data, variant = "desktop" }) {
     if (allValuesZero(data)) {
         if (data.length === 4) {
             // no need to show the same message twice
+            return (
+                <p className="content-text">
+                    No expenses this month. Click{" "}
+                    <span
+                        className={"dark-link"}
+                        onClick={() => history.push("/add-expense")}
+                    >
+                        here
+                    </span>{" "}
+                    to add expenses and get insight on your spendings.
+                </p>
+            );
+        } else {
             return <></>;
         }
-        return (
-            <p className="content-text">
-                No expenses this month. Click{" "}
-                <span
-                    className={"dark-link"}
-                    onClick={() => history.push("/add-expense")}
-                >
-                    here
-                </span>{" "}
-                to add expenses and get insight on your spendings.
-            </p>
-        );
     }
     return (
         <ResponsiveContainer
@@ -200,7 +201,7 @@ export function DashboardBar({ data, variant }) {
                 <YAxis
                     domain={[
                         (dataMin) => (dataMin > 0 ? 0.9 : 1.1) * dataMin,
-                        (dataMax) => dataMax,
+                        (dataMax) => Math.max(1000, dataMax),
                     ]}
                     hide={true}
                 />

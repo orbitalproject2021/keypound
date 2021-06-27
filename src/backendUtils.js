@@ -156,7 +156,7 @@ export function dashboardPieData(firestoreData, monthsAgo = 0) {
         { name: "Needs", value: 0 },
         { name: "Wants", value: 0 },
         { name: "Unexpected", value: 0 },
-        { name: "Subscription", value: 0 },
+        { name: "Subscriptions", value: 0 },
         { name: "Money Out", value: 0 },
         { name: "Money In", value: 0 },
     ]);

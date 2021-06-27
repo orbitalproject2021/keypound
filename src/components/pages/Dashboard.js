@@ -34,6 +34,7 @@ function Dashboard() {
                             if (doc.exists) {
                                 setPiechartData(dashboardPieData(doc.data()));
                                 setBarchartData(dashboardBarData(doc.data()));
+                                console.log(dashboardPieData(doc.data()));
                             }
                         });
                     });
