@@ -4,7 +4,7 @@ import { ContentCard, Content } from "../components/ContentCard";
 import Navigation from "../components/Navigation";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
-import { DashboardPie, DashboardBar } from "./DashboardCharts";
+import { DashboardPie, DashboardBar } from "../components/DashboardCharts";
 import {
     dashboardPieData,
     dashboardBarData,

@@ -23,11 +23,7 @@ import React from "react";
  * @returns               A CSS flex component which contains Content tags.
  */
 export function ContentCard({ children }) {
-    return (
-        <div className="body-container">
-            <div className="wrapper">{children}</div>
-        </div>
-    );
+    return <div className="wrapper">{children}</div>;
 }
 
 /**
