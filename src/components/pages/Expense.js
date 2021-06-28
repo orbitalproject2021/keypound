@@ -50,33 +50,43 @@ function Expense() {
         ? expenseRef.current.value * -100
         : expenseRef.current.value * 100; // TODO: conditional statement to handle money in
 
-    docRef.get().then((doc) => {
-      const index =
-        doc.data().monthArr.length -
-        1 -
-        monthsSinceDateString(dateToDateString(date));
-      let monthArr = doc.data().monthArr;
-      let transactions = monthArr[index].transactions;
-      transactions.push({
-        description: descriptionRef.current.value,
-        date: firebase.firestore.Timestamp.fromDate(date),
-        type: type,
-        value: value,
-      });
-      monthArr[index].transactions = transactions;
-      docRef
-        .update({
-          monthArr: monthArr,
-        })
-        .then(() => {
-          updateBalance(currentUser, value);
-          setMessage(
-            category === "Money Out"
-              ? "Expense added successfully."
-              : "Income added successfully."
-          ); // TODO: Ensure message correctness for both money in and money out
+    docRef
+      .get()
+      .then((doc) => {
+        const index =
+          doc.data().monthArr.length -
+          1 -
+          monthsSinceDateString(dateToDateString(date));
+        let monthArr = doc.data().monthArr;
+        let transactions = monthArr[index].transactions;
+        transactions.push({
+          description: descriptionRef.current.value,
+          date: firebase.firestore.Timestamp.fromDate(date),
+          type: type,
+          value: value,
         });
-    });
+        monthArr[index].transactions = transactions;
+        docRef
+          .update({
+            monthArr: monthArr,
+          })
+          .then(() => {
+            updateBalance(currentUser, value);
+            setMessage(
+              category === "Money Out"
+                ? "Expense added successfully."
+                : "Income added successfully."
+            ); // TODO: Ensure message correctness for both money in and money out
+          })
+          .catch((error) => {
+            console.log(error);
+            setError(error);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+        setError(error);
+      });
   };
 
   function clearPage() {
