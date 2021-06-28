@@ -279,6 +279,7 @@ export function handleIncome(monthObj) {
             description: `${monthObj.date} income`,
             type: "Money In",
             value: monthObj.income,
+            id: monthObj.transactions.length,
         });
         monthObj.balance += monthObj.income;
         monthObj.isIncomeAdded = true;
@@ -313,6 +314,7 @@ export function handleSubscriptions(monthObj) {
             description: `${monthObj.date} subscriptions`,
             type: "Subscription",
             value: monthObj.subscriptionAmount,
+            id: monthObj.transactions.length,
         });
         monthObj.balance += monthObj.subscriptionAmount;
         monthObj.isSubscriptionAdded = true;
