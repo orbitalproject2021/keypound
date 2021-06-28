@@ -17,8 +17,17 @@
     --tm3: #2d455d; /* lighter navy */
     --tm4: #212830; /* navy blue */
 
+    --ac-green-lt: #b9fae8;
     --ac-green: #98ddca;
+    --ac-green-dk: #68b39e;
+    --ac-green-bk: #316657;
+    --ac-green-sbk: #1a4035;
+
+    --ac-red-lt: #ffbabf;
     --ac-red: #fea5ab;
+    --ac-red-dk: #ed7e85;
+    --ac-red-bk: #96353b;
+    --ac-red-sbk: #66181d;
 }
 
 * {
@@ -107,7 +116,7 @@ nav {
 
 .custom-button {
     background-color: var(--em2);
-    color: black;
+    color: var(--em6);
     border-color: var(--em3);
     transition: all 300ms ease-in-out;
 }
@@ -115,27 +124,23 @@ nav {
 .custom-button:hover {
     background-color: var(--em1);
     border-color: var(--em2);
-    color: black;
 }
 
 .custom-button:active {
     background-color: var(--em5);
     border-color: var(--em3);
-    color: black;
     box-shadow: none;
 }
 
 .custom-button:disabled {
     background-color: var(--em5);
     border-color: var(--em3);
-    color: black;
     box-shadow: none;
 }
 
 .custom-button:focus {
     background-color: var(--em1);
     border-color: var(--em2);
-    color: black;
     box-shadow: var(--em1) 0px 0px 6px 0px;
 }
 

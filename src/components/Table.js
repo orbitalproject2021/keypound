@@ -1,19 +1,32 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import "./Table.css";
 
 export function TableRow({ transactionObj }) {
-    const { date, description, type, value, expenseId, monthObj, monthArr } =
-        transactionObj;
+    const {
+        date,
+        description,
+        type,
+        value,
+        id,
+        expenseId,
+        monthObj,
+        monthArr,
+    } = transactionObj;
     const COLORS = ["#777777", "#666666"];
+    const history = useHistory();
     return (
         <div
             className="tableRow"
             style={{ backgroundColor: COLORS[expenseId % 2] }}
             onClick={() => {
-                // TODO: Implement update entry page
-                console.log(
-                    `update entry ${expenseId} ${monthObj.date} ${monthArr}`
-                );
+                history.push("/update-entry", {
+                    monthArr,
+                    monthObj,
+                    id,
+                    transactionObj,
+                    date: date.toDate().toISOString().split("T")[0],
+                });
             }}
         >
             <div className="overflow-container">

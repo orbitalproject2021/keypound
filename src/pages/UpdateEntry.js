@@ -1,120 +1,91 @@
-import React, { useEffect, useRef, useState } from "react";
-import Navigation from "../components/Navigation";
-import { Content } from "../components/ContentCard";
-import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
+import React, { useState, useEffect, useRef } from "react";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
+import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
 import {
     dateToDateString,
     monthsSinceDateString,
     updateBalance,
 } from "../backendUtils";
-import "./AddTransaction.css";
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
+import Navigation from "../components/Navigation";
+import { Content } from "../components/ContentCard";
+import { useHistory, useLocation } from "react-router-dom";
+import "./UpdateEntry.css";
 
-function AddTransaction() {
-    const date = new Date();
-    const maxDate = date.toISOString().substring(0, 10);
-
+export default function UpdateEntry() {
+    const { monthArr, monthObj, id, transactionObj, date } =
+        useLocation().state;
+    const maxDate = new Date().toISOString().substring(0, 10);
     const expenseRef = useRef();
     const dateRef = useRef();
     const descriptionRef = useRef();
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [disabled, setDisabled] = useState(false);
-    const [category, setCategory] = useState("Money Out");
-    const [type, setType] = useState("Need");
+    const [category, setCategory] = useState(
+        transactionObj.type === "Money In" ? "Money In" : "Money Out"
+    );
+    const [type, setType] = useState(transactionObj.type);
     const { currentUser } = useAuth();
+    const history = useHistory();
 
     useEffect(() => {
-        document.title = "Add Expense - Spendee";
+        console.log(transactionObj);
+        document.title = "Edit entry - Spendee";
+        descriptionRef.current.value = transactionObj.description;
         descriptionRef.current.focus();
-        dateRef.current.value = new Date().toISOString().substr(0, 10);
-        expenseRef.current.value = "0";
-    }, []);
+        dateRef.current.value = date;
+        expenseRef.current.value = `${Math.abs(transactionObj.value / 100)
+            .toFixed(2)
+            .toString()
+            .replace("/B(?=(d{3})+(?!d))/g", " ")}`;
+    }, [transactionObj]);
 
     const handleSubmit = (e) => {
         setDisabled(true); // prevent re-submission during request time
         e.preventDefault();
 
-        // reference to user document
         var docRef = db.collection("users").doc(currentUser.uid);
-
         const [day, month, year] = dateRef.current.value.split("/");
-        const date = new Date(`${year}-${month}-${day}`);
+        const date = firebase.firestore.Timestamp.fromDate(
+            new Date(`${year}-${month}-${day}`)
+        );
+        const description = descriptionRef.current.value;
         const value =
             category === "Money Out"
                 ? expenseRef.current.value * -100
                 : expenseRef.current.value * 100;
 
+        monthObj.transactions[id] = { date, description, type, value, id };
+
         docRef
-            .get()
-            .then((doc) => {
-                const index =
-                    doc.data().monthArr.length -
-                    1 -
-                    monthsSinceDateString(dateToDateString(date));
-                let monthArr = doc.data().monthArr;
-                let transactions = monthArr[index].transactions;
-                transactions.push({
-                    description: descriptionRef.current.value,
-                    date: firebase.firestore.Timestamp.fromDate(date),
-                    type: type,
-                    value: value,
-                    id: transactions.length,
-                });
-                monthArr[index].transactions = transactions;
-                docRef
-                    .update({
-                        monthArr: monthArr,
-                    })
-                    .then(() => {
-                        updateBalance(currentUser, value);
-                        setMessage(
-                            category === "Money Out"
-                                ? "Expense added successfully."
-                                : "Income added successfully."
-                        );
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        setError(error);
-                    });
+            .update({
+                monthArr: monthArr,
+            })
+            .then(() => {
+                console.log(`old value: ${transactionObj.value}`);
+                console.log(`new value: ${value}`);
+                updateBalance(currentUser, value - transactionObj.value);
+                history.push("/breakdown");
             })
             .catch((error) => {
                 console.log(error);
-                setError((prev) => prev + "\n" + error);
+                setError(error);
             });
     };
 
-    function clearPage() {
-        descriptionRef.current.value = "";
-        dateRef.current.value = new Date().toISOString().substr(0, 10);
-        setDisabled(false);
-        setError("");
-        setMessage("");
-        setType((prev) => (category === "Money In" ? "Money In" : prev));
-        expenseRef.current.value = 0;
-        descriptionRef.current.focus();
-    }
+    const handleDelete = () => {
+        console.log("delete");
+    };
 
     return (
         <>
-            <Navigation active="add expense" />
+            <Navigation active="breakdown" />
             {error && <Alert>{error}</Alert>}
-            <Content
-                title={category === "Money Out" ? "add expense" : "add income"}
-            >
-                <p>
-                    {`Input your ${
-                        category === "Money Out" ? "expenses" : "income"
-                    } here. `}
-                    <span className="dark-link" onClick={clearPage}>
-                        Clear
-                    </span>
-                </p>
+            <Content title="edit entry">
                 <Form onSubmit={handleSubmit}>
                     <Form.Group id="description">
                         <Form.Label>Description</Form.Label>
@@ -235,27 +206,44 @@ function AddTransaction() {
                     </Form.Group>
                     <div style={{ padding: "10pt" }}></div>
 
-                    <Button
-                        disabled={disabled}
-                        type={"submit"}
-                        className={"custom-button"}
-                    >
-                        Submit
-                    </Button>
-                    {message && (
-                        <>
-                            <span className="custom-alert">{message}</span>
-                        </>
-                    )}
-                    {error && (
-                        <>
-                            <span className="custom-alert error">{error}</span>
-                        </>
-                    )}
+                    <div style={{ display: "flex" }}>
+                        <Button
+                            disabled={disabled}
+                            type={"submit"}
+                            className={"custom-button-green"}
+                        >
+                            Update
+                        </Button>
+                        <Button
+                            disabled={disabled}
+                            className={"custom-button-red"}
+                            onClick={handleDelete}
+                        >
+                            Delete
+                        </Button>
+                        <Button
+                            disabled={disabled}
+                            className={"custom-button"}
+                            onClick={() => history.push("/breakdown")}
+                        >
+                            Cancel
+                        </Button>
+
+                        {message && (
+                            <>
+                                <span className="custom-alert">{message}</span>
+                            </>
+                        )}
+                        {error && (
+                            <>
+                                <span className="custom-alert error">
+                                    {error}
+                                </span>
+                            </>
+                        )}
+                    </div>
                 </Form>
             </Content>
         </>
     );
 }
-
-export default AddTransaction;

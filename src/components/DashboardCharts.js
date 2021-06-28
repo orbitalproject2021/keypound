@@ -109,7 +109,7 @@ export function DashboardPie({ data, variant = "desktop" }) {
                     No expenses this month. Click{" "}
                     <span
                         className={"dark-link"}
-                        onClick={() => history.push("/add-expense")}
+                        onClick={() => history.push("/add-transaction")}
                     >
                         here
                     </span>{" "}

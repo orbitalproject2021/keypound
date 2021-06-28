@@ -18,6 +18,7 @@ import Loans from "../pages/Loans";
 import Reminders from "../pages/Reminders";
 import Settings from "../pages/Settings";
 import Start from "./account/Start";
+import UpdateEntry from "../pages/UpdateEntry";
 
 function App() {
     return (
@@ -27,6 +28,10 @@ function App() {
                     <PrivateRoute exact path="/" component={Dashboard} />
                     <PrivateRoute path="/advisor" component={Advisor} />
                     <PrivateRoute path="/breakdown" component={Breakdown} />
+                    <PrivateRoute
+                        path="/update-entry"
+                        component={UpdateEntry}
+                    />
                     <PrivateRoute path="/credit" component={Credit} />
                     <PrivateRoute
                         path="/add-transaction"
