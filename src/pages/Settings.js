@@ -29,7 +29,7 @@ function Settings() {
         docRef.get().then((doc) => {
             const monthArr = doc.data().monthArr;
             const index = monthArr.length - 1;
-            const newIncome = incomeRef.current.value;
+            const newIncome = incomeRef.current.value * 100;
             monthArr[index].income = newIncome;
             docRef
                 .update({
@@ -49,7 +49,8 @@ function Settings() {
                         <Form.Label>Update income:</Form.Label>
                         <Form.Control
                             type="number"
-                            step="any"
+                            step={0.01}
+                            pattern="^\d*(\.\d{1,2})?$"
                             ref={incomeRef}
                             min="0.01"
                             onChange={() => {
