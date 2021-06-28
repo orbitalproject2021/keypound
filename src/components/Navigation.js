@@ -72,7 +72,7 @@ function Navigation({ active }) {
                         image={expense}
                         url="/add-transaction"
                     >
-                        add expense
+                        add transaction
                     </NavItem>
                     <NavItem active={active} image={settings} url="/settings">
                         settings
