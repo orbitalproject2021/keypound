@@ -21,7 +21,7 @@ export function NavItem({ url, image, active, children }) {
                 ) : (
                     children
                 )}
-                {image && <span /*className="mobile"*/>{children}</span>}
+                {image && <span className="mobile">{children}</span>}
             </span>
         </>
     );

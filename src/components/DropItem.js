@@ -8,7 +8,7 @@ export function DropMenu({ img, title, children }) {
             title={
                 <span className={"navItem drop"}>
                     <img className={"navIcon"} src={img} alt="" />
-                    <span className="mobile">{title}</span>
+                    <span /*className="mobile"*/>{title}</span>
                 </span>
             }
             id="basic-nav-dropdown"
