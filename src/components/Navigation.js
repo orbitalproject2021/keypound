@@ -46,38 +46,21 @@ function Navigation({ active }) {
             </span>
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav id="width" className="m-auto appleBar">
-                    <NavItem active={active} image={home} url="/">
+                    <NavItem active={active} url="/">
                         home
                     </NavItem>
-                    <NavItem active={active} url="/advisor">
-                        advisor
-                    </NavItem>
+
                     <NavItem active={active} url="/breakdown">
                         breakdown
                     </NavItem>
-                    <NavItem active={active} url="/goals">
-                        goals
-                    </NavItem>
-                    <NavItem active={active} url="/credit">
-                        credit
-                    </NavItem>
-                    <NavItem active={active} url="/loans">
-                        loans
-                    </NavItem>
-                    <NavItem active={active} url="/reminders">
-                        reminders
-                    </NavItem>
-                    <NavItem
-                        active={active}
-                        image={expense}
-                        url="/add-transaction"
-                    >
+
+                    <NavItem active={active} url="/add-transaction">
                         add transaction
                     </NavItem>
-                    <NavItem active={active} image={settings} url="/settings">
+                    <NavItem active={active} url="/settings">
                         settings
                     </NavItem>
-                    <DropMenu img={account} title="account">
+                    <DropMenu title="account">
                         <div id="userEmail">
                             {currentUser && currentUser.email}
                         </div>
