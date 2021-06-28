@@ -1,4 +1,8 @@
 .tableRow {
+    overflow: auto;
+}
+
+.overflow-container {
     display: grid;
     grid-template-columns: 120px 2fr 1fr 150px;
     justify-content: stretch;
@@ -8,13 +12,19 @@
     min-width: min-content;
     color: white;
     cursor: pointer;
-    overflow: auto;
 }
 
 .tableRowDetails {
     margin: 1em;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+}
+.tableHeaderDetails {
+    margin: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    color: #4d3321;
+    font-weight: 600;
 }
 
 .right-align {
@@ -25,7 +35,7 @@
     .hide-when-narrow {
         display: none;
     }
-    .tableRow {
+    .overflow-container {
         grid-template-columns: 120px auto 150px;
     }
 }
@@ -37,7 +47,7 @@
     .hide-when-tiny {
         display: none;
     }
-    .tableRow {
+    .overflow-container {
         grid-template-columns: auto 150px;
     }
 }
@@ -49,7 +59,7 @@
     .hide-when-tiny {
         display: none;
     }
-    .tableRow {
+    .overflow-container {
         grid-template-columns: auto 150px;
     }
 }

@@ -16,17 +16,19 @@ export function TableRow({ transactionObj }) {
                 );
             }}
         >
-            <p className="tableRowDetails hide-when-tiny">
-                {date.toDate().toISOString().split("T")[0]}
-            </p>
-            <p className="tableRowDetails">{description}</p>
-            <p className="tableRowDetails hide-when-narrow">{type}</p>
-            <p className="tableRowDetails right-align">
-                {`${value > 0 ? "+" : "-"}$${Math.abs(value / 100)
-                    .toFixed(2)
-                    .toString()
-                    .replace("/B(?=(d{3})+(?!d))/g", " ")}`}
-            </p>
+            <div className="overflow-container">
+                <p className="tableRowDetails hide-when-tiny">
+                    {date.toDate().toISOString().split("T")[0]}
+                </p>
+                <p className="tableRowDetails">{description}</p>
+                <p className="tableRowDetails hide-when-narrow">{type}</p>
+                <p className="tableRowDetails right-align">
+                    {`${value > 0 ? "+" : "-"}$${Math.abs(value / 100)
+                        .toFixed(2)
+                        .toString()
+                        .replace("/B(?=(d{3})+(?!d))/g", " ")}`}
+                </p>
+            </div>
         </div>
     );
 }
@@ -36,12 +38,14 @@ export function TableHeader() {
         <>
             <div
                 className="tableRow"
-                style={{ backgroundColor: "#ffb886", color: "black" }}
+                style={{ backgroundColor: "#f8a66c", color: "#4d3321" }}
             >
-                <p className="tableRowDetails hide-when-tiny">Date</p>
-                <p className="tableRowDetails">Description</p>
-                <p className="tableRowDetails hide-when-narrow">Type</p>
-                <p className="tableRowDetails right-align">Amount</p>
+                <div className="overflow-container">
+                    <p className="tableHeaderDetails hide-when-tiny">Date</p>
+                    <p className="tableHeaderDetails">Description</p>
+                    <p className="tableHeaderDetails hide-when-narrow">Type</p>
+                    <p className="tableHeaderDetails right-align">Amount</p>
+                </div>
             </div>
         </>
     );

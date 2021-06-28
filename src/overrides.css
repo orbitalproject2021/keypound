@@ -32,7 +32,7 @@
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
-    margin-top: 38px;
+    margin-top: 42px;
 }
 
 body {
@@ -54,6 +54,7 @@ body {
     justify-content: flex-start;
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
         rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    z-index: 999;
 }
 
 nav {
@@ -209,7 +210,6 @@ a:hover {
     box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
         rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
         rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-    overflow: auto;
 }
 
 .content-title {
@@ -273,6 +273,9 @@ a:hover {
 
 @media (max-width: 767px) {
     /* Mobile */
+    #root {
+        margin-top: 38px;
+    }
     .desktop-only {
         display: none;
     }
