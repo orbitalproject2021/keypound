@@ -144,6 +144,76 @@ nav {
     box-shadow: var(--em1) 0px 0px 6px 0px;
 }
 
+.custom-button-red {
+    background-color: var(--ac-red);
+    color: var(--ac-red-sbk);
+    border-color: var(--ac-red-dk);
+    transition: all 300ms ease-in-out;
+    margin-right: 1em;
+}
+
+.custom-button-red:hover {
+    background-color: var(--ac-red-lt);
+    border-color: var(--ac-red);
+    color: black;
+}
+
+.custom-button-red:active {
+    background-color: var(--ac-red-bk);
+    border-color: var(--ac-red-dk);
+    color: black;
+    box-shadow: none;
+}
+
+.custom-button-red:disabled {
+    background-color: var(--ac-red-bk);
+    border-color: var(--ac-red-dk);
+    color: black;
+    box-shadow: none;
+}
+
+.custom-button-red:focus {
+    background-color: var(--ac-red-lt);
+    border-color: var(--ac-red);
+    color: black;
+    box-shadow: var(--ac-red-lt) 0px 0px 6px 0px;
+}
+
+.custom-button-green {
+    background-color: var(--ac-green);
+    color: var(--ac-green-sbk);
+    border-color: var(--ac-green-dk);
+    transition: all 300ms ease-in-out;
+    margin-right: 1em;
+}
+
+.custom-button-green:hover {
+    background-color: var(--ac-green-lt);
+    border-color: var(--ac-green);
+    color: black;
+}
+
+.custom-button-green:active {
+    background-color: var(--ac-green-bk);
+    border-color: var(--ac-green-dk);
+    color: black;
+    box-shadow: none;
+}
+
+.custom-button-green:disabled {
+    background-color: var(--ac-green-bk);
+    border-color: var(--ac-green-dk);
+    color: black;
+    box-shadow: none;
+}
+
+.custom-button-green:focus {
+    background-color: var(--ac-green-lt);
+    border-color: var(--ac-green);
+    color: black;
+    box-shadow: var(--ac-green-lt) 0px 0px 6px 0px;
+}
+
 a {
     color: var(--tm1);
     transition: color 300ms ease-in-out;

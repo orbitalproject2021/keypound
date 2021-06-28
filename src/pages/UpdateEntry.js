@@ -9,7 +9,6 @@ import { updateBalance } from "../backendUtils";
 import Navigation from "../components/Navigation";
 import { Content } from "../components/ContentCard";
 import { useHistory, useLocation } from "react-router-dom";
-import "./UpdateEntry.css";
 
 export default function UpdateEntry() {
     const { monthArr, monthObj, id, transactionObj, date } =
