@@ -122,7 +122,7 @@ export function DashboardPie({ data, variant = "desktop" }) {
     }
     return (
         <ResponsiveContainer
-            width={variant === "desktop" ? "30%" : "99%"}
+            width={variant === "desktop" ? "45%" : "99%"}
             height={200}
         >
             <PieChart height={300} width={400}>
@@ -178,7 +178,7 @@ export function DashboardBar({ data, variant }) {
 
     useEffect(() => {
         const numOfBars = Math.min(
-            12,
+            6,
             Math.round((window.innerWidth - 48) / 52) - 1
         );
         setTruncatedData(data.slice(-numOfBars));

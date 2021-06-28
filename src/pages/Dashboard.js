@@ -67,42 +67,45 @@ function Dashboard() {
                 title="home"
                 justifyContent="center"
             >
-                {barchartData && (
-                    <>
-                        <h4 className="body-title">balance history</h4>
-                        <div className="dashboard-bar-div desktop-only">
-                            <DashboardBar
-                                data={barchartData}
-                                variant="desktop"
-                            />
-                        </div>
-                        <div className="dashboard-bar-div mobile-only">
-                            <DashboardBar
-                                data={barchartData}
-                                variant="mobile"
-                            />
-                        </div>
-                    </>
-                )}
-                {piechartData && (
-                    <>
-                        <h4 className="body-title">this month</h4>
-                        <div className="dashboard-pie-div desktop-only">
-                            <DashboardPie data={piechartData.slice(0, 4)} />
-                            <DashboardPie data={piechartData.slice(4)} />
-                        </div>
-                        <div className="dashboard-pie-div mobile-only">
-                            <DashboardPie
-                                data={piechartData.slice(0, 4)}
-                                variant="mobile"
-                            />
-                            <DashboardPie
-                                data={piechartData.slice(4)}
-                                variant="mobile"
-                            />
-                        </div>
-                    </>
-                )}
+                <div className="combined-charts">
+                    {barchartData && piechartData && (
+                        <>
+                            <h4 className="body-title">balance history</h4>
+                            <h4 className="body-title desktop-only">
+                                this month
+                            </h4>
+                            <div className="dashboard-bar-div desktop-only">
+                                <DashboardBar
+                                    data={barchartData}
+                                    variant="desktop"
+                                />
+                            </div>
+                            <div className="dashboard-bar-div mobile-only">
+                                <DashboardBar
+                                    data={barchartData}
+                                    variant="mobile"
+                                />
+                            </div>
+                            <h4 className="body-title mobile-only">
+                                this month
+                            </h4>
+                            <div className="dashboard-pie-div desktop-only">
+                                <DashboardPie data={piechartData.slice(0, 4)} />
+                                <DashboardPie data={piechartData.slice(4)} />
+                            </div>
+                            <div className="dashboard-pie-div mobile-only">
+                                <DashboardPie
+                                    data={piechartData.slice(0, 4)}
+                                    variant="mobile"
+                                />
+                                <DashboardPie
+                                    data={piechartData.slice(4)}
+                                    variant="mobile"
+                                />
+                            </div>
+                        </>
+                    )}
+                </div>
                 <div style={{ padding: "1em" }}></div>
                 <h4 className="body-title">recent transactions</h4>
                 {tableData && <Table monthArr={tableData} limit={5} />}

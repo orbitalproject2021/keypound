@@ -346,6 +346,12 @@ a:hover {
     margin: 0;
 }
 
+.combined-charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+
 @media (max-width: 767px) {
     /* Mobile */
     #root {
@@ -414,6 +420,9 @@ a:hover {
     }
     [class~="drop"]:hover {
         background-color: inherit;
+    }
+    .combined-charts {
+        grid-template-columns: 1fr;
     }
 }
 
