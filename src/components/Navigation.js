@@ -42,7 +42,7 @@ function Navigation({ active }) {
                     }
                 }}
             >
-                Spendee
+                this app needs a name
             </span>
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav id="width" className="m-auto appleBar">
