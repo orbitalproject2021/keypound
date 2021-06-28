@@ -205,9 +205,10 @@ function AddTransaction() {
                         </Form.Label>
                         <Form.Control
                             type="number"
-                            step="any"
+                            step={0.01}
+                            pattern="^\d*(\.\d{1,2})?$"
                             ref={expenseRef}
-                            min="0.01"
+                            min={0.01}
                             required
                             onChange={() => {
                                 setDisabled(false);
