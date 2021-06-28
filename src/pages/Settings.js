@@ -43,11 +43,10 @@ function Settings() {
     return (
         <>
             <Navigation active="settings" />
-            <Content title="update income">
-                <p>Update your income here.</p>
+            <Content title="settings">
                 <Form onSubmit={handlesubmit}>
                     <Form.Group id="income">
-                        <Form.Label>Income</Form.Label>
+                        <Form.Label>Update income:</Form.Label>
                         <Form.Control
                             type="number"
                             step="any"
