@@ -11,6 +11,7 @@ import {
     updateDatabase,
 } from "../backendUtils";
 import { useHistory } from "react-router-dom";
+import { Table } from "../components/Table";
 
 function Dashboard() {
     const [message] = useState("");
@@ -19,6 +20,7 @@ function Dashboard() {
     const [piechartData, setPiechartData] = useState([]);
     const [barchartData, setBarchartData] = useState([]);
     const history = useHistory();
+    const [tableData, setTableData] = useState();
 
     useEffect(() => {
         document.title = "Dashboard - Spendee";
@@ -32,9 +34,10 @@ function Dashboard() {
                     updateDatabase(currentUser).then(() => {
                         docRef.get().then((doc) => {
                             if (doc.exists) {
+                                setTableData(doc.data().monthArr);
                                 setPiechartData(dashboardPieData(doc.data()));
                                 setBarchartData(dashboardBarData(doc.data()));
-                                console.log(dashboardPieData(doc.data()));
+                                console.log(dashboardBarData(doc.data()));
                             }
                         });
                     });
@@ -100,6 +103,26 @@ function Dashboard() {
                         </div>
                     </>
                 )}
+                <div style={{ padding: "1em" }}></div>
+                <h4 className="body-title">recent transactions</h4>
+                {tableData && <Table monthArr={tableData} limit={5} />}
+                <div
+                    style={{
+                        padding: "1em",
+                        display: "flex",
+                        width: "100%",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <p
+                        className="content-text"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => history.push("/breakdown")}
+                    >
+                        View all transactions
+                    </p>
+                </div>
             </Content>
         </>
     );

@@ -5,11 +5,7 @@ import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import {
-    dateToDateString,
-    monthsSinceDateString,
-    updateBalance,
-} from "../backendUtils";
+import { updateBalance } from "../backendUtils";
 import Navigation from "../components/Navigation";
 import { Content } from "../components/ContentCard";
 import { useHistory, useLocation } from "react-router-dom";
@@ -42,7 +38,7 @@ export default function UpdateEntry() {
             .toFixed(2)
             .toString()
             .replace("/B(?=(d{3})+(?!d))/g", " ")}`;
-    }, [transactionObj]);
+    }, [transactionObj, date, id]);
 
     const handleSubmit = (e) => {
         setDisabled(true); // prevent re-submission during request time
