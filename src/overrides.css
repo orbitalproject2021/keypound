@@ -119,29 +119,34 @@ nav {
     color: var(--em6);
     border-color: var(--em3);
     transition: all 300ms ease-in-out;
+    margin-right: 1em;
 }
 
 .custom-button:hover {
     background-color: var(--em1);
     border-color: var(--em2);
+    color: var(--em6);
 }
 
 .custom-button:active {
     background-color: var(--em5);
     border-color: var(--em3);
     box-shadow: none;
+    color: var(--em6);
 }
 
 .custom-button:disabled {
     background-color: var(--em5);
     border-color: var(--em3);
     box-shadow: none;
+    color: var(--em6);
 }
 
 .custom-button:focus {
     background-color: var(--em1);
     border-color: var(--em2);
     box-shadow: var(--em1) 0px 0px 6px 0px;
+    color: var(--em6);
 }
 
 .custom-button-red {

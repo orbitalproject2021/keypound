@@ -108,12 +108,8 @@ function AddTransaction() {
             <Navigation active="add transaction" />
             {error && <Alert>{error}</Alert>}
             <Content title="add transaction">
-                <p>
-                    {`Input your expenses or income here. `}
-                    <span className="dark-link" onClick={clearPage}>
-                        Clear
-                    </span>
-                </p>
+                <span className="body-title">{`Input your expenses or income here. `}</span>
+                <div style={{ padding: "0.5em" }}></div>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group id="description">
                         <Form.Label>Description</Form.Label>
@@ -233,24 +229,34 @@ function AddTransaction() {
                         />
                     </Form.Group>
                     <div style={{ padding: "10pt" }}></div>
-
-                    <Button
-                        disabled={disabled}
-                        type={"submit"}
-                        className={"custom-button"}
-                    >
-                        Submit
-                    </Button>
-                    {message && (
-                        <>
-                            <span className="custom-alert">{message}</span>
-                        </>
-                    )}
-                    {error && (
-                        <>
-                            <span className="custom-alert error">{error}</span>
-                        </>
-                    )}
+                    <div style={{ display: "flex" }}>
+                        <Button
+                            disabled={disabled}
+                            type={"submit"}
+                            className={"custom-button"}
+                        >
+                            Submit
+                        </Button>
+                        <Button
+                            disabled={disabled}
+                            onClick={clearPage}
+                            className={"custom-button-red"}
+                        >
+                            Reset
+                        </Button>
+                        {message && (
+                            <>
+                                <span className="custom-alert">{message}</span>
+                            </>
+                        )}
+                        {error && (
+                            <>
+                                <span className="custom-alert error">
+                                    {error}
+                                </span>
+                            </>
+                        )}
+                    </div>
                 </Form>
             </Content>
         </>
