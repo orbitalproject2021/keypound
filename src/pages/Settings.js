@@ -13,18 +13,24 @@ function Settings() {
     const [disabled, setDisabled] = useState(false);
     const [message, setMessage] = useState("");
     const { currentUser } = useAuth();
+    const [oldIncome, setOldIncome] = useState();
+    var docRef = db.collection("users").doc(currentUser.uid);
 
     useEffect(() => {
         document.title = "Settings - Spendee";
         incomeRef.current.focus();
+        docRef.get().then((doc) => {
+            const monthArr = doc.data().monthArr;
+            setOldIncome(
+                (monthArr[monthArr.length - 1].income / 100).toFixed(2)
+            );
+            console.log(monthArr[monthArr.length - 1].income);
+        });
     }, []);
 
     const handlesubmit = (e) => {
         setDisabled(true);
         e.preventDefault();
-
-        // reference to user document
-        var docRef = db.collection("users").doc(currentUser.uid);
 
         docRef.get().then((doc) => {
             const monthArr = doc.data().monthArr;
@@ -56,6 +62,7 @@ function Settings() {
                                 setDisabled(false);
                                 setMessage("");
                             }}
+                            placeholder={oldIncome}
                         ></Form.Control>
                     </Form.Group>
                     <div style={{ padding: "10pt" }}></div>
