@@ -62,8 +62,7 @@ function Settings() {
                                 setDisabled(false);
                                 setMessage("");
                             }}
-                            key={`${Math.floor(Math.random() * 1000)}-min`} // hack
-                            defaultValue={oldIncome}
+                            placeholder={oldIncome}
                         ></Form.Control>
                     </Form.Group>
                     <div style={{ padding: "10pt" }}></div>

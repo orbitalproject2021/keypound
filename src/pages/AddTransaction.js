@@ -74,7 +74,11 @@ function AddTransaction() {
                         monthArr: monthArr,
                     })
                     .then(() => {
-                        updateBalance(currentUser, value);
+                        updateBalance(
+                            currentUser,
+                            value,
+                            monthsSinceDateString(dateToDateString(date))
+                        );
                         setMessage(
                             category === "Money Out"
                                 ? "Expense added successfully."

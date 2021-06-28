@@ -5,7 +5,11 @@ import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { updateBalance } from "../backendUtils";
+import {
+    dateToDateString,
+    monthsSinceDateString,
+    updateBalance,
+} from "../backendUtils";
 import Navigation from "../components/Navigation";
 import { Content } from "../components/ContentCard";
 import { useHistory, useLocation } from "react-router-dom";
@@ -46,10 +50,8 @@ export default function UpdateEntry() {
         var docRef = db.collection("users").doc(currentUser.uid);
         const [day, month, year] = dateRef.current.value.split("/");
         const tempDate = new Date(`${year}-${month}-${day}`);
-        const date = firebase.firestore.Timestamp.fromDate(
-            new Date(
-                tempDate.getTime() - new Date().getTimezoneOffset() * 60000
-            )
+        const date = new Date(
+            tempDate.getTime() - new Date().getTimezoneOffset() * 60000
         );
         const description = descriptionRef.current.value;
         const value =
@@ -57,7 +59,13 @@ export default function UpdateEntry() {
                 ? expenseRef.current.value * -100
                 : expenseRef.current.value * 100;
 
-        monthObj.transactions[id] = { date, description, type, value, id };
+        monthObj.transactions[id] = {
+            date: firebase.firestore.Timestamp.fromDate(date),
+            description,
+            type,
+            value,
+            id,
+        };
 
         docRef
             .update({
@@ -66,7 +74,11 @@ export default function UpdateEntry() {
             .then(() => {
                 console.log(`old value: ${transactionObj.value}`);
                 console.log(`new value: ${value}`);
-                updateBalance(currentUser, value - transactionObj.value);
+                updateBalance(
+                    currentUser,
+                    value - transactionObj.value,
+                    monthsSinceDateString(dateToDateString(date))
+                );
                 history.push("/breakdown");
             })
             .catch((error) => {
@@ -86,12 +98,21 @@ export default function UpdateEntry() {
             transaction.id = newId;
             newId++;
         }
+        const [day, month, year] = dateRef.current.value.split("/");
+        const tempDate = new Date(`${year}-${month}-${day}`);
+        const date = new Date(
+            tempDate.getTime() - new Date().getTimezoneOffset() * 60000
+        );
         docRef
             .update({
                 monthArr: monthArr,
             })
             .then(() => {
-                updateBalance(currentUser, -transactionObj.value);
+                updateBalance(
+                    currentUser,
+                    -transactionObj.value,
+                    monthsSinceDateString(dateToDateString(date))
+                );
                 history.push("/breakdown");
             })
             .catch((error) => {
