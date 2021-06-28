@@ -26,6 +26,7 @@ function Breakdown() {
 
             {tableData && (
                 <Content title="breakdown">
+                    <h4 className="body-title">all transactions</h4>
                     <Table monthArr={tableData} />
                 </Content>
             )}
