@@ -26,7 +26,7 @@ function Settings() {
             );
             console.log(monthArr[monthArr.length - 1].income);
         });
-    }, []);
+    }, [docRef]);
 
     const handlesubmit = (e) => {
         setDisabled(true);
@@ -62,7 +62,8 @@ function Settings() {
                                 setDisabled(false);
                                 setMessage("");
                             }}
-                            placeholder={oldIncome}
+                            key={`${Math.floor(Math.random() * 1000)}-min`} // hack
+                            defaultValue={oldIncome}
                         ></Form.Control>
                     </Form.Group>
                     <div style={{ padding: "10pt" }}></div>
