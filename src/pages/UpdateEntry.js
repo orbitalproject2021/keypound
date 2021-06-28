@@ -33,7 +33,7 @@ export default function UpdateEntry() {
     const history = useHistory();
 
     useEffect(() => {
-        console.log(transactionObj);
+        console.log(id);
         document.title = "Edit entry - Spendee";
         descriptionRef.current.value = transactionObj.description;
         descriptionRef.current.focus();
@@ -81,7 +81,28 @@ export default function UpdateEntry() {
     };
 
     const handleDelete = () => {
-        console.log("delete");
+        setDisabled(true); // prevent re-submission during request time
+        var docRef = db.collection("users").doc(currentUser.uid);
+        monthObj.transactions = monthObj.transactions.filter(
+            (transaction) => transaction.id !== id
+        );
+        let newId = 0;
+        for (const transaction of monthObj.transactions) {
+            transaction.id = newId;
+            newId++;
+        }
+        docRef
+            .update({
+                monthArr: monthArr,
+            })
+            .then(() => {
+                updateBalance(currentUser, -transactionObj.value);
+                history.push("/breakdown");
+            })
+            .catch((error) => {
+                console.log(error);
+                setError(error);
+            });
     };
 
     return (
