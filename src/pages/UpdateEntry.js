@@ -50,8 +50,11 @@ export default function UpdateEntry() {
 
         var docRef = db.collection("users").doc(currentUser.uid);
         const [day, month, year] = dateRef.current.value.split("/");
+        const tempDate = new Date(`${year}-${month}-${day}`);
         const date = firebase.firestore.Timestamp.fromDate(
-            new Date(`${year}-${month}-${day}`)
+            new Date(
+                tempDate.getTime() - new Date().getTimezoneOffset() * 60000
+            )
         );
         const description = descriptionRef.current.value;
         const value =
