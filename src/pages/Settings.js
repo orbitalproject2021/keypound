@@ -17,7 +17,7 @@ function Settings() {
     var docRef = db.collection("users").doc(currentUser.uid);
 
     useEffect(() => {
-        document.title = "Settings - Spendee";
+        document.title = "Settings - nameless app";
         incomeRef.current.focus();
         docRef.get().then((doc) => {
             const monthArr = doc.data().monthArr;

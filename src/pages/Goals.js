@@ -10,7 +10,7 @@ function Goals() {
     const [type, setType] = useState("Type");
 
     useEffect(() => {
-        document.title = "Goals - Spendee";
+        document.title = "Goals - nameless app";
         amountRef.current.focus();
     }, []);
 

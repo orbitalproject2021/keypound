@@ -30,7 +30,7 @@ export default function Login() {
     } = useAuthForm();
 
     useEffect(() => {
-        document.title = "Log In - Spendee";
+        document.title = "Log In - nameless app";
     }, []);
 
     /**

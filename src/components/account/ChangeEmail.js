@@ -33,7 +33,7 @@ export default function ChangeEmail() {
     const successMsg = "Successfully updated profile.";
 
     useEffect(() => {
-        document.title = "Change Email - Spendee";
+        document.title = "Change Email - nameless app";
     }, []);
 
     /**

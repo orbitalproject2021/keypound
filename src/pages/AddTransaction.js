@@ -29,7 +29,7 @@ function AddTransaction() {
     const { currentUser } = useAuth();
 
     useEffect(() => {
-        document.title = "Add Expense - Spendee";
+        document.title = "Add Expense - nameless app";
         descriptionRef.current.focus();
         dateRef.current.value = new Date().toISOString().substr(0, 10);
         expenseRef.current.value = "0";

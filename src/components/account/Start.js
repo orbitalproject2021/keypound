@@ -14,7 +14,7 @@ function Start() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        document.title = "Start - Spendee";
+        document.title = "Start - nameless app";
         balanceRef.current.focus();
     });
 

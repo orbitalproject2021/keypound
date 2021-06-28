@@ -33,7 +33,7 @@ export default function UpdateEntry() {
 
     useEffect(() => {
         console.log(id);
-        document.title = "Edit entry - Spendee";
+        document.title = "Edit entry - nameless app";
         descriptionRef.current.value = transactionObj.description;
         descriptionRef.current.focus();
         dateRef.current.value = date;

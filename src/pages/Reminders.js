@@ -3,7 +3,7 @@ import Navigation from "../components/Navigation";
 
 function Reminders() {
     useEffect(() => {
-        document.title = "Reminders - Spendee";
+        document.title = "Reminders - nameless app";
     }, []);
 
     return <Navigation active="reminders" />;
