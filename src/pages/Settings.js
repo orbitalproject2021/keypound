@@ -50,9 +50,8 @@ function Settings() {
                         <Form.Control
                             type="number"
                             step={0.01}
-                            pattern="^\d*(\.\d{1,2})?$"
+                            pattern="^\d*(\.\d{1,2})?$" // allow only 2 d.p
                             ref={incomeRef}
-                            min="0.01"
                             onChange={() => {
                                 setDisabled(false);
                                 setMessage("");
