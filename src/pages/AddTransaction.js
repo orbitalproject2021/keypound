@@ -105,15 +105,11 @@ function AddTransaction() {
 
     return (
         <>
-            <Navigation active="add expense" />
+            <Navigation active="add transaction" />
             {error && <Alert>{error}</Alert>}
-            <Content
-                title={category === "Money Out" ? "add expense" : "add income"}
-            >
+            <Content title="add transaction">
                 <p>
-                    {`Input your ${
-                        category === "Money Out" ? "expenses" : "income"
-                    } here. `}
+                    {`Input your expenses or income here. `}
                     <span className="dark-link" onClick={clearPage}>
                         Clear
                     </span>
