@@ -2,29 +2,15 @@
  * This is a component used to generate the main content boxes on the various
  * pages. The usage is as follows:
  *
- * <ContentCard>
  *      <Content props={{...}}>
  *          ...
  *      </Content>
- * </ContentCard>
  *
  * Using this component allows the page contents to be rendered in a uniform
  * box which supports various settings like title, area, placement and colour.
  */
 
 import React from "react";
-
-/**
- * Wrapper for a Content component. There should only be one of these per page.
- * Use multiple Content components if multiple content dialogs are desired.
- *
- * @param props.children  The child of the ContentCard, which should be
- *                        enclosed in <Content> tags.
- * @returns               A CSS flex component which contains Content tags.
- */
-export function ContentCard({ children }) {
-    return <div className="wrapper">{children}</div>;
-}
 
 /**
  * A box in which main contents of a page are to be rendered. There are several
@@ -79,4 +65,4 @@ export function Content({
     );
 }
 
-export default ContentCard;
+export default Content;

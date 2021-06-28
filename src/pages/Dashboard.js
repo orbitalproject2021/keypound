@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Alert } from "react-bootstrap";
-import { ContentCard, Content } from "../components/ContentCard";
+import { Content } from "../components/ContentCard";
 import Navigation from "../components/Navigation";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
@@ -56,52 +56,51 @@ function Dashboard() {
             <Navigation active="home" />
             {error && <Alert variant="danger">{error}</Alert>}
             {message && <Alert variant="success">{message}</Alert>}
-            <ContentCard>
-                <Content
-                    display="flex"
-                    flexWrap="wrap"
-                    flexDirection="column"
-                    title="home"
-                    justifyContent="center"
-                >
-                    {barchartData && (
-                        <>
-                            <h4 className="body-title">balance history</h4>
-                            <div className="dashboard-bar-div desktop-only">
-                                <DashboardBar
-                                    data={barchartData}
-                                    variant="desktop"
-                                />
-                            </div>
-                            <div className="dashboard-bar-div mobile-only">
-                                <DashboardBar
-                                    data={barchartData}
-                                    variant="mobile"
-                                />
-                            </div>
-                        </>
-                    )}
-                    {piechartData && (
-                        <>
-                            <h4 className="body-title">this month</h4>
-                            <div className="dashboard-pie-div desktop-only">
-                                <DashboardPie data={piechartData.slice(0, 4)} />
-                                <DashboardPie data={piechartData.slice(4)} />
-                            </div>
-                            <div className="dashboard-pie-div mobile-only">
-                                <DashboardPie
-                                    data={piechartData.slice(0, 4)}
-                                    variant="mobile"
-                                />
-                                <DashboardPie
-                                    data={piechartData.slice(4)}
-                                    variant="mobile"
-                                />
-                            </div>
-                        </>
-                    )}
-                </Content>
-            </ContentCard>
+
+            <Content
+                display="flex"
+                flexWrap="wrap"
+                flexDirection="column"
+                title="home"
+                justifyContent="center"
+            >
+                {barchartData && (
+                    <>
+                        <h4 className="body-title">balance history</h4>
+                        <div className="dashboard-bar-div desktop-only">
+                            <DashboardBar
+                                data={barchartData}
+                                variant="desktop"
+                            />
+                        </div>
+                        <div className="dashboard-bar-div mobile-only">
+                            <DashboardBar
+                                data={barchartData}
+                                variant="mobile"
+                            />
+                        </div>
+                    </>
+                )}
+                {piechartData && (
+                    <>
+                        <h4 className="body-title">this month</h4>
+                        <div className="dashboard-pie-div desktop-only">
+                            <DashboardPie data={piechartData.slice(0, 4)} />
+                            <DashboardPie data={piechartData.slice(4)} />
+                        </div>
+                        <div className="dashboard-pie-div mobile-only">
+                            <DashboardPie
+                                data={piechartData.slice(0, 4)}
+                                variant="mobile"
+                            />
+                            <DashboardPie
+                                data={piechartData.slice(4)}
+                                variant="mobile"
+                            />
+                        </div>
+                    </>
+                )}
+            </Content>
         </>
     );
 }

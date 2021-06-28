@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navigation from "../components/Navigation";
 import { Table } from "../components/Table";
-import { ContentCard, Content } from "../components/ContentCard";
-import firebase from "firebase/app";
+import { Content } from "../components/ContentCard";
 import "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
@@ -19,7 +18,7 @@ function Breakdown() {
                 setTableData(doc.data().monthArr);
             }
         });
-    }, []);
+    }, [currentUser.uid]);
 
     return (
         <>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Navigation from "../components/Navigation";
-import { ContentCard, Content } from "../components/ContentCard";
+import { Content } from "../components/ContentCard";
 import { Form, Button } from "react-bootstrap";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
@@ -43,39 +43,37 @@ function Settings() {
     return (
         <>
             <Navigation active="settings" />
-            <ContentCard>
-                <Content title="update income">
-                    <p>Update your income here.</p>
-                    <Form onSubmit={handlesubmit}>
-                        <Form.Group id="income">
-                            <Form.Label>Income</Form.Label>
-                            <Form.Control
-                                type="number"
-                                step="any"
-                                ref={incomeRef}
-                                min="0.01"
-                                onChange={() => {
-                                    setDisabled(false);
-                                    setMessage("");
-                                }}
-                            ></Form.Control>
-                        </Form.Group>
-                        <div style={{ padding: "10pt" }}></div>
-                        <Button
-                            disabled={disabled}
-                            type={"submit"}
-                            className={"custom-button"}
-                        >
-                            Update
-                        </Button>
-                        {message && (
-                            <>
-                                <span className="custom-alert">{message}</span>
-                            </>
-                        )}
-                    </Form>
-                </Content>
-            </ContentCard>
+            <Content title="update income">
+                <p>Update your income here.</p>
+                <Form onSubmit={handlesubmit}>
+                    <Form.Group id="income">
+                        <Form.Label>Income</Form.Label>
+                        <Form.Control
+                            type="number"
+                            step="any"
+                            ref={incomeRef}
+                            min="0.01"
+                            onChange={() => {
+                                setDisabled(false);
+                                setMessage("");
+                            }}
+                        ></Form.Control>
+                    </Form.Group>
+                    <div style={{ padding: "10pt" }}></div>
+                    <Button
+                        disabled={disabled}
+                        type={"submit"}
+                        className={"custom-button"}
+                    >
+                        Update
+                    </Button>
+                    {message && (
+                        <>
+                            <span className="custom-alert">{message}</span>
+                        </>
+                    )}
+                </Form>
+            </Content>
         </>
     );
 }
