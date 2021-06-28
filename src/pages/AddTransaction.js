@@ -47,7 +47,7 @@ function AddTransaction() {
         const value =
             category === "Money Out"
                 ? expenseRef.current.value * -100
-                : expenseRef.current.value * 100; // TODO: conditional statement to handle money in
+                : expenseRef.current.value * 100;
 
         docRef
             .get()
@@ -75,7 +75,7 @@ function AddTransaction() {
                             category === "Money Out"
                                 ? "Expense added successfully."
                                 : "Income added successfully."
-                        ); // TODO: Ensure message correctness for both money in and money out
+                        );
                     })
                     .catch((error) => {
                         console.log(error);
@@ -84,7 +84,7 @@ function AddTransaction() {
             })
             .catch((error) => {
                 console.log(error);
-                setError(error);
+                setError((prev) => prev + "\n" + error);
             });
     };
 
