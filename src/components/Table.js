@@ -89,7 +89,10 @@ export function Table({ monthArr, limit = 25 }) {
         }
     }
     const componentArr = transactionArr.map((transactionObj) => (
-        <TableRow transactionObj={transactionObj} key={expenseId} />
+        <TableRow
+            transactionObj={transactionObj}
+            key={transactionObj.expenseId}
+        />
     ));
     return (
         <>
