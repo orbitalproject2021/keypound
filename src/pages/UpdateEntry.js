@@ -71,7 +71,7 @@ export default function UpdateEntry() {
                 updateBalance(
                     currentUser,
                     value - transactionObj.value,
-                    monthsSinceDateString(dateToDateString(date))
+                    monthsSinceDateString(date)
                 );
                 history.goBack();
             })
@@ -101,13 +101,12 @@ export default function UpdateEntry() {
                 updateBalance(
                     currentUser,
                     -transactionObj.value,
-                    monthsSinceDateString(dateToDateString(date))
+                    monthsSinceDateString(date)
                 );
                 history.goBack();
             })
             .catch((error) => {
                 console.log(error);
-                setError(error);
             });
     };
 

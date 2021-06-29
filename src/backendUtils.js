@@ -44,6 +44,7 @@ const DATE_MAP = {
  * @returns Readable date string, e.g. Jun '21
  */
 export function dateToDateString(dateObj) {
+    console.log(dateObj);
     const month = MONTHS[dateObj.getMonth()];
     const year = (dateObj.getFullYear() % 100).toString();
     return `${month} '${year}`;
