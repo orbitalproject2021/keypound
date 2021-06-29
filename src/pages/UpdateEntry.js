@@ -17,9 +17,7 @@ import { useHistory, useLocation } from "react-router-dom";
 export default function UpdateEntry() {
     const { monthArr, monthObj, id, transactionObj, date } =
         useLocation().state;
-    const maxDate = new Date().toISOString().substring(0, 10);
     const expenseRef = useRef();
-    const dateRef = useRef();
     const descriptionRef = useRef();
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
@@ -36,7 +34,7 @@ export default function UpdateEntry() {
         document.title = "Edit entry - nameless app";
         descriptionRef.current.value = transactionObj.description;
         descriptionRef.current.focus();
-        dateRef.current.value = date;
+
         expenseRef.current.value = `${Math.abs(transactionObj.value / 100)
             .toFixed(2)
             .toString()
@@ -48,11 +46,7 @@ export default function UpdateEntry() {
         e.preventDefault();
 
         var docRef = db.collection("users").doc(currentUser.uid);
-        const [day, month, year] = dateRef.current.value.split("/");
-        const tempDate = new Date(`${year}-${month}-${day}`);
-        const date = new Date(
-            tempDate.getTime() - new Date().getTimezoneOffset() * 60000
-        );
+
         const description = descriptionRef.current.value;
         const value =
             category === "Money Out"
@@ -79,7 +73,7 @@ export default function UpdateEntry() {
                     value - transactionObj.value,
                     monthsSinceDateString(dateToDateString(date))
                 );
-                history.push("/breakdown");
+                history.goBack();
             })
             .catch((error) => {
                 console.log(error);
@@ -98,11 +92,7 @@ export default function UpdateEntry() {
             transaction.id = newId;
             newId++;
         }
-        const [day, month, year] = dateRef.current.value.split("/");
-        const tempDate = new Date(`${year}-${month}-${day}`);
-        const date = new Date(
-            tempDate.getTime() - new Date().getTimezoneOffset() * 60000
-        );
+
         docRef
             .update({
                 monthArr: monthArr,
@@ -113,7 +103,7 @@ export default function UpdateEntry() {
                     -transactionObj.value,
                     monthsSinceDateString(dateToDateString(date))
                 );
-                history.push("/breakdown");
+                history.goBack();
             })
             .catch((error) => {
                 console.log(error);
@@ -230,21 +220,6 @@ export default function UpdateEntry() {
                         />
                     </Form.Group>
                     <div style={{ padding: "10pt" }}></div>
-                    <Form.Group id="date">
-                        <Form.Label>Date</Form.Label>
-                        <Form.Control
-                            type="date"
-                            max={maxDate}
-                            ref={dateRef}
-                            required
-                            onChange={() => {
-                                setDisabled(false);
-                                setError("");
-                                setMessage("");
-                            }}
-                        />
-                    </Form.Group>
-                    <div style={{ padding: "10pt" }}></div>
 
                     <div style={{ display: "flex" }}>
                         <Button
@@ -264,7 +239,7 @@ export default function UpdateEntry() {
                         <Button
                             disabled={disabled}
                             className={"custom-button"}
-                            onClick={() => history.push("/breakdown")}
+                            onClick={() => history.goBack()}
                         >
                             Cancel
                         </Button>
