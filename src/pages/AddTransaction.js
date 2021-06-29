@@ -5,6 +5,7 @@ import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import {
+    dateStringToDateObject,
     dateToDateString,
     monthsSinceDateString,
     updateBalance,
@@ -17,7 +18,7 @@ import "firebase/firestore";
 function AddTransaction() {
     const date = new Date();
     const maxDate = date.toISOString().substring(0, 10);
-
+    const [minDate, setMinDate] = useState();
     const expenseRef = useRef();
     const dateRef = useRef();
     const descriptionRef = useRef();
@@ -35,7 +36,12 @@ function AddTransaction() {
         }
         dateRef.current.value = new Date().toISOString().substr(0, 10);
         expenseRef.current.value = "0";
-    }, []);
+        var docRef = db.collection("users").doc(currentUser.uid);
+        docRef.get().then((doc) => {
+            let monthArr = doc.data().monthArr;
+            setMinDate(dateStringToDateObject(monthArr[0].date));
+        });
+    }, [currentUser.uid]);
 
     const handleSubmit = (e) => {
         setDisabled(true); // prevent re-submission during request time
@@ -62,6 +68,7 @@ function AddTransaction() {
                     1 -
                     monthsSinceDateString(dateToDateString(date));
                 let monthArr = doc.data().monthArr;
+
                 let transactions = monthArr[index].transactions;
                 transactions.push({
                     description: descriptionRef.current.value,
@@ -93,8 +100,17 @@ function AddTransaction() {
                     });
             })
             .catch((error) => {
-                console.log(error);
-                setError((prev) => prev + "\n" + error);
+                if (error instanceof TypeError) {
+                    setMessage(
+                        `Please select a date on or after 1 ${minDate.toLocaleString(
+                            "default",
+                            { month: "long" }
+                        )} ${minDate.getFullYear()}.`
+                    );
+                } else {
+                    console.log(error);
+                    setError((prev) => prev + "\n" + error);
+                }
             });
     };
 

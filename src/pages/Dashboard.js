@@ -42,7 +42,6 @@ function Dashboard() {
                     });
                 } else {
                     // doc.data() will be undefined in this case
-                    console.log("First Time user - proceeding to setup");
                     setPiechartData([]);
                     setBarchartData([]);
                     history.push("/start");
