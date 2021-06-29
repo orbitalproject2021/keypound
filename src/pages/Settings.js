@@ -66,7 +66,7 @@ function Settings() {
                             placeholder={oldIncome}
                         ></Form.Control>
                     </Form.Group>
-                    <p style={{ paddingTop: "1em" }}>
+                    <p className="content-text" style={{ paddingTop: "1em" }}>
                         This income will apply from this month onwards.
                     </p>
                     <div style={{ padding: "10pt" }}></div>
