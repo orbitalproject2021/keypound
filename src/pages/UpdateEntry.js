@@ -122,6 +122,7 @@ export default function UpdateEntry() {
             <Navigation active="breakdown" />
             {error && <Alert>{error}</Alert>}
             <Content title="edit entry">
+                <h4 className="body-title">{date}</h4>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group id="description">
                         <Form.Label>Description</Form.Label>
