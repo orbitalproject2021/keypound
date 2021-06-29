@@ -29,6 +29,11 @@ export default function UpdateEntry() {
     const { currentUser } = useAuth();
     const history = useHistory();
 
+    function display(input) {
+        console.log(input);
+        return input;
+    }
+
     useEffect(() => {
         console.log(id);
         document.title = "Edit entry - Keypound";
@@ -56,7 +61,7 @@ export default function UpdateEntry() {
                 : expenseRef.current.value * 100;
 
         monthObj.transactions[id] = {
-            date: firebase.firestore.Timestamp.fromDate(date),
+            date: transactionObj.date,
             description,
             type,
             value,
@@ -68,12 +73,10 @@ export default function UpdateEntry() {
                 monthArr: monthArr,
             })
             .then(() => {
-                console.log(`old value: ${transactionObj.value}`);
-                console.log(`new value: ${value}`);
                 updateBalance(
                     currentUser,
                     value - transactionObj.value,
-                    monthsSinceDateString(date)
+                    monthsSinceDateString(dateToDateString(new Date(date)))
                 );
                 history.goBack();
             })
@@ -102,8 +105,10 @@ export default function UpdateEntry() {
             .then(() => {
                 updateBalance(
                     currentUser,
-                    -transactionObj.value,
-                    monthsSinceDateString(date)
+                    display(-transactionObj.value),
+                    display(
+                        monthsSinceDateString(dateToDateString(new Date(date)))
+                    )
                 );
                 history.goBack();
             })
