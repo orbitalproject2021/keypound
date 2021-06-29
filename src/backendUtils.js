@@ -44,7 +44,6 @@ const DATE_MAP = {
  * @returns Readable date string, e.g. Jun '21
  */
 export function dateToDateString(dateObj) {
-    console.log(dateObj);
     const month = MONTHS[dateObj.getMonth()];
     const year = (dateObj.getFullYear() % 100).toString();
     return `${month} '${year}`;
@@ -201,7 +200,6 @@ export function updateBalance(currentUser, delta, monthsAgo = 0) {
                 ? { ...obj, balance: obj.balance + delta }
                 : obj
         );
-        console.log(monthArr);
         docRef.update({
             monthArr: monthArr,
         });
@@ -274,7 +272,6 @@ export function handleIncome(monthObj) {
         !monthObj.isIncomeAdded &&
         monthObj.income > 0
     ) {
-        console.log("add income");
         monthObj.transactions.push({
             date: getLastTimeOfMonth(monthObj.date),
             description: `${monthObj.date} income`,

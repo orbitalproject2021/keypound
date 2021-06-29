@@ -1,9 +1,9 @@
 import React from "react";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
-import home from "../icons/home.png";
-import account from "../icons/account.png";
-import expense from "../icons/expense.png";
-import settings from "../icons/settings.png";
+// import home from "../icons/home.png";
+// import account from "../icons/account.png";
+// import expense from "../icons/expense.png";
+// import settings from "../icons/settings.png";
 import { useAuth } from "../contexts/AuthContext";
 import NavItem from "./NavItem";
 import DropItem, { DropMenu } from "./DropItem";

@@ -2,9 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
 import {
     dateToDateString,
     monthsSinceDateString,
@@ -29,13 +26,7 @@ export default function UpdateEntry() {
     const { currentUser } = useAuth();
     const history = useHistory();
 
-    function display(input) {
-        console.log(input);
-        return input;
-    }
-
     useEffect(() => {
-        console.log(id);
         document.title = "Edit entry - Keypound";
         descriptionRef.current.value = transactionObj.description;
         if (window.innerWidth > 767) {
@@ -105,10 +96,8 @@ export default function UpdateEntry() {
             .then(() => {
                 updateBalance(
                     currentUser,
-                    display(-transactionObj.value),
-                    display(
-                        monthsSinceDateString(dateToDateString(new Date(date)))
-                    )
+                    -transactionObj.value,
+                    monthsSinceDateString(dateToDateString(new Date(date)))
                 );
                 history.goBack();
             })

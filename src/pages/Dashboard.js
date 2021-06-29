@@ -37,7 +37,6 @@ function Dashboard() {
                                 setTableData(doc.data().monthArr);
                                 setPiechartData(dashboardPieData(doc.data()));
                                 setBarchartData(dashboardBarData(doc.data()));
-                                console.log(dashboardBarData(doc.data()));
                             }
                         });
                     });

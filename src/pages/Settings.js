@@ -26,7 +26,6 @@ function Settings() {
             setOldIncome(
                 (monthArr[monthArr.length - 1].income / 100).toFixed(2)
             );
-            console.log(monthArr[monthArr.length - 1].income);
         });
     }, [docRef]);
 
