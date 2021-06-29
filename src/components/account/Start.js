@@ -15,7 +15,9 @@ function Start() {
 
     useEffect(() => {
         document.title = "Start - nameless app";
-        balanceRef.current.focus();
+        if (window.innerWidth > 767) {
+            balanceRef.current.focus();
+        }
     });
 
     function handleSubmit(e) {

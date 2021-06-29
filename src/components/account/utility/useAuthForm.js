@@ -40,12 +40,14 @@ function useAuthForm(focus) {
     // Puts focus on the email field, or the password field if the focus
     // parameter is provided as "password".
     useEffect(() => {
-        switch (focus) {
-            case "password":
-                passwordRef.current.focus();
-                break;
-            default:
-                emailRef.current.focus();
+        if (window.innerWidth > 767) {
+            switch (focus) {
+                case "password":
+                    passwordRef.current.focus();
+                    break;
+                default:
+                    emailRef.current.focus();
+            }
         }
     }, [focus]);
 

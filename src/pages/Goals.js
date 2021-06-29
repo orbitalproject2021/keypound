@@ -11,7 +11,9 @@ function Goals() {
 
     useEffect(() => {
         document.title = "Goals - nameless app";
-        amountRef.current.focus();
+        if (window.innerWidth > 767) {
+            amountRef.current.focus();
+        }
     }, []);
 
     return (

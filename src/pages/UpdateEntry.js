@@ -33,7 +33,9 @@ export default function UpdateEntry() {
         console.log(id);
         document.title = "Edit entry - nameless app";
         descriptionRef.current.value = transactionObj.description;
-        descriptionRef.current.focus();
+        if (window.innerWidth > 767) {
+            descriptionRef.current.focus();
+        }
 
         expenseRef.current.value = `${Math.abs(transactionObj.value / 100)
             .toFixed(2)

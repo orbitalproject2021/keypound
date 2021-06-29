@@ -18,7 +18,9 @@ function Settings() {
 
     useEffect(() => {
         document.title = "Settings - nameless app";
-        incomeRef.current.focus();
+        if (window.innerWidth > 767) {
+            incomeRef.current.focus();
+        }
         docRef.get().then((doc) => {
             const monthArr = doc.data().monthArr;
             setOldIncome(
@@ -65,6 +67,9 @@ function Settings() {
                             placeholder={oldIncome}
                         ></Form.Control>
                     </Form.Group>
+                    <p style={{ paddingTop: "1em" }}>
+                        This income will apply from this month onwards.
+                    </p>
                     <div style={{ padding: "10pt" }}></div>
                     <Button
                         disabled={disabled}

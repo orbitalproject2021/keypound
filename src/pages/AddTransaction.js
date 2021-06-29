@@ -30,7 +30,9 @@ function AddTransaction() {
 
     useEffect(() => {
         document.title = "Add Expense - nameless app";
-        descriptionRef.current.focus();
+        if (window.innerWidth > 767) {
+            descriptionRef.current.focus();
+        }
         dateRef.current.value = new Date().toISOString().substr(0, 10);
         expenseRef.current.value = "0";
     }, []);
@@ -104,7 +106,9 @@ function AddTransaction() {
         setMessage("");
         setType((prev) => (category === "Money In" ? "Money In" : prev));
         expenseRef.current.value = 0;
-        descriptionRef.current.focus();
+        if (window.innerWidth > 767) {
+            descriptionRef.current.focus();
+        }
     }
 
     return (
