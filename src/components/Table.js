@@ -53,7 +53,7 @@ export function TableHeader() {
                 className="tableRow"
                 style={{ backgroundColor: "#f8a66c", color: "#4d3321" }}
             >
-                <div className="overflow-container">
+                <div className="overflow-container" style={{ cursor: "auto" }}>
                     <p className="tableHeaderDetails hide-when-tiny">Date</p>
                     <p className="tableHeaderDetails">Description</p>
                     <p className="tableHeaderDetails hide-when-narrow">Type</p>
