@@ -27,6 +27,7 @@ function Breakdown() {
             {tableData && (
                 <Content title="breakdown">
                     <h4 className="body-title">all transactions</h4>
+                    <p>Select an entry to edit or delete it.</p>
                     <Table monthArr={tableData} />
                 </Content>
             )}
