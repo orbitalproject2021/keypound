@@ -32,7 +32,7 @@ export default function ForgotPassword() {
     const [timer, setTimer] = useState(0);
 
     useEffect(() => {
-        document.title = "Forgot Password - nameless app";
+        document.title = "Forgot Password - Keypound";
     }, []);
 
     useEffect(() => {

@@ -31,7 +31,7 @@ export default function Signup() {
     } = useAuthForm();
 
     useEffect(() => {
-        document.title = "Sign Up - nameless app";
+        document.title = "Sign Up - Keypound";
     }, []);
 
     /**

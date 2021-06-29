@@ -3,7 +3,7 @@ import Navigation from "../components/Navigation";
 
 function Loans() {
     useEffect(() => {
-        document.title = "Loans - nameless app";
+        document.title = "Loans - Keypound";
     }, []);
 
     return <Navigation active="loans" />;

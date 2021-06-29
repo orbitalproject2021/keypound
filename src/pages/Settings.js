@@ -17,7 +17,7 @@ function Settings() {
     var docRef = db.collection("users").doc(currentUser.uid);
 
     useEffect(() => {
-        document.title = "Settings - nameless app";
+        document.title = "Settings - Keypound";
         if (window.innerWidth > 767) {
             incomeRef.current.focus();
         }

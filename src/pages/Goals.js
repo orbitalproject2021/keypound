@@ -10,7 +10,7 @@ function Goals() {
     const [type, setType] = useState("Type");
 
     useEffect(() => {
-        document.title = "Goals - nameless app";
+        document.title = "Goals - Keypound";
         if (window.innerWidth > 767) {
             amountRef.current.focus();
         }

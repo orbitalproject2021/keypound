@@ -11,7 +11,7 @@ function Breakdown() {
     const [tableData, setTableData] = useState();
 
     useEffect(() => {
-        document.title = "Breakdown - nameless app";
+        document.title = "Breakdown - Keypound";
         const docRef = db.collection("users").doc(currentUser.uid);
         docRef.get().then((doc) => {
             if (doc.exists) {

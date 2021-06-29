@@ -3,7 +3,7 @@ import Navigation from "../components/Navigation";
 
 function Credit() {
     useEffect(() => {
-        document.title = "Credit - nameless app";
+        document.title = "Credit - Keypound";
     }, []);
 
     return <Navigation active="credit" />;

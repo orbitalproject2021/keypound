@@ -23,7 +23,7 @@ function Dashboard() {
     const [tableData, setTableData] = useState();
 
     useEffect(() => {
-        document.title = "Dashboard - nameless app";
+        document.title = "Dashboard - Keypound";
 
         // Reference to current user document from 'users' collection
         const docRef = db.collection("users").doc(currentUser.uid);

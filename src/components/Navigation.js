@@ -42,7 +42,7 @@ function Navigation({ active }) {
                     }
                 }}
             >
-                this app needs a name
+                Keypound
             </span>
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav id="width" className="m-auto appleBar">

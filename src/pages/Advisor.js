@@ -3,7 +3,7 @@ import Navigation from "../components/Navigation";
 
 function Advisor() {
     useEffect(() => {
-        document.title = "Advisor - nameless app";
+        document.title = "Advisor - Keypound";
     }, []);
 
     return <Navigation active="advisor" />;

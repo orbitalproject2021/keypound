@@ -29,7 +29,7 @@ function AddTransaction() {
     const { currentUser } = useAuth();
 
     useEffect(() => {
-        document.title = "Add Expense - nameless app";
+        document.title = "Add Expense - Keypound";
         if (window.innerWidth > 767) {
             descriptionRef.current.focus();
         }

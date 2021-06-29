@@ -14,7 +14,7 @@ function Start() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        document.title = "Start - nameless app";
+        document.title = "Start - Keypound";
         if (window.innerWidth > 767) {
             balanceRef.current.focus();
         }

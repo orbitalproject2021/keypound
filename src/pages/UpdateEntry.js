@@ -31,7 +31,7 @@ export default function UpdateEntry() {
 
     useEffect(() => {
         console.log(id);
-        document.title = "Edit entry - nameless app";
+        document.title = "Edit entry - Keypound";
         descriptionRef.current.value = transactionObj.description;
         if (window.innerWidth > 767) {
             descriptionRef.current.focus();
