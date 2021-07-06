@@ -6,33 +6,33 @@
 import { db } from "./firebase";
 
 const MONTHS = {
-    0: "Jan",
-    1: "Feb",
-    2: "Mar",
-    3: "Apr",
-    4: "May",
-    5: "Jun",
-    6: "Jul",
-    7: "Aug",
-    8: "Sep",
-    9: "Oct",
-    10: "Nov",
-    11: "Dec",
+  0: "Jan",
+  1: "Feb",
+  2: "Mar",
+  3: "Apr",
+  4: "May",
+  5: "Jun",
+  6: "Jul",
+  7: "Aug",
+  8: "Sep",
+  9: "Oct",
+  10: "Nov",
+  11: "Dec",
 };
 
 const DATE_MAP = {
-    Jan: 0,
-    Feb: 1,
-    Mar: 2,
-    Apr: 3,
-    May: 4,
-    Jun: 5,
-    Jul: 6,
-    Aug: 7,
-    Sep: 8,
-    Oct: 9,
-    Nov: 10,
-    Dec: 11,
+  Jan: 0,
+  Feb: 1,
+  Mar: 2,
+  Apr: 3,
+  May: 4,
+  Jun: 5,
+  Jul: 6,
+  Aug: 7,
+  Sep: 8,
+  Oct: 9,
+  Nov: 10,
+  Dec: 11,
 };
 
 // * UTILITY FUNCTIONS
@@ -44,9 +44,9 @@ const DATE_MAP = {
  * @returns Readable date string, e.g. Jun '21
  */
 export function dateToDateString(dateObj) {
-    const month = MONTHS[dateObj.getMonth()];
-    const year = (dateObj.getFullYear() % 100).toString();
-    return `${month} '${year}`;
+  const month = MONTHS[dateObj.getMonth()];
+  const year = (dateObj.getFullYear() % 100).toString();
+  return `${month} '${year}`;
 }
 
 /**
@@ -56,9 +56,9 @@ export function dateToDateString(dateObj) {
  * @returns Date object
  */
 export function dateStringToDateObject(str) {
-    const month = DATE_MAP[str.slice(0, 3)];
-    const year = parseInt(str.slice(5, 7)) + 2000;
-    return new Date(year, month);
+  const month = DATE_MAP[str.slice(0, 3)];
+  const year = parseInt(str.slice(5, 7)) + 2000;
+  return new Date(year, month);
 }
 
 /**
@@ -70,11 +70,11 @@ export function dateStringToDateObject(str) {
  *          in the future.
  */
 export function monthsSinceDateString(str) {
-    const past = dateStringToDateObject(str);
-    const current = new Date();
-    const current_months = current.getFullYear() * 12 + current.getMonth();
-    const past_months = past.getFullYear() * 12 + past.getMonth();
-    return current_months - past_months;
+  const past = dateStringToDateObject(str);
+  const current = new Date();
+  const current_months = current.getFullYear() * 12 + current.getMonth();
+  const past_months = past.getFullYear() * 12 + past.getMonth();
+  return current_months - past_months;
 }
 
 /**
@@ -85,10 +85,10 @@ export function monthsSinceDateString(str) {
  * @returns A new date string
  */
 export function nextDateString(str, delta = 1) {
-    const prevDate = dateStringToDateObject(str);
-    return dateToDateString(
-        new Date(prevDate.getFullYear(), prevDate.getMonth() + delta)
-    );
+  const prevDate = dateStringToDateObject(str);
+  return dateToDateString(
+    new Date(prevDate.getFullYear(), prevDate.getMonth() + delta)
+  );
 }
 
 /**
@@ -99,16 +99,16 @@ export function nextDateString(str, delta = 1) {
  * @returns Date object
  */
 export function getLastTimeOfMonth(str) {
-    const date = dateStringToDateObject(nextDateString(str));
-    return new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        date.getHours(),
-        date.getMinutes(),
-        date.getSeconds(),
-        date.getMilliseconds() - 1
-    );
+  const date = dateStringToDateObject(nextDateString(str));
+  return new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+    date.getMilliseconds() - 1
+  );
 }
 
 // * DASHBOARD
@@ -125,55 +125,54 @@ export function getLastTimeOfMonth(str) {
  * @returns                      An array of objects
  */
 export function dashboardPieData(firestoreData, monthsAgo = 0) {
-    const thisMonthTransactions =
-        firestoreData.monthArr[firestoreData.monthArr.length - 1 - monthsAgo]
-            .transactions;
+  const thisMonthTransactions =
+    firestoreData.monthArr[firestoreData.monthArr.length - 1 - monthsAgo]
+      .transactions;
 
-    function reducer(accumulator, current) {
-        // Note that expenses are negative in value
-        switch (current.type) {
-            case "Need":
-                accumulator[0].value -= current.value;
-                break;
-            case "Want":
-                accumulator[1].value -= current.value;
-                break;
-            case "Unexpected":
-                accumulator[2].value -= current.value;
-                break;
-            case "Subscription":
-                accumulator[3].value -= current.value;
-                break;
-            case "Money In":
-                accumulator[5].value += current.value; // not a typo - index 4 is money out total
-                break;
-            default:
-                break;
-        }
-        return accumulator;
+  function reducer(accumulator, current) {
+    // Note that expenses are negative in value
+    switch (current.type) {
+      case "Need":
+        accumulator[0].value -= current.value;
+        break;
+      case "Want":
+        accumulator[1].value -= current.value;
+        break;
+      case "Unexpected":
+        accumulator[2].value -= current.value;
+        break;
+      case "Subscription":
+        accumulator[3].value -= current.value;
+        break;
+      case "Money In":
+        accumulator[5].value += current.value; // not a typo - index 4 is money out total
+        break;
+      default:
+        break;
     }
-    const data = thisMonthTransactions.reduce(reducer, [
-        { name: "Needs", value: 0 },
-        { name: "Wants", value: 0 },
-        { name: "Unexpected", value: 0 },
-        { name: "Subscriptions", value: 0 },
-        { name: "Money Out", value: 0 },
-        { name: "Money In", value: 0 },
-    ]);
-    data[4].value =
-        data[0].value + data[1].value + data[2].value + data[3].value;
-    return data;
+    return accumulator;
+  }
+  const data = thisMonthTransactions.reduce(reducer, [
+    { name: "Needs", value: 0 },
+    { name: "Wants", value: 0 },
+    { name: "Unexpected", value: 0 },
+    { name: "Subscriptions", value: 0 },
+    { name: "Money Out", value: 0 },
+    { name: "Money In", value: 0 },
+  ]);
+  data[4].value = data[0].value + data[1].value + data[2].value + data[3].value;
+  return data;
 }
 
 export function dashboardBarData(firestoreData) {
-    const monthlyBalance = firestoreData.monthArr.map((obj) => {
-        return {
-            id: obj.id,
-            value: obj.balance,
-            date: obj.date,
-        };
-    });
-    return monthlyBalance;
+  const monthlyBalance = firestoreData.monthArr.map((obj) => {
+    return {
+      id: obj.id,
+      value: obj.balance,
+      date: obj.date,
+    };
+  });
+  return monthlyBalance;
 }
 
 // * ADD EXPENSE / TRANSACTION
@@ -189,21 +188,21 @@ export function dashboardBarData(firestoreData) {
  *                           previous month, to be updated
  */
 export function updateBalance(currentUser, delta, monthsAgo = 0) {
-    const isBetween = (num, start, end) => num >= start && num <= end;
-    var docRef = db.collection("users").doc(currentUser.uid);
-    docRef.get().then((doc) => {
-        let monthArr = doc.data().monthArr;
-        const endIndex = monthArr.length - 1;
-        const startIndex = endIndex - monthsAgo;
-        monthArr = monthArr.map((obj) =>
-            isBetween(obj.id, startIndex, endIndex)
-                ? { ...obj, balance: obj.balance + delta }
-                : obj
-        );
-        docRef.update({
-            monthArr: monthArr,
-        });
+  const isBetween = (num, start, end) => num >= start && num <= end;
+  var docRef = db.collection("users").doc(currentUser.uid);
+  docRef.get().then((doc) => {
+    let monthArr = doc.data().monthArr;
+    const endIndex = monthArr.length - 1;
+    const startIndex = endIndex - monthsAgo;
+    monthArr = monthArr.map((obj) =>
+      isBetween(obj.id, startIndex, endIndex)
+        ? { ...obj, balance: obj.balance + delta }
+        : obj
+    );
+    docRef.update({
+      monthArr: monthArr,
     });
+  });
 }
 
 /**
@@ -217,35 +216,33 @@ export function updateBalance(currentUser, delta, monthsAgo = 0) {
  */
 // ! Must be updated for any further database changes.
 export async function updateDatabase(currentUser) {
-    var docRef = db.collection("users").doc(currentUser.uid);
-    return await docRef.get().then((doc) => {
-        let monthArr = doc.data().monthArr;
-        let latestObj = handleIncomeAndSubscriptions(
-            monthArr[monthArr.length - 1]
-        );
-        let dateString = latestObj.date;
-        const numOfMissingMonths = monthsSinceDateString(dateString);
+  var docRef = db.collection("users").doc(currentUser.uid);
+  return await docRef.get().then((doc) => {
+    let monthArr = doc.data().monthArr;
+    let latestObj = handleIncomeAndSubscriptions(monthArr[monthArr.length - 1]);
+    let dateString = latestObj.date;
+    const numOfMissingMonths = monthsSinceDateString(dateString);
 
-        // Use a loop to add month objects to monthArr
-        for (let i = 0; i < numOfMissingMonths; i++) {
-            dateString = nextDateString(dateString);
-            const monthObj = {
-                ...latestObj,
-                date: dateString,
-                id: latestObj.id + 1,
-                transactions: [],
-                isIncomeAdded: false,
-                isSubscriptionAdded: false,
-            };
-            latestObj = handleIncomeAndSubscriptions(monthObj);
-            monthArr.push(latestObj);
-        }
+    // Use a loop to add month objects to monthArr
+    for (let i = 0; i < numOfMissingMonths; i++) {
+      dateString = nextDateString(dateString);
+      const monthObj = {
+        ...latestObj,
+        date: dateString,
+        id: latestObj.id + 1,
+        transactions: [],
+        isIncomeAdded: false,
+        isSubscriptionAdded: false,
+      };
+      latestObj = handleIncomeAndSubscriptions(monthObj);
+      monthArr.push(latestObj);
+    }
 
-        // save changes on database
-        docRef.update({
-            monthArr: monthArr,
-        });
+    // save changes on database
+    docRef.update({
+      monthArr: monthArr,
     });
+  });
 }
 
 /**
@@ -256,7 +253,7 @@ export async function updateDatabase(currentUser) {
  * @returns Month object with income updated
  */
 export function handleIncomeAndSubscriptions(monthObj) {
-    return handleSubscriptions(handleIncome(monthObj));
+  return handleSubscriptions(handleIncome(monthObj));
 }
 
 /**
@@ -267,29 +264,29 @@ export function handleIncomeAndSubscriptions(monthObj) {
  * @returns Month object with income updated
  */
 export function handleIncome(monthObj) {
-    if (
-        monthsSinceDateString(monthObj.date) > 0 &&
-        !monthObj.isIncomeAdded &&
-        monthObj.income > 0
-    ) {
-        monthObj.transactions.push({
-            date: getLastTimeOfMonth(monthObj.date),
-            description: `${monthObj.date} income`,
-            type: "Money In",
-            value: monthObj.income,
-            id: monthObj.transactions.length,
-        });
-        monthObj.balance += monthObj.income;
-        monthObj.isIncomeAdded = true;
-        return monthObj;
-    } else if (
-        // no income
-        monthsSinceDateString(monthObj.date) > 0 &&
-        !monthObj.isIncomeAdded
-    ) {
-        monthObj.isIncomeAdded = true;
-    }
+  if (
+    monthsSinceDateString(monthObj.date) > 0 &&
+    !monthObj.isIncomeAdded &&
+    monthObj.income > 0
+  ) {
+    monthObj.transactions.push({
+      date: getLastTimeOfMonth(monthObj.date),
+      description: `${monthObj.date} income`,
+      type: "Money In",
+      value: monthObj.income,
+      id: monthObj.transactions.length,
+    });
+    monthObj.balance += monthObj.income;
+    monthObj.isIncomeAdded = true;
     return monthObj;
+  } else if (
+    // no income
+    monthsSinceDateString(monthObj.date) > 0 &&
+    !monthObj.isIncomeAdded
+  ) {
+    monthObj.isIncomeAdded = true;
+  }
+  return monthObj;
 }
 
 /**
@@ -301,28 +298,28 @@ export function handleIncome(monthObj) {
  * @returns Month object with subscription payments updated
  */
 export function handleSubscriptions(monthObj) {
-    // ! Assumes subscription amount in database is negative
-    if (
-        monthsSinceDateString(monthObj.date) > 0 &&
-        !monthObj.isSubscriptionAdded &&
-        monthObj.subscriptionAmount > 0
-    ) {
-        monthObj.transactions.push({
-            date: getLastTimeOfMonth(monthObj.date),
-            description: `${monthObj.date} subscriptions`,
-            type: "Subscription",
-            value: monthObj.subscriptionAmount,
-            id: monthObj.transactions.length,
-        });
-        monthObj.balance += monthObj.subscriptionAmount;
-        monthObj.isSubscriptionAdded = true;
-        return monthObj;
-    } else if (
-        // no subscriptions
-        monthsSinceDateString(monthObj.date) > 0 &&
-        !monthObj.isSubscriptionAdded
-    ) {
-        monthObj.isSubscriptionAdded = true;
-    }
+  // ! Assumes subscription amount in database is negative
+  if (
+    monthsSinceDateString(monthObj.date) > 0 &&
+    !monthObj.isSubscriptionAdded &&
+    monthObj.subscriptionAmount > 0
+  ) {
+    monthObj.transactions.push({
+      date: getLastTimeOfMonth(monthObj.date),
+      description: `${monthObj.date} subscriptions`,
+      type: "Subscription",
+      value: monthObj.subscriptionAmount,
+      id: monthObj.transactions.length,
+    });
+    monthObj.balance += monthObj.subscriptionAmount;
+    monthObj.isSubscriptionAdded = true;
     return monthObj;
+  } else if (
+    // no subscriptions
+    monthsSinceDateString(monthObj.date) > 0 &&
+    !monthObj.isSubscriptionAdded
+  ) {
+    monthObj.isSubscriptionAdded = true;
+  }
+  return monthObj;
 }

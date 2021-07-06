@@ -6,127 +6,114 @@ import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { DashboardPie, DashboardBar } from "../components/DashboardCharts";
 import {
-    dashboardPieData,
-    dashboardBarData,
-    updateDatabase,
+  dashboardPieData,
+  dashboardBarData,
+  updateDatabase,
 } from "../backendUtils";
 import { useHistory } from "react-router-dom";
 import { Table } from "../components/Table";
 
 function Dashboard() {
-    const [message] = useState("");
-    const [error] = useState("");
-    const { currentUser } = useAuth();
-    const [piechartData, setPiechartData] = useState([]);
-    const [barchartData, setBarchartData] = useState([]);
-    const history = useHistory();
-    const [tableData, setTableData] = useState();
+  const [message] = useState("");
+  const [error] = useState("");
+  const { currentUser } = useAuth();
+  const [piechartData, setPiechartData] = useState([]);
+  const [barchartData, setBarchartData] = useState([]);
+  const history = useHistory();
+  const [tableData, setTableData] = useState();
 
-    useEffect(() => {
-        document.title = "Dashboard - Keypound";
+  useEffect(() => {
+    document.title = "Dashboard - Keypound";
 
-        // Reference to current user document from 'users' collection
-        const docRef = db.collection("users").doc(currentUser.uid);
-        docRef
-            .get()
-            .then((doc) => {
-                if (doc.exists) {
-                    updateDatabase(currentUser).then(() => {
-                        docRef.get().then((doc) => {
-                            if (doc.exists) {
-                                setTableData(doc.data().monthArr);
-                                setPiechartData(dashboardPieData(doc.data()));
-                                setBarchartData(dashboardBarData(doc.data()));
-                            }
-                        });
-                    });
-                } else {
-                    // doc.data() will be undefined in this case
-                    setPiechartData([]);
-                    setBarchartData([]);
-                    history.push("/start");
-                }
-            })
-            .catch((error) => {
-                console.log("Error getting document:", error);
+    // Reference to current user document from 'users' collection
+    const docRef = db.collection("users").doc(currentUser.uid);
+    docRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          updateDatabase(currentUser).then(() => {
+            docRef.get().then((doc) => {
+              if (doc.exists) {
+                setTableData(doc.data().monthArr);
+                setPiechartData(dashboardPieData(doc.data()));
+                setBarchartData(dashboardBarData(doc.data()));
+              }
             });
-    }, [currentUser, history]);
+          });
+        } else {
+          // doc.data() will be undefined in this case
+          setPiechartData([]);
+          setBarchartData([]);
+          history.push("/start");
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
+      });
+  }, [currentUser, history]);
 
-    return (
-        <>
-            <Navigation active="home" />
-            {error && <Alert variant="danger">{error}</Alert>}
-            {message && <Alert variant="success">{message}</Alert>}
+  return (
+    <>
+      <Navigation active="home" />
+      {error && <Alert variant="danger">{error}</Alert>}
+      {message && <Alert variant="success">{message}</Alert>}
 
-            <Content
-                display="flex"
-                flexWrap="wrap"
-                flexDirection="column"
-                title="home"
-                justifyContent="center"
-            >
-                <div className="combined-charts">
-                    {barchartData && piechartData && (
-                        <>
-                            <h4 className="body-title">balance history</h4>
-                            <h4 className="body-title desktop-only">
-                                this month
-                            </h4>
-                            <div className="dashboard-bar-div desktop-only">
-                                <DashboardBar
-                                    data={barchartData}
-                                    variant="desktop"
-                                />
-                            </div>
-                            <div className="dashboard-bar-div mobile-only">
-                                <DashboardBar
-                                    data={barchartData}
-                                    variant="mobile"
-                                />
-                            </div>
-                            <h4 className="body-title mobile-only">
-                                this month
-                            </h4>
-                            <div className="dashboard-pie-div desktop-only">
-                                <DashboardPie data={piechartData.slice(0, 4)} />
-                                <DashboardPie data={piechartData.slice(4)} />
-                            </div>
-                            <div className="dashboard-pie-div mobile-only">
-                                <DashboardPie
-                                    data={piechartData.slice(0, 4)}
-                                    variant="mobile"
-                                />
-                                <DashboardPie
-                                    data={piechartData.slice(4)}
-                                    variant="mobile"
-                                />
-                            </div>
-                        </>
-                    )}
-                </div>
-                <div style={{ padding: "1em" }}></div>
-                <h4 className="body-title">recent transactions</h4>
-                {tableData && <Table monthArr={tableData} limit={5} />}
-                <div
-                    style={{
-                        padding: "1em",
-                        display: "flex",
-                        width: "100%",
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}
-                >
-                    <p
-                        className="content-text"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => history.push("/breakdown")}
-                    >
-                        View all transactions
-                    </p>
-                </div>
-            </Content>
-        </>
-    );
+      <Content
+        display="flex"
+        flexWrap="wrap"
+        flexDirection="column"
+        title="home"
+        justifyContent="center"
+      >
+        <div className="combined-charts">
+          {barchartData && piechartData && (
+            <>
+              <h4 className="body-title">balance history</h4>
+              <h4 className="body-title desktop-only">this month</h4>
+              <div className="dashboard-bar-div desktop-only">
+                <DashboardBar data={barchartData} variant="desktop" />
+              </div>
+              <div className="dashboard-bar-div mobile-only">
+                <DashboardBar data={barchartData} variant="mobile" />
+              </div>
+              <h4 className="body-title mobile-only">this month</h4>
+              <div className="dashboard-pie-div desktop-only">
+                <DashboardPie data={piechartData.slice(0, 4)} />
+                <DashboardPie data={piechartData.slice(4)} />
+              </div>
+              <div className="dashboard-pie-div mobile-only">
+                <DashboardPie
+                  data={piechartData.slice(0, 4)}
+                  variant="mobile"
+                />
+                <DashboardPie data={piechartData.slice(4)} variant="mobile" />
+              </div>
+            </>
+          )}
+        </div>
+        <div style={{ padding: "1em" }}></div>
+        <h4 className="body-title">recent transactions</h4>
+        {tableData && <Table monthArr={tableData} limit={5} />}
+        <div
+          style={{
+            padding: "1em",
+            display: "flex",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <p
+            className="content-text"
+            style={{ cursor: "pointer" }}
+            onClick={() => history.push("/breakdown")}
+          >
+            View all transactions
+          </p>
+        </div>
+      </Content>
+    </>
+  );
 }
 
 export default Dashboard;

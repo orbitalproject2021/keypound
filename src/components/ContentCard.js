@@ -27,42 +27,42 @@ import React from "react";
  *                      rendered
  */
 export function Content({
-    children,
-    title,
-    area,
-    fg,
-    bg,
-    topfg,
-    topbg,
-    border,
-    display,
-    ...properties
+  children,
+  title,
+  area,
+  fg,
+  bg,
+  topfg,
+  topbg,
+  border,
+  display,
+  ...properties
 }) {
-    return (
-        <div className={"title-window"}>
-            <div
-                className={"content-title"}
-                style={{
-                    backgroundColor: topbg,
-                    color: topfg,
-                    borderBottom: "1px solid " + border || "white",
-                }}
-            >
-                {title}
-            </div>
-            <div
-                className="content"
-                style={{
-                    backgroundColor: bg,
-                    color: fg,
-                    display: display || "block",
-                    ...properties,
-                }}
-            >
-                {children}
-            </div>
-        </div>
-    );
+  return (
+    <div className={"title-window"}>
+      <div
+        className={"content-title"}
+        style={{
+          backgroundColor: topbg,
+          color: topfg,
+          borderBottom: "1px solid " + border || "white",
+        }}
+      >
+        {title}
+      </div>
+      <div
+        className="content"
+        style={{
+          backgroundColor: bg,
+          color: fg,
+          display: display || "block",
+          ...properties,
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
 }
 
 export default Content;
