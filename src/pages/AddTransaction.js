@@ -101,6 +101,7 @@ function AddTransaction() {
       })
       .catch((error) => {
         if (error instanceof TypeError) {
+          console.log(error);
           setMessage(
             `Please select a date on or after 1 ${minDate.toLocaleString(
               "default",
