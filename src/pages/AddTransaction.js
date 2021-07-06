@@ -51,10 +51,12 @@ function AddTransaction() {
     var docRef = db.collection("users").doc(currentUser.uid);
 
     const [day, month, year] = dateRef.current.value.split("/");
-    const tempDate = new Date(`${year}/${month}/${day}`);
+    const tempDate = new Date(year, month, day);
+    console.log(dateRef.current.value);
     const date = new Date(
       tempDate.getTime() - new Date().getTimezoneOffset() * 60000
     );
+    console.log(new Date(2020, 5, 4));
     const value =
       category === "Money Out"
         ? expenseRef.current.value * -100
