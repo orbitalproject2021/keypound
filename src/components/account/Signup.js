@@ -62,12 +62,17 @@ export default function Signup() {
     }
   }
 
+  //Abstractions for frontend
   const emailFill = <Email reference={emailRef} required={true} />;
+
   const passwordFill = <Password reference={passwordRef} required={true} />;
+
   const confirmFill = (
     <PasswordConfirm reference={passwordConfirmRef} required={true} />
   );
+
   const signupButton = <Submit loading={loading}>Sign Up</Submit>;
+
   const loginLink = (
     <div className={authStyle.link}>
       {"Already have an account? Log in "}

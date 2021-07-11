@@ -72,6 +72,8 @@ export default function ChangePassword() {
         setLoading(false); // re-enable form to let user retry
       });
   }
+
+  //Abstractions for frontend
   const passwordFill = (
     <Password
       reference={passwordRef}
@@ -82,6 +84,7 @@ export default function ChangePassword() {
       required
     />
   );
+
   const confirmFill = (
     <PasswordConfirm
       reference={passwordConfirmRef}
@@ -92,6 +95,7 @@ export default function ChangePassword() {
       required
     />
   );
+
   const updateButton = <Submit loading={loading}>Update</Submit>;
 
   return (

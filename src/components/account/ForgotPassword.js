@@ -76,7 +76,9 @@ export default function ForgotPassword() {
     }
   }
 
+  //Abstractions for frontend
   const emailFill = <Email reference={emailRef} required={true} />;
+
   const resetButton = (
     <Submit loading={loading}>
       {loading && timer > 0
@@ -84,6 +86,7 @@ export default function ForgotPassword() {
         : "Send password reset email"}
     </Submit>
   );
+
   const cancelLink = (
     <div className={authStyle.link}>
       <ExtLink url="/">Cancel</ExtLink>

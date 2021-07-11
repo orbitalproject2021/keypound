@@ -28,46 +28,67 @@ function Navigation({ active }) {
       console.log(error.message);
     }
   }
+  const styling = (
+    <span
+      className="logo"
+      tabIndex="0"
+      onClick={() => history.push("/")}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          history.push("/");
+        }
+      }}
+    >
+      Keypound
+    </span>
+  );
+
+  //Abstractions for frontend
+  const home = (
+    <NavItem active={active} url="/">
+      home
+    </NavItem>
+  );
+
+  const breakdown = (
+    <NavItem active={active} url="/breakdown">
+      breakdown
+    </NavItem>
+  );
+
+  const addTransaction = (
+    <NavItem active={active} url="/add-transaction">
+      add transaction
+    </NavItem>
+  );
+  const settings = (
+    <NavItem active={active} url="/settings">
+      settings
+    </NavItem>
+  );
+
+  const account = (
+    <DropMenu title="account">
+      <div id="userEmail">{currentUser && currentUser.email}</div>
+
+      <DropItem url="/change-email">Change Email</DropItem>
+      <DropItem url="/change-password">Change Password</DropItem>
+      <NavDropdown.Divider />
+      <DropItem click={() => handleLogout()}>Log Out</DropItem>
+    </DropMenu>
+  );
 
   return (
     <Navbar bg="dark" expand="md" variant="dark">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <span
-        className="logo"
-        tabIndex="0"
-        onClick={() => history.push("/")}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            history.push("/");
-          }
-        }}
-      >
-        Keypound
-      </span>
+      {styling}
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav id="width" className="m-auto appleBar">
-          <NavItem active={active} url="/">
-            home
-          </NavItem>
-
-          <NavItem active={active} url="/breakdown">
-            breakdown
-          </NavItem>
-
-          <NavItem active={active} url="/add-transaction">
-            add transaction
-          </NavItem>
-          <NavItem active={active} url="/settings">
-            settings
-          </NavItem>
-          <DropMenu title="account">
-            <div id="userEmail">{currentUser && currentUser.email}</div>
-
-            <DropItem url="/change-email">Change Email</DropItem>
-            <DropItem url="/change-password">Change Password</DropItem>
-            <NavDropdown.Divider />
-            <DropItem click={() => handleLogout()}>Log Out</DropItem>
-          </DropMenu>
+          {home}
+          {breakdown}
+          {addTransaction}
+          {settings}
+          {account}
         </Nav>
       </Navbar.Collapse>
     </Navbar>

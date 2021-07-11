@@ -16,71 +16,88 @@ function Goals() {
     }
   }, []);
 
+  //Abstractions for frontend
+  const padding = <div style={{ padding: "10pt" }}></div>;
+
+  const overviewLink = (
+    <Link to="/goals-overview" className="btn btn-primary">
+      Goals Overview
+    </Link>
+  );
+
+  const saving = (
+    <Dropdown.Item className="dropdownItem" onClick={() => setType("Saving")}>
+      Saving
+    </Dropdown.Item>
+  );
+
+  const investing = (
+    <Dropdown.Item
+      className="dropdownItem"
+      onClick={() => setType("Investing")}
+    >
+      Investing
+    </Dropdown.Item>
+  );
+
+  const spending = (
+    <Dropdown.Item className="dropdownItem" onClick={() => setType("Spending")}>
+      Spending
+    </Dropdown.Item>
+  );
+
+  const typeFill = (
+    <Form.Group id="type">
+      <Form.Label>Type</Form.Label>
+      <DropdownButton id="dropdown-basic-button" title={type} required>
+        {saving}
+        {investing}
+        {spending}
+      </DropdownButton>
+    </Form.Group>
+  );
+
+  const amountFill = (
+    <Form.Group id="amount">
+      <Form.Label>Amount</Form.Label>
+      <Form.Control
+        type="number"
+        step="any"
+        ref={amountRef}
+        min="0.01"
+        required
+      />
+    </Form.Group>
+  );
+
+  const motivationsFill = (
+    <Form.Group id="motivations">
+      <Form.Label>Motivations</Form.Label>
+      <Form.Control type="text" step="any" ref={motivationsRef} required />
+    </Form.Group>
+  );
+
+  const submitButton = (
+    <Button type={"submit"} className={"custom-button"}>
+      Submit
+    </Button>
+  );
+
   return (
     <>
       <Navigation active="goals" />
-
       <Content title="add goals">
-        <Link to="/goals-overview" className="btn btn-primary">
-          Goals Overview
-        </Link>
+        {overviewLink}
         <Form>
-          <div style={{ padding: "5pt" }}></div>
+          {padding}
           <p>Add Goals Here</p>
-          <Form.Group id="type">
-            <Form.Label>Type</Form.Label>
-            <DropdownButton id="dropdown-basic-button" title={type} required>
-              <Dropdown.Item
-                className="dropdownItem"
-                onClick={() => setType("Saving")}
-              >
-                Saving
-              </Dropdown.Item>
-              <Dropdown.Item
-                className="dropdownItem"
-                onClick={() => setType("Investing")}
-              >
-                Investing
-              </Dropdown.Item>
-              <Dropdown.Item
-                className="dropdownItem"
-                onClick={() => setType("Spending")}
-              >
-                Spending
-              </Dropdown.Item>
-            </DropdownButton>
-          </Form.Group>
-
-          <div style={{ padding: "10pt" }}></div>
-
-          <Form.Group id="amount">
-            <Form.Label>Amount</Form.Label>
-            <Form.Control
-              type="number"
-              step="any"
-              ref={amountRef}
-              min="0.01"
-              required
-            />
-          </Form.Group>
-
-          <div style={{ padding: "10pt" }}></div>
-
-          <Form.Group id="motivations">
-            <Form.Label>Motivations</Form.Label>
-            <Form.Control
-              type="text"
-              step="any"
-              ref={motivationsRef}
-              required
-            />
-          </Form.Group>
-
-          <div style={{ padding: "10pt" }}></div>
-
-          <Button type={"submit"} className={"custom-button"}>
-            Submit
-          </Button>
+          {typeFill}
+          {padding}
+          {amountFill}
+          {padding}
+          {motivationsFill}
+          {padding}
+          {submitButton}
         </Form>
       </Content>
     </>

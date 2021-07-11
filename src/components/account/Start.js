@@ -44,6 +44,7 @@ function Start() {
       });
   }
 
+  //Abstractions for frontend
   const balanceFill = (
     <Form.Group id="balance">
       <Form.Label>Bank Balance</Form.Label>
@@ -56,12 +57,14 @@ function Start() {
       />
     </Form.Group>
   );
+
   const incomeFill = (
     <Form.Group id="income">
       <Form.Label>Monthly Income</Form.Label>
       <Form.Control type="number" step="any" ref={incomeRef} required />
     </Form.Group>
   );
+
   const submitButton = <Submit loading={loading}>Submit</Submit>;
 
   return (

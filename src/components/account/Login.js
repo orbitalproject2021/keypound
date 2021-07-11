@@ -55,9 +55,14 @@ export default function Login() {
       setLoading(false);
     }
   }
+
+  //Abstractions for frontend
   const emailFill = <Email reference={emailRef} required={true} />;
+
   const passwordFill = <Password reference={passwordRef} required={true} />;
+
   const loginButton = <Submit loading={loading}>Log In</Submit>;
+
   const signupLink = (
     <div className={authStyle.link}>
       Need an account? Sign up <ExtLink url="/signup">here</ExtLink>.
