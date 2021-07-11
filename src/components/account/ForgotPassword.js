@@ -84,6 +84,11 @@ export default function ForgotPassword() {
         : "Send password reset email"}
     </Submit>
   );
+  const cancelLink = (
+    <div className={authStyle.link}>
+      <ExtLink url="/">Cancel</ExtLink>
+    </div>
+  );
 
   return (
     <Dialog>
@@ -95,9 +100,7 @@ export default function ForgotPassword() {
             {emailFill}
             {resetButton}
           </Form>
-          <div className={authStyle.link}>
-            <ExtLink url="/">Cancel</ExtLink>
-          </div>
+          {cancelLink}
         </Card.Body>
       </Card>
     </Dialog>

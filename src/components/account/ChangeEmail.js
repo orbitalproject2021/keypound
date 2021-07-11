@@ -65,7 +65,6 @@ export default function ChangeEmail() {
       });
   }
 
-  const updateButton = <Submit loading={loading}>Update</Submit>;
   const emailFill = (
     <Email
       reference={emailRef}
@@ -76,6 +75,7 @@ export default function ChangeEmail() {
       }}
     />
   );
+  const updateButton = <Submit loading={loading}>Update</Submit>;
 
   return (
     <>
