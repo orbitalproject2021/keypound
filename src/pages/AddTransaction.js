@@ -10,6 +10,7 @@ import {
   monthsSinceDateString,
   updateBalance,
 } from "../backendUtils";
+import { GetDocs } from "../GetDocs";
 import "./AddTransaction.css";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -36,8 +37,7 @@ function AddTransaction() {
     }
     dateRef.current.value = new Date().toISOString().substr(0, 10);
     expenseRef.current.value = "0";
-    var docRef = db.collection("users").doc(currentUser.uid);
-    docRef.get().then((doc) => {
+    GetDocs().then((doc) => {
       let monthArr = doc.data().monthArr;
       setMinDate(dateStringToDateObject(monthArr[0].date));
     });
