@@ -2,13 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import Navigation from "../components/Navigation";
 import { Content } from "../components/ContentCard";
 import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
-import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import {
   dateStringToDateObject,
   dateToDateString,
   monthsSinceDateString,
   updateBalance,
+  getDocs,
+  updateDocs,
 } from "../backendUtils";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -35,19 +36,15 @@ function AddTransaction() {
     }
     dateRef.current.value = new Date().toISOString().substr(0, 10);
     expenseRef.current.value = "0";
-    var docRef = db.collection("users").doc(currentUser.uid);
-    docRef.get().then((doc) => {
+    getDocs(currentUser).then((doc) => {
       let monthArr = doc.data().monthArr;
       setMinDate(dateStringToDateObject(monthArr[0].date));
     });
-  }, [currentUser.uid]);
+  }, [currentUser]);
 
   const handleSubmit = (e) => {
     setDisabled(true); // prevent re-submission during request time
     e.preventDefault();
-
-    // reference to user document
-    var docRef = db.collection("users").doc(currentUser.uid);
 
     const [year, month, day] = dateRef.current.value.split("-");
     const tempDate = new Date(year, month - 1, day);
@@ -60,8 +57,7 @@ function AddTransaction() {
         ? expenseRef.current.value * -100
         : expenseRef.current.value * 100;
 
-    docRef
-      .get()
+    getDocs(currentUser)
       .then((doc) => {
         const index =
           doc.data().monthArr.length -
@@ -78,10 +74,9 @@ function AddTransaction() {
           id: transactions.length,
         });
         monthArr[index].transactions = transactions;
-        docRef
-          .update({
-            monthArr: monthArr,
-          })
+        updateDocs(currentUser, {
+          monthArr: monthArr,
+        })
           .then(() => {
             updateBalance(
               currentUser,
@@ -128,149 +123,190 @@ function AddTransaction() {
     }
   }
 
+  //Abstractions for frontend
+  const padding = <div style={{ padding: "10pt" }}></div>;
+
+  const descriptionFill = (
+    <Form.Group id="description">
+      <Form.Label>Description</Form.Label>
+      <Form.Control
+        type="text"
+        step="any"
+        ref={descriptionRef}
+        required
+        onChange={() => {
+          setDisabled(false);
+          setError("");
+          setMessage("");
+        }}
+      />
+    </Form.Group>
+  );
+
+  const moneyOut = (
+    <Dropdown.Item
+      className="dropdownItem"
+      onClick={() => {
+        setCategory("Money Out");
+        setType("Need");
+      }}
+    >
+      Money Out
+    </Dropdown.Item>
+  );
+
+  const moneyIn = (
+    <Dropdown.Item
+      className="dropdownItem"
+      onClick={() => {
+        setCategory("Money In");
+        setType("Money In");
+      }}
+    >
+      Money In
+    </Dropdown.Item>
+  );
+
+  const categoryAbstract = (
+    <Form.Group id="category">
+      <Form.Label>Category</Form.Label>
+      <DropdownButton id="dropdown-basic-button" title={category} required>
+        {moneyOut}
+        {moneyIn}
+      </DropdownButton>
+    </Form.Group>
+  );
+
+  const need = (
+    <Dropdown.Item className="dropdownItem" onClick={() => setType("Need")}>
+      Need
+    </Dropdown.Item>
+  );
+
+  const want = (
+    <Dropdown.Item className="dropdownItem" onClick={() => setType("Want")}>
+      Want
+    </Dropdown.Item>
+  );
+
+  const unexpected = (
+    <Dropdown.Item
+      className="dropdownItem"
+      onClick={() => setType("Unexpected")}
+    >
+      Unexpected
+    </Dropdown.Item>
+  );
+
+  const typeAbstract = (
+    <Form.Group id="type">
+      <Form.Label>Type</Form.Label>
+      <DropdownButton id="dropdown-basic-button" title={type} required>
+        {need}
+        {want}
+        {unexpected}
+      </DropdownButton>
+    </Form.Group>
+  );
+
+  const expenseFill = (
+    <Form.Group id="expense">
+      <Form.Label>{category === "Money Out" ? "Expense" : "Income"}</Form.Label>
+      <Form.Control
+        type="number"
+        step={0.01}
+        pattern="^\d*(\.\d{1,2})?$"
+        ref={expenseRef}
+        min={0.01}
+        required
+        onChange={() => {
+          setDisabled(false);
+          setError("");
+          setMessage("");
+        }}
+      />
+    </Form.Group>
+  );
+
+  const dateFill = (
+    <Form.Group id="date">
+      <Form.Label>Date</Form.Label>
+      <Form.Control
+        type="date"
+        max={maxDate}
+        ref={dateRef}
+        required
+        onChange={() => {
+          setDisabled(false);
+          setError("");
+          setMessage("");
+        }}
+      />
+    </Form.Group>
+  );
+
+  const submitButton = (
+    <Button disabled={disabled} type={"submit"} className={"custom-button"}>
+      Submit
+    </Button>
+  );
+
+  const resetButton = (
+    <Button
+      disabled={disabled}
+      onClick={clearPage}
+      className={"custom-button-red"}
+    >
+      Reset
+    </Button>
+  );
+
+  const messageDescription = message && (
+    <>
+      <span className="custom-alert">{message}</span>
+    </>
+  );
+
+  const errorDescription = error && (
+    <>
+      <span className="custom-alert error">{error}</span>
+    </>
+  );
+
   return (
     <>
       <Navigation active="add transaction" />
       {error && <Alert>{error}</Alert>}
-      <Content title="add transaction">
+      <Content title="Add Transaction">
         <span className="body-title">{`Input your expenses or income here. `}</span>
         <div className="small-padding"></div>
         <Form onSubmit={handleSubmit}>
-          <Form.Group id="description">
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              type="text"
-              step="any"
-              ref={descriptionRef}
-              required
-              onChange={() => {
-                setDisabled(false);
-                setError("");
-                setMessage("");
-              }}
-            />
-          </Form.Group>
-          <div className="transaction-flex-div">
-            <Form.Group id="category">
-              <Form.Label>Category</Form.Label>
-              <DropdownButton
-                id="dropdown-basic-button"
-                title={category}
-                required
-              >
-                <Dropdown.Item
-                  className="dropdown-item"
-                  onClick={() => {
-                    setCategory("Money Out");
-                    setType("Need");
-                  }}
-                >
-                  Money Out
-                </Dropdown.Item>
-                <Dropdown.Item
-                  className="dropdown-item"
-                  onClick={() => {
-                    setCategory("Money In");
-                    setType("Money In");
-                  }}
-                >
-                  Money In
-                </Dropdown.Item>
-              </DropdownButton>
-            </Form.Group>
-            <div className="small-padding"></div>
+          {descriptionFill}
+          <div
+            style={{
+              display: "flex",
+              paddingTop: "10pt",
+              paddingBottom: "10pt",
+            }}
+          >
+            {categoryAbstract}
+            {padding}
             {category !== "Money In" && (
               <>
-                <Form.Group id="type">
-                  <Form.Label>Type</Form.Label>
-                  <DropdownButton
-                    id="dropdown-basic-button"
-                    title={type}
-                    required
-                  >
-                    <Dropdown.Item
-                      className="dropdown-item"
-                      onClick={() => setType("Need")}
-                    >
-                      Need
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className="dropdown-item"
-                      onClick={() => setType("Want")}
-                    >
-                      Want
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className="dropdown-item"
-                      onClick={() => setType("Unexpected")}
-                    >
-                      Unexpected
-                    </Dropdown.Item>
-                  </DropdownButton>
-                </Form.Group>
-                <div className="small-padding"></div>
+                {typeAbstract}
+                {padding}
               </>
             )}
           </div>
-          <Form.Group id="expense">
-            <Form.Label>
-              {category === "Money Out" ? "Expense" : "Income"}
-            </Form.Label>
-            <Form.Control
-              type="number"
-              step={0.01}
-              pattern="^\d*(\.\d{1,2})?$"
-              ref={expenseRef}
-              min={0.01}
-              required
-              onChange={() => {
-                setDisabled(false);
-                setError("");
-                setMessage("");
-              }}
-            />
-          </Form.Group>
-          <div className="small-padding"></div>
-          <Form.Group id="date">
-            <Form.Label>Date</Form.Label>
-            <Form.Control
-              type="date"
-              max={maxDate}
-              ref={dateRef}
-              required
-              onChange={() => {
-                setDisabled(false);
-                setError("");
-                setMessage("");
-              }}
-            />
-          </Form.Group>
-          <div className="small-padding"></div>
+          {expenseFill}
+          {padding}
+          {dateFill}
+          {padding}
           <div style={{ display: "flex" }}>
-            <Button
-              disabled={disabled}
-              type={"submit"}
-              className={"custom-button"}
-            >
-              Submit
-            </Button>
-            <Button
-              disabled={disabled}
-              onClick={clearPage}
-              className={"custom-button-red"}
-            >
-              Reset
-            </Button>
-            {message && (
-              <>
-                <span className="custom-alert">{message}</span>
-              </>
-            )}
-            {error && (
-              <>
-                <span className="custom-alert error">{error}</span>
-              </>
-            )}
+            {submitButton}
+            {resetButton}
+            {messageDescription}
+            {errorDescription}
           </div>
         </Form>
       </Content>

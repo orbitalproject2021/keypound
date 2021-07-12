@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Alert } from "react-bootstrap";
 import { Content } from "../components/ContentCard";
 import Navigation from "../components/Navigation";
-import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { DashboardPie, DashboardBar } from "../components/DashboardCharts";
 import {
   dashboardPieData,
   dashboardBarData,
   updateDatabase,
+  getDocs,
 } from "../backendUtils";
 import { useHistory } from "react-router-dom";
 import { Table } from "../components/Table";
@@ -26,13 +26,11 @@ function Dashboard() {
     document.title = "Dashboard - Keypound";
 
     // Reference to current user document from 'users' collection
-    const docRef = db.collection("users").doc(currentUser.uid);
-    docRef
-      .get()
+    getDocs(currentUser)
       .then((doc) => {
         if (doc.exists) {
           updateDatabase(currentUser).then(() => {
-            docRef.get().then((doc) => {
+            getDocs(currentUser).then((doc) => {
               if (doc.exists) {
                 setTableData(doc.data().monthArr);
                 setPiechartData(dashboardPieData(doc.data()));
@@ -68,15 +66,15 @@ function Dashboard() {
         <div className="dashboard-combined-charts">
           {barchartData && piechartData && (
             <>
-              <h4 className="body-title">balance history</h4>
-              <h4 className="body-title desktop-only">this month</h4>
+              <h4 className="body-title">Balance History</h4>
+              <h4 className="body-title desktop-only">This Month</h4>
               <div className="dashboard-bar-div desktop-only">
                 <DashboardBar data={barchartData} variant="desktop" />
               </div>
               <div className="dashboard-bar-div mobile-only">
                 <DashboardBar data={barchartData} variant="mobile" />
               </div>
-              <h4 className="body-title mobile-only">this month</h4>
+              <h4 className="body-title mobile-only">This Month</h4>
               <div className="dashboard-pie-div desktop-only">
                 <DashboardPie data={piechartData.slice(0, 4)} />
                 <DashboardPie data={piechartData.slice(4)} />
@@ -99,7 +97,7 @@ function Dashboard() {
             className="content-text link"
             onClick={() => history.push("/breakdown")}
           >
-            View all transactions
+            View All Transactions
           </p>
         </div>
       </Content>

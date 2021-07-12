@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import {
   dateToDateString,
   monthsSinceDateString,
   updateBalance,
+  getDocs,
+  updateDocs,
 } from "../backendUtils";
 import Navigation from "../components/Navigation";
 import { Content } from "../components/ContentCard";
@@ -42,8 +43,6 @@ export default function UpdateEntry() {
     setDisabled(true); // prevent re-submission during request time
     e.preventDefault();
 
-    var docRef = db.collection("users").doc(currentUser.uid);
-
     const description = descriptionRef.current.value;
     const value =
       category === "Money Out"
@@ -58,10 +57,9 @@ export default function UpdateEntry() {
       id,
     };
 
-    docRef
-      .update({
-        monthArr: monthArr,
-      })
+    updateDocs(currentUser, {
+      monthArr: monthArr,
+    })
       .then(() => {
         updateBalance(
           currentUser,
@@ -78,7 +76,6 @@ export default function UpdateEntry() {
 
   const handleDelete = () => {
     setDisabled(true); // prevent re-submission during request time
-    var docRef = db.collection("users").doc(currentUser.uid);
     monthObj.transactions = monthObj.transactions.filter(
       (transaction) => transaction.id !== id
     );
@@ -88,10 +85,9 @@ export default function UpdateEntry() {
       newId++;
     }
 
-    docRef
-      .update({
-        monthArr: monthArr,
-      })
+    getDocs(currentUser, {
+      monthArr: monthArr,
+    })
       .then(() => {
         updateBalance(
           currentUser,
@@ -105,6 +101,152 @@ export default function UpdateEntry() {
       });
   };
 
+  //Abstractions for frontend
+  const padding = <div style={{ padding: "10pt" }}></div>;
+
+  const descriptionFill = (
+    <Form.Group id="description">
+      <Form.Label>Description</Form.Label>
+      <Form.Control
+        type="text"
+        step="any"
+        ref={descriptionRef}
+        required
+        onChange={() => {
+          setDisabled(false);
+          setError("");
+          setMessage("");
+        }}
+      />
+    </Form.Group>
+  );
+
+  const moneyOut = (
+    <Dropdown.Item
+      className="dropdownItem"
+      onClick={() => {
+        setCategory("Money Out");
+        setType("Need");
+      }}
+    >
+      Money Out
+    </Dropdown.Item>
+  );
+
+  const moneyIn = (
+    <Dropdown.Item
+      className="dropdownItem"
+      onClick={() => {
+        setCategory("Money In");
+        setType("Money In");
+      }}
+    >
+      Money In
+    </Dropdown.Item>
+  );
+
+  const categoryAbstract = (
+    <Form.Group id="category">
+      <Form.Label>Category</Form.Label>
+      <DropdownButton id="dropdown-basic-button" title={category} required>
+        {moneyOut}
+        {moneyIn}
+      </DropdownButton>
+    </Form.Group>
+  );
+
+  const need = (
+    <Dropdown.Item className="dropdownItem" onClick={() => setType("Need")}>
+      Need
+    </Dropdown.Item>
+  );
+
+  const want = (
+    <Dropdown.Item className="dropdownItem" onClick={() => setType("Want")}>
+      Want
+    </Dropdown.Item>
+  );
+
+  const unexpected = (
+    <Dropdown.Item
+      className="dropdownItem"
+      onClick={() => setType("Unexpected")}
+    >
+      Unexpected
+    </Dropdown.Item>
+  );
+
+  const typeAbstract = (
+    <Form.Group id="type">
+      <Form.Label>Type</Form.Label>
+      <DropdownButton id="dropdown-basic-button" title={type} required>
+        {need}
+        {want}
+        {unexpected}
+      </DropdownButton>
+    </Form.Group>
+  );
+
+  const expenseFill = (
+    <Form.Group id="expense">
+      <Form.Label>{category === "Money Out" ? "Expense" : "Income"}</Form.Label>
+      <Form.Control
+        type="number"
+        step={0.01}
+        pattern="^\d*(\.\d{1,2})?$"
+        ref={expenseRef}
+        min={0.01}
+        required
+        onChange={() => {
+          setDisabled(false);
+          setError("");
+          setMessage("");
+        }}
+      />
+    </Form.Group>
+  );
+
+  const updateButton = (
+    <Button
+      disabled={disabled}
+      type={"submit"}
+      className={"custom-button-green"}
+    >
+      Update
+    </Button>
+  );
+
+  const deleteButton = (
+    <Button
+      disabled={disabled}
+      className={"custom-button-red"}
+      onClick={handleDelete}
+    >
+      Delete
+    </Button>
+  );
+
+  const cancelButton = (
+    <Button
+      disabled={disabled}
+      className={"custom-button"}
+      onClick={() => history.goBack()}
+    >
+      Cancel
+    </Button>
+  );
+
+  const messageDescription = message && (
+    <>
+      <span className="custom-alert">{message}</span>
+    </>
+  );
+
+  const errorDescription = error && (
+    <>
+      <span className="custom-alert error">{error}</span>
+    </>
+  );
   return (
     <>
       <Navigation active="breakdown" />
@@ -112,135 +254,31 @@ export default function UpdateEntry() {
       <Content title="edit entry">
         <h4 className="body-title">{date}</h4>
         <Form onSubmit={handleSubmit}>
-          <Form.Group id="description">
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              type="text"
-              step="any"
-              ref={descriptionRef}
-              required
-              onChange={() => {
-                setDisabled(false);
-                setError("");
-                setMessage("");
-              }}
-            />
-          </Form.Group>
-          <div className="transaction-flex-div">
-            <Form.Group id="category">
-              <Form.Label>Category</Form.Label>
-              <DropdownButton
-                id="dropdown-basic-button"
-                title={category}
-                required
-              >
-                <Dropdown.Item
-                  className="dropdown-item"
-                  onClick={() => {
-                    setCategory("Money Out");
-                    setType("Need");
-                  }}
-                >
-                  Money Out
-                </Dropdown.Item>
-                <Dropdown.Item
-                  className="dropdown-item"
-                  onClick={() => {
-                    setCategory("Money In");
-                    setType("Money In");
-                  }}
-                >
-                  Money In
-                </Dropdown.Item>
-              </DropdownButton>
-            </Form.Group>
-            <div className="small-padding"></div>
+          {descriptionFill}
+          <div
+            style={{
+              display: "flex",
+              paddingTop: "10pt",
+              paddingBottom: "10pt",
+            }}
+          >
+            {categoryAbstract}
+            {padding}
             {category !== "Money In" && (
               <>
-                <Form.Group id="type">
-                  <Form.Label>Type</Form.Label>
-                  <DropdownButton
-                    id="dropdown-basic-button"
-                    title={type}
-                    required
-                  >
-                    <Dropdown.Item
-                      className="dropdown-item"
-                      onClick={() => setType("Need")}
-                    >
-                      Need
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className="dropdown-item"
-                      onClick={() => setType("Want")}
-                    >
-                      Want
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className="dropdown-item"
-                      onClick={() => setType("Unexpected")}
-                    >
-                      Unexpected
-                    </Dropdown.Item>
-                  </DropdownButton>
-                </Form.Group>
-                <div className="small-padding"></div>
+                {typeAbstract}
+                {padding}
               </>
             )}
           </div>
-          <Form.Group id="expense">
-            <Form.Label>
-              {category === "Money Out" ? "Expense" : "Income"}
-            </Form.Label>
-            <Form.Control
-              type="number"
-              step={0.01}
-              pattern="^\d*(\.\d{1,2})?$"
-              ref={expenseRef}
-              min={0.01}
-              required
-              onChange={() => {
-                setDisabled(false);
-                setError("");
-                setMessage("");
-              }}
-            />
-          </Form.Group>
-          <div className="small-padding"></div>
-
+          {expenseFill}
+          {padding}
           <div style={{ display: "flex" }}>
-            <Button
-              disabled={disabled}
-              type={"submit"}
-              className={"custom-button-green"}
-            >
-              Update
-            </Button>
-            <Button
-              disabled={disabled}
-              className={"custom-button-red"}
-              onClick={handleDelete}
-            >
-              Delete
-            </Button>
-            <Button
-              disabled={disabled}
-              className={"custom-button"}
-              onClick={() => history.goBack()}
-            >
-              Cancel
-            </Button>
-
-            {message && (
-              <>
-                <span className="custom-alert">{message}</span>
-              </>
-            )}
-            {error && (
-              <>
-                <span className="custom-alert error">{error}</span>
-              </>
-            )}
+            {updateButton}
+            {deleteButton}
+            {cancelButton}
+            {messageDescription}
+            {errorDescription}
           </div>
         </Form>
       </Content>

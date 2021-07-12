@@ -3,8 +3,8 @@ import Navigation from "../components/Navigation";
 import { Table } from "../components/Table";
 import { Content } from "../components/ContentCard";
 import "firebase/firestore";
-import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
+import { getDocs } from "../backendUtils";
 
 function Breakdown() {
   const { currentUser } = useAuth();
@@ -12,21 +12,20 @@ function Breakdown() {
 
   useEffect(() => {
     document.title = "Breakdown - Keypound";
-    const docRef = db.collection("users").doc(currentUser.uid);
-    docRef.get().then((doc) => {
+    getDocs(currentUser).then((doc) => {
       if (doc.exists) {
         setTableData(doc.data().monthArr);
       }
     });
-  }, [currentUser.uid]);
+  }, [currentUser]);
 
   return (
     <>
       <Navigation active="breakdown" />
 
       {tableData && (
-        <Content title="breakdown">
-          <h4 className="body-title">all transactions</h4>
+        <Content title="Breakdown">
+          <h4 className="body-title">All Transactions</h4>
           <p className="content-text">Select an entry to edit or delete it.</p>
           <Table monthArr={tableData} />
         </Content>
