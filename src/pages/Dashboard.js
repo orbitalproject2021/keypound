@@ -91,21 +91,12 @@ function Dashboard() {
             </>
           )}
         </div>
-        <div style={{ padding: "1em" }}></div>
+        <div className="large-padding"></div>
         <h4 className="body-title">recent transactions</h4>
         {tableData && <Table monthArr={tableData} limit={5} />}
-        <div
-          style={{
-            padding: "1em",
-            display: "flex",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <div className="dashboard-bottom-text">
           <p
-            className="content-text"
-            style={{ cursor: "pointer" }}
+            className="content-text link"
             onClick={() => history.push("/breakdown")}
           >
             View all transactions

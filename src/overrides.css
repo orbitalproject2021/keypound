@@ -75,6 +75,10 @@ a:hover {
   color: var(--tm2);
 }
 
+.link {
+  cursor: pointer;
+}
+
 .dark-text {
   color: black;
 }
@@ -86,8 +90,16 @@ a:hover {
   cursor: pointer;
 }
 
+.tiny-padding {
+  padding: 5pt;
+}
+
 .small-padding {
   padding: 10pt;
+}
+
+.large-padding {
+  padding: 1em;
 }
 
 /** NAVBAR **/
@@ -375,6 +387,14 @@ nav {
 .dashboard-combined-charts {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.dashboard-bottom-text {
+  padding: 1em;
+  display: flex;
+  width: 100%;
+  justify-content: center;
   align-items: center;
 }
 

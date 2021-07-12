@@ -25,7 +25,7 @@ function Goals() {
           Goals Overview
         </Link>
         <Form>
-          <div style={{ padding: "5pt" }}></div>
+          <div className="tiny-padding"></div>
           <p>Add Goals Here</p>
           <Form.Group id="type">
             <Form.Label>Type</Form.Label>
