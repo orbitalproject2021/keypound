@@ -30,7 +30,7 @@ function Navigation({ active }) {
   }
   const styling = (
     <span
-      className="nav-logo"
+      className="nav-logo mobile-only"
       tabIndex="0"
       onClick={() => history.push("/")}
       onKeyDown={(e) => {
@@ -69,7 +69,7 @@ function Navigation({ active }) {
 
   const account = (
     <DropMenu title="Account">
-      <div id="userEmail">{currentUser && currentUser.email}</div>
+      <div id="user-email">{currentUser && currentUser.email}</div>
 
       <DropItem url="/change-email">Change Email</DropItem>
       <DropItem url="/change-password">Change Password</DropItem>
