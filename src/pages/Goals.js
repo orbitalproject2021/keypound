@@ -86,7 +86,7 @@ function Goals() {
   return (
     <>
       <Navigation active="goals" />
-      <Content title="add goals">
+      <Content title="Add Goals">
         {overviewLink}
         <Form>
           {padding}
