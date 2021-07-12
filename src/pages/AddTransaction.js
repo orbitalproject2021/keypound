@@ -9,8 +9,9 @@ import {
   dateToDateString,
   monthsSinceDateString,
   updateBalance,
+  getDocs,
+  updateDocs,
 } from "../backendUtils";
-import { GetDocs } from "../GetDocs";
 import "./AddTransaction.css";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -37,11 +38,11 @@ function AddTransaction() {
     }
     dateRef.current.value = new Date().toISOString().substr(0, 10);
     expenseRef.current.value = "0";
-    GetDocs().then((doc) => {
+    getDocs(currentUser).then((doc) => {
       let monthArr = doc.data().monthArr;
       setMinDate(dateStringToDateObject(monthArr[0].date));
     });
-  }, [currentUser.uid]);
+  }, [currentUser]);
 
   const handleSubmit = (e) => {
     setDisabled(true); // prevent re-submission during request time
