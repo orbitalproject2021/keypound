@@ -273,17 +273,6 @@ a:hover {
   cursor: pointer;
 }
 
-.dashboard-bar-div {
-  display: flex;
-  justify-content: center;
-}
-
-.dashboard-pie-div {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-}
-
 .content {
   padding: 1em;
   margin: 0;
@@ -347,6 +336,24 @@ a:hover {
 
 #dropdown-basic-button:focus {
   box-shadow: var(--tm2) 0px 0px 6px 0px;
+}
+
+/** DASHBOARD **/
+
+.dashboard-pie-label {
+  font-size: 1em;
+  font-weight: 300;
+}
+
+.dashboard-bar-div {
+  display: flex;
+  justify-content: center;
+}
+
+.dashboard-pie-div {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 
 .dashboard-custom-tooltip {
@@ -531,11 +538,4 @@ a:hover {
   .table-overflow-container {
     grid-template-columns: auto 150px;
   }
-}
-
-/** DASHBOARD **/
-
-.dashboard-pie-label {
-  font-size: 1em;
-  font-weight: 300;
 }
