@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import {
   dateToDateString,
   monthsSinceDateString,
   updateBalance,
+  getDocs,
+  updateDocs,
 } from "../backendUtils";
 import Navigation from "../components/Navigation";
 import { Content } from "../components/ContentCard";
@@ -42,8 +43,6 @@ export default function UpdateEntry() {
     setDisabled(true); // prevent re-submission during request time
     e.preventDefault();
 
-    var docRef = db.collection("users").doc(currentUser.uid);
-
     const description = descriptionRef.current.value;
     const value =
       category === "Money Out"
@@ -58,10 +57,9 @@ export default function UpdateEntry() {
       id,
     };
 
-    docRef
-      .update({
-        monthArr: monthArr,
-      })
+    updateDocs(currentUser, {
+      monthArr: monthArr,
+    })
       .then(() => {
         updateBalance(
           currentUser,
@@ -78,7 +76,6 @@ export default function UpdateEntry() {
 
   const handleDelete = () => {
     setDisabled(true); // prevent re-submission during request time
-    var docRef = db.collection("users").doc(currentUser.uid);
     monthObj.transactions = monthObj.transactions.filter(
       (transaction) => transaction.id !== id
     );
@@ -88,10 +85,9 @@ export default function UpdateEntry() {
       newId++;
     }
 
-    docRef
-      .update({
-        monthArr: monthArr,
-      })
+    getDocs(currentUser, {
+      monthArr: monthArr,
+    })
       .then(() => {
         updateBalance(
           currentUser,

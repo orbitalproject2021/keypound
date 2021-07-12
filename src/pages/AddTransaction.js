@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Navigation from "../components/Navigation";
 import { Content } from "../components/ContentCard";
 import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
-import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import {
   dateStringToDateObject,
@@ -48,9 +47,6 @@ function AddTransaction() {
     setDisabled(true); // prevent re-submission during request time
     e.preventDefault();
 
-    // reference to user document
-    var docRef = db.collection("users").doc(currentUser.uid);
-
     const [year, month, day] = dateRef.current.value.split("-");
     const tempDate = new Date(year, month - 1, day);
     const date = new Date(
@@ -62,8 +58,7 @@ function AddTransaction() {
         ? expenseRef.current.value * -100
         : expenseRef.current.value * 100;
 
-    docRef
-      .get()
+    getDocs(currentUser)
       .then((doc) => {
         const index =
           doc.data().monthArr.length -
@@ -80,10 +75,9 @@ function AddTransaction() {
           id: transactions.length,
         });
         monthArr[index].transactions = transactions;
-        docRef
-          .update({
-            monthArr: monthArr,
-          })
+        updateDocs(currentUser, {
+          monthArr: monthArr,
+        })
           .then(() => {
             updateBalance(
               currentUser,

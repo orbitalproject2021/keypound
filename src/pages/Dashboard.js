@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Alert } from "react-bootstrap";
 import { Content } from "../components/ContentCard";
 import Navigation from "../components/Navigation";
-import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { DashboardPie, DashboardBar } from "../components/DashboardCharts";
 import {
   dashboardPieData,
   dashboardBarData,
   updateDatabase,
+  getDocs,
 } from "../backendUtils";
 import { useHistory } from "react-router-dom";
 import { Table } from "../components/Table";
@@ -26,13 +26,11 @@ function Dashboard() {
     document.title = "Dashboard - Keypound";
 
     // Reference to current user document from 'users' collection
-    const docRef = db.collection("users").doc(currentUser.uid);
-    docRef
-      .get()
+    getDocs(currentUser)
       .then((doc) => {
         if (doc.exists) {
           updateDatabase(currentUser).then(() => {
-            docRef.get().then((doc) => {
+            getDocs(currentUser).then((doc) => {
               if (doc.exists) {
                 setTableData(doc.data().monthArr);
                 setPiechartData(dashboardPieData(doc.data()));

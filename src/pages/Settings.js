@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import Navigation from "../components/Navigation";
 import { Content } from "../components/ContentCard";
 import { Form, Button } from "react-bootstrap";
-import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import "firebase/auth";
 import "firebase/firestore";
+import { getDocs, updateDocs } from "../backendUtils";
 
 function Settings() {
   const incomeRef = useRef();
@@ -14,35 +14,32 @@ function Settings() {
   const [message, setMessage] = useState("");
   const { currentUser } = useAuth();
   const [oldIncome, setOldIncome] = useState();
-  var docRef = db.collection("users").doc(currentUser.uid);
 
   useEffect(() => {
     document.title = "Settings - Keypound";
     if (window.innerWidth > 767) {
       incomeRef.current.focus();
     }
-    docRef.get().then((doc) => {
+    getDocs(currentUser).then((doc) => {
       const monthArr = doc.data().monthArr;
       setOldIncome((monthArr[monthArr.length - 1].income / 100).toFixed(2));
     });
-  }, [docRef]);
+  }, [currentUser]);
 
   const handlesubmit = (e) => {
     setDisabled(true);
     e.preventDefault();
 
-    docRef.get().then((doc) => {
+    getDocs(currentUser).then((doc) => {
       const monthArr = doc.data().monthArr;
       const index = monthArr.length - 1;
       const newIncome = incomeRef.current.value * 100;
       monthArr[index].income = newIncome;
-      docRef
-        .update({
-          monthArr: monthArr,
-        })
-        .then(() => {
-          setMessage("Income updated successfully");
-        });
+      updateDocs(currentUser, {
+        monthArr: monthArr,
+      }).then(() => {
+        setMessage("Income updated successfully");
+      });
     });
   };
 
