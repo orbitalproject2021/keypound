@@ -26,14 +26,14 @@ function Goals() {
   );
 
   const saving = (
-    <Dropdown.Item className="dropdownItem" onClick={() => setType("Saving")}>
+    <Dropdown.Item className="dropdown-item" onClick={() => setType("Saving")}>
       Saving
     </Dropdown.Item>
   );
 
   const investing = (
     <Dropdown.Item
-      className="dropdownItem"
+      className="dropdown-item"
       onClick={() => setType("Investing")}
     >
       Investing
@@ -41,7 +41,10 @@ function Goals() {
   );
 
   const spending = (
-    <Dropdown.Item className="dropdownItem" onClick={() => setType("Spending")}>
+    <Dropdown.Item
+      className="dropdown-item"
+      onClick={() => setType("Spending")}
+    >
       Spending
     </Dropdown.Item>
   );

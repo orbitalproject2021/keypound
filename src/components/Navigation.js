@@ -30,7 +30,7 @@ function Navigation({ active }) {
   }
   const styling = (
     <span
-      className="logo"
+      className="nav-logo"
       tabIndex="0"
       onClick={() => history.push("/")}
       onKeyDown={(e) => {
@@ -83,7 +83,7 @@ function Navigation({ active }) {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       {styling}
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav id="width" className="m-auto appleBar">
+        <Nav id="width" className="m-auto centred-bar">
           {home}
           {breakdown}
           {addTransaction}
