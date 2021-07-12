@@ -543,3 +543,10 @@ nav {
     grid-template-columns: auto 150px;
   }
 }
+
+/** TRANSACTION **/
+.transaction-flex-div {
+  display: flex;
+  padding-top: 10pt;
+  padding-bottom: 10pt;
+}

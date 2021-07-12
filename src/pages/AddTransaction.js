@@ -150,13 +150,7 @@ function AddTransaction() {
               }}
             />
           </Form.Group>
-          <div
-            style={{
-              display: "flex",
-              paddingTop: "10pt",
-              paddingBottom: "10pt",
-            }}
-          >
+          <div className="transaction-flex-div">
             <Form.Group id="category">
               <Form.Label>Category</Form.Label>
               <DropdownButton
