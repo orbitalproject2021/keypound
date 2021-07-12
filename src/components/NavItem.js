@@ -14,9 +14,9 @@ export function NavItem({ url, image, active, children }) {
         }}
         tabIndex="0"
         onClick={() => history.push(url)}
-        className={"navItem" + (active === children ? " active" : "")}
+        className={"nav-item" + (active === children ? " active" : "")}
       >
-        {image ? <img className="navIcon" src={image} alt="" /> : children}
+        {image ? <img className="nav-icon" src={image} alt="" /> : children}
         {image && <span className="mobile">{children}</span>}
       </span>
     </>

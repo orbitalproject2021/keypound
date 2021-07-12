@@ -53,7 +53,7 @@ export function DashboardPie({ data, variant = "desktop" }) {
           dy={-3}
           textAnchor="middle"
           fill={fill}
-          style={{ fontSize: "1em", fontWeight: 300 }}
+          className="dashboard-pie-label"
         >
           {payload.name}
         </text>
@@ -63,7 +63,7 @@ export function DashboardPie({ data, variant = "desktop" }) {
           dy={19}
           textAnchor="middle"
           fill={fill}
-          style={{ fontSize: "1em", fontWeight: 300 }}
+          className="dashboard-pie-label"
         >
           {`$${(value / 100).toFixed(2)}`}
         </text>
@@ -217,9 +217,9 @@ export function DashboardBar({ data, variant }) {
 const CustomTooltip = ({ active, payload, label }) => {
   if (active) {
     return (
-      <div className="custom-tooltip">
-        <p className="tooltip-label">{label}</p>
-        <p className="tooltip-label">{`$${
+      <div className="dashboard-custom-tooltip">
+        <p className="dashboard-tooltip-label">{label}</p>
+        <p className="dashboard-tooltip-label">{`$${
           payload &&
           (payload[0].value / 100)
             .toFixed(2)

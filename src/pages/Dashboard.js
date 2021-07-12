@@ -63,7 +63,7 @@ function Dashboard() {
         title="home"
         justifyContent="center"
       >
-        <div className="combined-charts">
+        <div className="dashboard-combined-charts">
           {barchartData && piechartData && (
             <>
               <h4 className="body-title">Balance History</h4>
@@ -89,21 +89,12 @@ function Dashboard() {
             </>
           )}
         </div>
-        <div style={{ padding: "1em" }}></div>
-        <h4 className="body-title">Recent Transactions</h4>
+        <div className="large-padding"></div>
+        <h4 className="body-title">recent transactions</h4>
         {tableData && <Table monthArr={tableData} limit={5} />}
-        <div
-          style={{
-            padding: "1em",
-            display: "flex",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <div className="dashboard-bottom-text">
           <p
-            className="content-text"
-            style={{ cursor: "pointer" }}
+            className="content-text link"
             onClick={() => history.push("/breakdown")}
           >
             View All Transactions

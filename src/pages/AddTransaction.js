@@ -11,7 +11,6 @@ import {
   getDocs,
   updateDocs,
 } from "../backendUtils";
-import "./AddTransaction.css";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
@@ -280,7 +279,7 @@ function AddTransaction() {
       {error && <Alert>{error}</Alert>}
       <Content title="Add Transaction">
         <span className="body-title">{`Input your expenses or income here. `}</span>
-        <div style={{ padding: "0.5em" }}></div>
+        <div className="small-padding"></div>
         <Form onSubmit={handleSubmit}>
           {descriptionFill}
           <div
