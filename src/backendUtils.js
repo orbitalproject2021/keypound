@@ -38,6 +38,22 @@ const DATE_MAP = {
 // * UTILITY FUNCTIONS
 
 /**
+ * Returns a promise containing the user account information from server.
+ *
+ * @param {User} currentUser
+ * @returns Promise containing user document
+ */
+export function getDocs(currentUser) {
+  const docRef = db.collection("users").doc(currentUser.uid);
+  return docRef.get();
+}
+
+export function updateDocs(currentUser, obj) {
+  const docRef = db.collection("users").doc(currentUser.uid);
+  return docRef.update(obj);
+}
+
+/**
  * Converts a date object to an end-user friendly string, such as Jun '21.
  *
  * @param {Date} dateObj The date object to be converted to a string
