@@ -160,7 +160,7 @@ export default function UpdateEntry() {
                 </Dropdown.Item>
               </DropdownButton>
             </Form.Group>
-            <div style={{ padding: "10pt" }}></div>
+            <div className="small-padding"></div>
             {category !== "Money In" && (
               <>
                 <Form.Group id="type">
@@ -190,7 +190,7 @@ export default function UpdateEntry() {
                     </Dropdown.Item>
                   </DropdownButton>
                 </Form.Group>
-                <div style={{ padding: "10pt" }}></div>
+                <div className="small-padding"></div>
               </>
             )}
           </div>
@@ -212,7 +212,7 @@ export default function UpdateEntry() {
               }}
             />
           </Form.Group>
-          <div style={{ padding: "10pt" }}></div>
+          <div className="small-padding"></div>
 
           <div style={{ display: "flex" }}>
             <Button

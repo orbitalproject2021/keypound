@@ -67,7 +67,7 @@ function Settings() {
           <p className="content-text" style={{ paddingTop: "1em" }}>
             This income will apply from this month onwards.
           </p>
-          <div style={{ padding: "10pt" }}></div>
+          <div className="small-padding"></div>
           <Button
             disabled={disabled}
             type={"submit"}

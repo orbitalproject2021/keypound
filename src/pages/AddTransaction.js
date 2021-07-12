@@ -184,7 +184,7 @@ function AddTransaction() {
                 </Dropdown.Item>
               </DropdownButton>
             </Form.Group>
-            <div style={{ padding: "10pt" }}></div>
+            <div className="small-padding"></div>
             {category !== "Money In" && (
               <>
                 <Form.Group id="type">
@@ -214,7 +214,7 @@ function AddTransaction() {
                     </Dropdown.Item>
                   </DropdownButton>
                 </Form.Group>
-                <div style={{ padding: "10pt" }}></div>
+                <div className="small-padding"></div>
               </>
             )}
           </div>
@@ -236,7 +236,7 @@ function AddTransaction() {
               }}
             />
           </Form.Group>
-          <div style={{ padding: "10pt" }}></div>
+          <div className="small-padding"></div>
           <Form.Group id="date">
             <Form.Label>Date</Form.Label>
             <Form.Control
@@ -251,7 +251,7 @@ function AddTransaction() {
               }}
             />
           </Form.Group>
-          <div style={{ padding: "10pt" }}></div>
+          <div className="small-padding"></div>
           <div style={{ display: "flex" }}>
             <Button
               disabled={disabled}

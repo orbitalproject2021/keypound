@@ -51,7 +51,7 @@ function Goals() {
             </DropdownButton>
           </Form.Group>
 
-          <div style={{ padding: "10pt" }}></div>
+          <div className="small-padding"></div>
 
           <Form.Group id="amount">
             <Form.Label>Amount</Form.Label>
@@ -64,7 +64,7 @@ function Goals() {
             />
           </Form.Group>
 
-          <div style={{ padding: "10pt" }}></div>
+          <div className="small-padding"></div>
 
           <Form.Group id="motivations">
             <Form.Label>Motivations</Form.Label>
@@ -76,7 +76,7 @@ function Goals() {
             />
           </Form.Group>
 
-          <div style={{ padding: "10pt" }}></div>
+          <div className="small-padding"></div>
 
           <Button type={"submit"} className={"custom-button"}>
             Submit
