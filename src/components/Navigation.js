@@ -33,7 +33,7 @@ function Navigation({ active }) {
     <Navbar bg="dark" expand="md" variant="dark">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <span
-        className="logo"
+        className="nav-logo mobile-only"
         tabIndex="0"
         onClick={() => history.push("/")}
         onKeyDown={(e) => {
@@ -45,7 +45,7 @@ function Navigation({ active }) {
         Keypound
       </span>
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav id="width" className="m-auto appleBar">
+        <Nav id="width" className="m-auto centred-bar">
           <NavItem active={active} url="/">
             home
           </NavItem>
@@ -61,7 +61,7 @@ function Navigation({ active }) {
             settings
           </NavItem>
           <DropMenu title="account">
-            <div id="userEmail">{currentUser && currentUser.email}</div>
+            <div id="user-email">{currentUser && currentUser.email}</div>
 
             <DropItem url="/change-email">Change Email</DropItem>
             <DropItem url="/change-password">Change Password</DropItem>

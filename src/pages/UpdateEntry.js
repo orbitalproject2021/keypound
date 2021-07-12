@@ -141,7 +141,7 @@ export default function UpdateEntry() {
                 required
               >
                 <Dropdown.Item
-                  className="dropdownItem"
+                  className="dropdown-item"
                   onClick={() => {
                     setCategory("Money Out");
                     setType("Need");
@@ -150,7 +150,7 @@ export default function UpdateEntry() {
                   Money Out
                 </Dropdown.Item>
                 <Dropdown.Item
-                  className="dropdownItem"
+                  className="dropdown-item"
                   onClick={() => {
                     setCategory("Money In");
                     setType("Money In");
@@ -171,19 +171,19 @@ export default function UpdateEntry() {
                     required
                   >
                     <Dropdown.Item
-                      className="dropdownItem"
+                      className="dropdown-item"
                       onClick={() => setType("Need")}
                     >
                       Need
                     </Dropdown.Item>
                     <Dropdown.Item
-                      className="dropdownItem"
+                      className="dropdown-item"
                       onClick={() => setType("Want")}
                     >
                       Want
                     </Dropdown.Item>
                     <Dropdown.Item
-                      className="dropdownItem"
+                      className="dropdown-item"
                       onClick={() => setType("Unexpected")}
                     >
                       Unexpected

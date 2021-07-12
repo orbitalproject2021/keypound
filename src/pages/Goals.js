@@ -31,19 +31,19 @@ function Goals() {
             <Form.Label>Type</Form.Label>
             <DropdownButton id="dropdown-basic-button" title={type} required>
               <Dropdown.Item
-                className="dropdownItem"
+                className="dropdown-item"
                 onClick={() => setType("Saving")}
               >
                 Saving
               </Dropdown.Item>
               <Dropdown.Item
-                className="dropdownItem"
+                className="dropdown-item"
                 onClick={() => setType("Investing")}
               >
                 Investing
               </Dropdown.Item>
               <Dropdown.Item
-                className="dropdownItem"
+                className="dropdown-item"
                 onClick={() => setType("Spending")}
               >
                 Spending

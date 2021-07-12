@@ -10,7 +10,6 @@ import {
   monthsSinceDateString,
   updateBalance,
 } from "../backendUtils";
-import "./AddTransaction.css";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
@@ -166,7 +165,7 @@ function AddTransaction() {
                 required
               >
                 <Dropdown.Item
-                  className="dropdownItem"
+                  className="dropdown-item"
                   onClick={() => {
                     setCategory("Money Out");
                     setType("Need");
@@ -175,7 +174,7 @@ function AddTransaction() {
                   Money Out
                 </Dropdown.Item>
                 <Dropdown.Item
-                  className="dropdownItem"
+                  className="dropdown-item"
                   onClick={() => {
                     setCategory("Money In");
                     setType("Money In");
@@ -196,19 +195,19 @@ function AddTransaction() {
                     required
                   >
                     <Dropdown.Item
-                      className="dropdownItem"
+                      className="dropdown-item"
                       onClick={() => setType("Need")}
                     >
                       Need
                     </Dropdown.Item>
                     <Dropdown.Item
-                      className="dropdownItem"
+                      className="dropdown-item"
                       onClick={() => setType("Want")}
                     >
                       Want
                     </Dropdown.Item>
                     <Dropdown.Item
-                      className="dropdownItem"
+                      className="dropdown-item"
                       onClick={() => setType("Unexpected")}
                     >
                       Unexpected

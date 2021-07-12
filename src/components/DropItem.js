@@ -6,8 +6,8 @@ export function DropMenu({ img, title, children }) {
   return (
     <NavDropdown
       title={
-        <span className={"navItem drop"}>
-          <img className={"navIcon"} src={img} alt="" />
+        <span className={"nav-item drop"}>
+          <img className={"nav-icon"} src={img} alt="" />
           <span /*className="mobile"*/>{title}</span>
         </span>
       }
@@ -23,7 +23,7 @@ export function DropItem({ url, children, click }) {
   return (
     <div
       role="button"
-      className={"dropdownItem"}
+      className={"dropdown-item"}
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {
           url ? history.push(url) : click();

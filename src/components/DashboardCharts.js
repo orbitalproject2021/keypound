@@ -217,9 +217,9 @@ export function DashboardBar({ data, variant }) {
 const CustomTooltip = ({ active, payload, label }) => {
   if (active) {
     return (
-      <div className="custom-tooltip">
-        <p className="tooltip-label">{label}</p>
-        <p className="tooltip-label">{`$${
+      <div className="dashboard-custom-tooltip">
+        <p className="dashboard-tooltip-label">{label}</p>
+        <p className="dashboard-tooltip-label">{`$${
           payload &&
           (payload[0].value / 100)
             .toFixed(2)

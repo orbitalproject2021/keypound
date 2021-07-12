@@ -39,7 +39,7 @@ export function Content({
   ...properties
 }) {
   return (
-    <div className={"title-window"}>
+    <div className={"content-title-window"}>
       <div
         className={"content-title"}
         style={{
