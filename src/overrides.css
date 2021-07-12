@@ -168,6 +168,20 @@ nav {
   color: white;
 }
 
+.nav-div {
+  cursor: pointer;
+}
+
+.nav-logo {
+  margin-left: 1em;
+  font-size: 1.2em;
+  font-weight: 600;
+  z-index: 1000;
+  color: white;
+  display: inline;
+  cursor: pointer;
+}
+
 /** CUSTOM BUTTON **/
 
 .custom-button {
@@ -275,19 +289,33 @@ nav {
   box-shadow: var(--ac-green-lt) 0px 0px 6px 0px;
 }
 
-.nav-div {
-  cursor: pointer;
+.dropdown-menu {
+  right: 1%;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  background-color: var(--bg2);
+  color: white;
+  border: 0px solid transparent;
 }
 
-.nav-logo {
-  margin-left: 1em;
-  font-size: 1.2em;
-  font-weight: 600;
-  z-index: 1000;
-  color: white;
-  display: inline;
-  cursor: pointer;
+#dropdown-basic-button {
+  background-color: var(--tm2);
+  border: 1px solid var(--tm2);
+  color: black;
 }
+
+#dropdown-basic-button:hover {
+  background-color: var(--tm1);
+  border: 1px solid var(--tm2);
+  color: black;
+}
+
+#dropdown-basic-button:focus {
+  box-shadow: var(--tm2) 0px 0px 6px 0px;
+}
+
+/** CONTENT CARD **/
 
 .content {
   padding: 1em;
@@ -326,32 +354,6 @@ nav {
   box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
     rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-}
-
-.dropdown-menu {
-  right: 1%;
-  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
-    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-  background-color: var(--bg2);
-  color: white;
-  border: 0px solid transparent;
-}
-
-#dropdown-basic-button {
-  background-color: var(--tm2);
-  border: 1px solid var(--tm2);
-  color: black;
-}
-
-#dropdown-basic-button:hover {
-  background-color: var(--tm1);
-  border: 1px solid var(--tm2);
-  color: black;
-}
-
-#dropdown-basic-button:focus {
-  box-shadow: var(--tm2) 0px 0px 6px 0px;
 }
 
 /** DASHBOARD **/
@@ -565,6 +567,7 @@ nav {
 }
 
 /** TRANSACTION **/
+
 .transaction-flex-div {
   display: flex;
   padding-top: 10pt;
