@@ -123,7 +123,7 @@ export default function UpdateEntry() {
 
   const moneyOut = (
     <Dropdown.Item
-      className="dropdownItem"
+      className="dropdown-item"
       onClick={() => {
         setCategory("Money Out");
         setType("Need");
@@ -135,7 +135,7 @@ export default function UpdateEntry() {
 
   const moneyIn = (
     <Dropdown.Item
-      className="dropdownItem"
+      className="dropdown-item"
       onClick={() => {
         setCategory("Money In");
         setType("Money In");
@@ -156,20 +156,20 @@ export default function UpdateEntry() {
   );
 
   const need = (
-    <Dropdown.Item className="dropdownItem" onClick={() => setType("Need")}>
+    <Dropdown.Item className="dropdown-item" onClick={() => setType("Need")}>
       Need
     </Dropdown.Item>
   );
 
   const want = (
-    <Dropdown.Item className="dropdownItem" onClick={() => setType("Want")}>
+    <Dropdown.Item className="dropdown-item" onClick={() => setType("Want")}>
       Want
     </Dropdown.Item>
   );
 
   const unexpected = (
     <Dropdown.Item
-      className="dropdownItem"
+      className="dropdown-item"
       onClick={() => setType("Unexpected")}
     >
       Unexpected
