@@ -249,7 +249,7 @@ export default function UpdateEntry() {
   );
   return (
     <>
-      <Navigation active="breakdown" />
+      <Navigation active="Breakdown" />
       {error && <Alert>{error}</Alert>}
       <Content title="edit entry">
         <h4 className="body-title">{date}</h4>

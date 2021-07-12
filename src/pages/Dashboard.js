@@ -52,7 +52,7 @@ function Dashboard() {
 
   return (
     <>
-      <Navigation active="home" />
+      <Navigation active="Home" />
       {error && <Alert variant="danger">{error}</Alert>}
       {message && <Alert variant="success">{message}</Alert>}
 

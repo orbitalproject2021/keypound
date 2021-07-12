@@ -275,7 +275,7 @@ function AddTransaction() {
 
   return (
     <>
-      <Navigation active="add transaction" />
+      <Navigation active="Add Transaction" />
       {error && <Alert>{error}</Alert>}
       <Content title="Add Transaction">
         <span className="body-title">{`Input your expenses or income here. `}</span>

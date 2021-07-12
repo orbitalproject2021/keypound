@@ -76,7 +76,7 @@ function Settings() {
   );
   return (
     <>
-      <Navigation active="settings" />
+      <Navigation active="Settings" />
       <Content title="Settings">
         <Form onSubmit={handlesubmit}>
           {incomeFill}

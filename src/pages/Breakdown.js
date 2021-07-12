@@ -21,7 +21,7 @@ function Breakdown() {
 
   return (
     <>
-      <Navigation active="breakdown" />
+      <Navigation active="Breakdown" />
 
       {tableData && (
         <Content title="Breakdown">
