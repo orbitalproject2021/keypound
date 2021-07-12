@@ -66,6 +66,30 @@ body {
   border-radius: 0;
 }
 
+a {
+  color: var(--tm1);
+  transition: color 300ms ease-in-out;
+}
+
+a:hover {
+  color: var(--tm2);
+}
+
+.dark-text {
+  color: black;
+}
+
+.dark-link {
+  color: var(--em4);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.small-padding {
+  padding: 10pt;
+}
+
 /** NAVBAR **/
 
 .navbar {
@@ -237,26 +261,6 @@ nav {
   border-color: var(--ac-green);
   color: black;
   box-shadow: var(--ac-green-lt) 0px 0px 6px 0px;
-}
-
-a {
-  color: var(--tm1);
-  transition: color 300ms ease-in-out;
-}
-
-a:hover {
-  color: var(--tm2);
-}
-
-.dark-text {
-  color: black;
-}
-
-.dark-link {
-  color: var(--em4);
-  font-weight: 600;
-  text-decoration: underline;
-  cursor: pointer;
 }
 
 .nav-div {

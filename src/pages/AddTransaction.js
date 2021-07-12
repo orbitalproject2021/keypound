@@ -134,7 +134,7 @@ function AddTransaction() {
       {error && <Alert>{error}</Alert>}
       <Content title="add transaction">
         <span className="body-title">{`Input your expenses or income here. `}</span>
-        <div style={{ padding: "0.5em" }}></div>
+        <div className="small-padding"></div>
         <Form onSubmit={handleSubmit}>
           <Form.Group id="description">
             <Form.Label>Description</Form.Label>
