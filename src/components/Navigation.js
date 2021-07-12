@@ -46,29 +46,29 @@ function Navigation({ active }) {
   //Abstractions for frontend
   const home = (
     <NavItem active={active} url="/">
-      home
+      Home
     </NavItem>
   );
 
   const breakdown = (
     <NavItem active={active} url="/breakdown">
-      breakdown
+      Breakdown
     </NavItem>
   );
 
   const addTransaction = (
     <NavItem active={active} url="/add-transaction">
-      add transaction
+      Add Transaction
     </NavItem>
   );
   const settings = (
     <NavItem active={active} url="/settings">
-      settings
+      Settings
     </NavItem>
   );
 
   const account = (
-    <DropMenu title="account">
+    <DropMenu title="Account">
       <div id="userEmail">{currentUser && currentUser.email}</div>
 
       <DropItem url="/change-email">Change Email</DropItem>

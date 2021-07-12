@@ -24,8 +24,8 @@ function Breakdown() {
       <Navigation active="breakdown" />
 
       {tableData && (
-        <Content title="breakdown">
-          <h4 className="body-title">all transactions</h4>
+        <Content title="Breakdown">
+          <h4 className="body-title">All Transactions</h4>
           <p className="content-text">Select an entry to edit or delete it.</p>
           <Table monthArr={tableData} />
         </Content>

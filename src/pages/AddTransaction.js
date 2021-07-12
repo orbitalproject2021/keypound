@@ -278,7 +278,7 @@ function AddTransaction() {
     <>
       <Navigation active="add transaction" />
       {error && <Alert>{error}</Alert>}
-      <Content title="add transaction">
+      <Content title="Add Transaction">
         <span className="body-title">{`Input your expenses or income here. `}</span>
         <div style={{ padding: "0.5em" }}></div>
         <Form onSubmit={handleSubmit}>

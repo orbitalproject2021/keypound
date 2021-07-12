@@ -48,7 +48,7 @@ function Settings() {
 
   const incomeFill = (
     <Form.Group id="income">
-      <Form.Label>Update income:</Form.Label>
+      <Form.Label>Update Income:</Form.Label>
       <Form.Control
         type="number"
         step={0.01}
@@ -77,7 +77,7 @@ function Settings() {
   return (
     <>
       <Navigation active="settings" />
-      <Content title="settings">
+      <Content title="Settings">
         <Form onSubmit={handlesubmit}>
           {incomeFill}
           <p className="content-text" style={{ paddingTop: "1em" }}>

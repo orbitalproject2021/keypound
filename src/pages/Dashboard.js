@@ -66,15 +66,15 @@ function Dashboard() {
         <div className="combined-charts">
           {barchartData && piechartData && (
             <>
-              <h4 className="body-title">balance history</h4>
-              <h4 className="body-title desktop-only">this month</h4>
+              <h4 className="body-title">Balance History</h4>
+              <h4 className="body-title desktop-only">This Month</h4>
               <div className="dashboard-bar-div desktop-only">
                 <DashboardBar data={barchartData} variant="desktop" />
               </div>
               <div className="dashboard-bar-div mobile-only">
                 <DashboardBar data={barchartData} variant="mobile" />
               </div>
-              <h4 className="body-title mobile-only">this month</h4>
+              <h4 className="body-title mobile-only">This Month</h4>
               <div className="dashboard-pie-div desktop-only">
                 <DashboardPie data={piechartData.slice(0, 4)} />
                 <DashboardPie data={piechartData.slice(4)} />
@@ -90,7 +90,7 @@ function Dashboard() {
           )}
         </div>
         <div style={{ padding: "1em" }}></div>
-        <h4 className="body-title">recent transactions</h4>
+        <h4 className="body-title">Recent Transactions</h4>
         {tableData && <Table monthArr={tableData} limit={5} />}
         <div
           style={{
@@ -106,7 +106,7 @@ function Dashboard() {
             style={{ cursor: "pointer" }}
             onClick={() => history.push("/breakdown")}
           >
-            View all transactions
+            View All Transactions
           </p>
         </div>
       </Content>
