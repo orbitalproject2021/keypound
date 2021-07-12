@@ -50,6 +50,14 @@ body {
   background: var(--bg1);
 }
 
+.card-body {
+  background-color: var(--tm4);
+  color: var(--bg1);
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
 .card,
 .btn,
 .form-control,
@@ -92,6 +100,12 @@ nav {
   transition: text-shadow 300ms ease-in-out;
 }
 
+.dropdown {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
 .active {
   border-bottom: 4px solid var(--em2);
 }
@@ -105,10 +119,17 @@ nav {
   padding: 4px 16px;
   cursor: pointer;
   transition: background-color 300ms ease-in-out;
+  color: white;
 }
 
 .dropdown-item:hover {
   background-color: var(--tm3);
+  color: white;
+}
+
+.dropdown-item:focus {
+  background-color: var(--tm3);
+  color: white;
 }
 
 /** CUSTOM BUTTON **/
@@ -307,7 +328,7 @@ a:hover {
   box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
     rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-  background-color: var(--bg4);
+  background-color: var(--bg2);
   color: white;
   border: 0px solid transparent;
 }
@@ -376,6 +397,7 @@ a:hover {
 
   .dropdown {
     background-color: var(--bg4);
+    padding: 0;
   }
   .dropdown-toggle {
     padding: 0.25em 1em;

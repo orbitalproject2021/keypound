@@ -65,7 +65,7 @@ function Dashboard() {
         title="home"
         justifyContent="center"
       >
-        <div className="combined-charts">
+        <div className="dashboard-combined-charts">
           {barchartData && piechartData && (
             <>
               <h4 className="body-title">balance history</h4>
