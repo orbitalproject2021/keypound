@@ -40,11 +40,8 @@ export function TableRow({ transactionObj }) {
 export function TableHeader() {
   return (
     <>
-      <div
-        className="table-row"
-        style={{ backgroundColor: "#f8a66c", color: "#4d3321" }}
-      >
-        <div className="table-overflow-container" style={{ cursor: "auto" }}>
+      <div className="table-row table-header">
+        <div className="table-overflow-container table-header">
           <p className="tableHeaderDetails table-hide-when-tiny">Date</p>
           <p className="tableHeaderDetails">Description</p>
           <p className="tableHeaderDetails table-hide-when-narrow">Type</p>

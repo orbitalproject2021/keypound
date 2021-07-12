@@ -53,7 +53,7 @@ export function DashboardPie({ data, variant = "desktop" }) {
           dy={-3}
           textAnchor="middle"
           fill={fill}
-          style={{ fontSize: "1em", fontWeight: 300 }}
+          className="dashboard-pie-label"
         >
           {payload.name}
         </text>
@@ -63,7 +63,7 @@ export function DashboardPie({ data, variant = "desktop" }) {
           dy={19}
           textAnchor="middle"
           fill={fill}
-          style={{ fontSize: "1em", fontWeight: 300 }}
+          className="dashboard-pie-label"
         >
           {`$${(value / 100).toFixed(2)}`}
         </text>

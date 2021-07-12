@@ -494,6 +494,12 @@ a:hover {
   text-align: right;
 }
 
+.table-header {
+  background-color: var(--em2);
+  color: var(--em6);
+  cursor: auto;
+}
+
 @media (max-width: 700px) {
   .table-hide-when-narrow {
     display: none;
@@ -525,4 +531,11 @@ a:hover {
   .table-overflow-container {
     grid-template-columns: auto 150px;
   }
+}
+
+/** DASHBOARD **/
+
+.dashboard-pie-label {
+  font-size: 1em;
+  font-weight: 300;
 }
