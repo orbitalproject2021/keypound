@@ -496,7 +496,6 @@ nav {
 
 .table-row {
   overflow: auto;
-  flex: 0 0 100%;
 }
 
 .table-overflow-container {

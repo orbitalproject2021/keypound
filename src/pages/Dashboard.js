@@ -56,14 +56,8 @@ function Dashboard() {
       {error && <Alert variant="danger">{error}</Alert>}
       {message && <Alert variant="success">{message}</Alert>}
 
-      <Content
-        display="flex"
-        flexWrap="wrap"
-        flexDirection="column"
-        title="home"
-        justifyContent="center"
-      >
-        {/* <div className="dashboard-combined-charts">
+      <Content title="home">
+        <div className="dashboard-combined-charts">
           {barchartData && piechartData && (
             <>
               <h4 className="body-title">Balance History</h4>
@@ -117,17 +111,17 @@ function Dashboard() {
             // </>
           )}
         </div>
-        <div className="large-padding"></div> */}
+        <div className="large-padding"></div>
         <h4 className="body-title">recent transactions</h4>
         {tableData && <Table monthArr={tableData} limit={5} />}
-        {/* <div className="dashboard-bottom-text">
+        <div className="dashboard-bottom-text">
           <p
             className="content-text link"
             onClick={() => history.push("/breakdown")}
           >
             View All Transactions
           </p>
-        </div> */}
+        </div>
       </Content>
     </>
   );
