@@ -494,10 +494,6 @@ nav {
 
 /** TABLE **/
 
-.table-row {
-  overflow: auto;
-}
-
 .table-overflow-container {
   display: grid;
   grid-template-columns: 120px 2fr 1fr 150px;
