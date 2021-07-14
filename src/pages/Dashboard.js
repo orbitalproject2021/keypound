@@ -120,14 +120,14 @@ function Dashboard() {
         <div className="large-padding"></div>
         <h4 className="body-title">recent transactions</h4>
         {tableData && <Table monthArr={tableData} limit={5} />}
-        <div className="dashboard-bottom-text">
+        {/* <div className="dashboard-bottom-text">
           <p
             className="content-text link"
             onClick={() => history.push("/breakdown")}
           >
             View All Transactions
           </p>
-        </div>
+        </div> */}
       </Content>
     </>
   );
