@@ -8,7 +8,7 @@ export function TableRow({ transactionObj }) {
   const history = useHistory();
   return (
     <div
-      className="table-overflow-container"
+      className="table-row"
       style={{ backgroundColor: COLORS[expenseId % 2] }}
       onClick={() => {
         history.push("/update-entry", {
@@ -20,17 +20,19 @@ export function TableRow({ transactionObj }) {
         });
       }}
     >
-      <p className="table-row-details table-hide-when-tiny">
-        {date.toDate().toISOString().split("T")[0]}
-      </p>
-      <p className="table-row-details">{description}</p>
-      <p className="table-row-details table-hide-when-narrow">{type}</p>
-      <p className="table-row-details table-right-align">
-        {`${value > 0 ? "+" : "-"}$${Math.abs(value / 100)
-          .toFixed(2)
-          .toString()
-          .replace("/B(?=(d{3})+(?!d))/g", " ")}`}
-      </p>
+      <div className="table-overflow-container">
+        <p className="table-row-details table-hide-when-tiny">
+          {date.toDate().toISOString().split("T")[0]}
+        </p>
+        <p className="table-row-details">{description}</p>
+        <p className="table-row-details table-hide-when-narrow">{type}</p>
+        <p className="table-row-details table-right-align">
+          {`${value > 0 ? "+" : "-"}$${Math.abs(value / 100)
+            .toFixed(2)
+            .toString()
+            .replace("/B(?=(d{3})+(?!d))/g", " ")}`}
+        </p>
+      </div>
     </div>
   );
 }
