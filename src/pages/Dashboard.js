@@ -99,7 +99,7 @@ function Dashboard() {
     <>
       <Navigation active="Home" />
       {error && <Alert variant="danger">{error}</Alert>}
-      <Content title="home">
+      <Content title="Home">
         {charts()}
         <div className="large-padding"></div>
         {recentTransactions()}
