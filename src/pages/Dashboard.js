@@ -52,9 +52,9 @@ function Dashboard() {
 
   return (
     <>
-      <Navigation active="Home" />
+      {/* <Navigation active="Home" />
       {error && <Alert variant="danger">{error}</Alert>}
-      {message && <Alert variant="success">{message}</Alert>}
+      {message && <Alert variant="success">{message}</Alert>} */}
 
       <Content
         display="flex"
@@ -63,7 +63,7 @@ function Dashboard() {
         title="home"
         justifyContent="center"
       >
-        <div className="dashboard-combined-charts">
+        {/* <div className="dashboard-combined-charts">
           {barchartData && piechartData && (
             <>
               <h4 className="body-title">Balance History</h4>
@@ -117,7 +117,7 @@ function Dashboard() {
             // </>
           )}
         </div>
-        <div className="large-padding"></div>
+        <div className="large-padding"></div> */}
         <h4 className="body-title">recent transactions</h4>
         {tableData && <Table monthArr={tableData} limit={5} />}
         {/* <div className="dashboard-bottom-text">
