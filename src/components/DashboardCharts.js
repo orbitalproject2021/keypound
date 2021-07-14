@@ -121,29 +121,27 @@ export function DashboardPie({ data, variant = "desktop" }) {
     }
   }
   return (
-    <ResponsiveContainer width={variant === "desktop" ? 160 : 200} height={200}>
-      <PieChart height={300} width={400}>
-        <Pie
-          isAnimationActive={false}
-          activeIndex={activeIndex}
-          activeShape={renderActiveShape}
-          data={data}
-          dataKey="value"
-          nameKey="name"
-          innerRadius={"60%"}
-          outerRadius={"80%"}
-          fill="#8884d8"
-          paddingAngle={1}
-          labelLine={false}
-          stroke="none"
-          onMouseEnter={onPieEnter}
-        >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-      </PieChart>
-    </ResponsiveContainer>
+    <PieChart height={200} width={160}>
+      <Pie
+        isAnimationActive={false}
+        activeIndex={activeIndex}
+        activeShape={renderActiveShape}
+        data={data}
+        dataKey="value"
+        nameKey="name"
+        innerRadius={"60%"}
+        outerRadius={"80%"}
+        fill="#8884d8"
+        paddingAngle={1}
+        labelLine={false}
+        stroke="none"
+        onMouseEnter={onPieEnter}
+      >
+        {data.map((entry, index) => (
+          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+        ))}
+      </Pie>
+    </PieChart>
   );
 }
 
@@ -179,35 +177,33 @@ export function DashboardBar({ data, variant }) {
   }, [dimensions, data]);
 
   return (
-    <ResponsiveContainer width={400} height={150}>
-      <BarChart data={truncatedData}>
-        <XAxis
-          dataKey="date"
-          stroke="#aaaaaa"
-          axisLine={false}
-          tickLine={false}
-          tick={{
-            fontWeight: 300,
-            fontSize: variant === "desktop" ? 14 : 12,
-          }}
-          interval={0}
-        />
-        <YAxis
-          domain={[
-            (dataMin) => (dataMin > 0 ? 0.9 : 1.1) * dataMin,
-            (dataMax) => Math.max(1000, dataMax),
-          ]}
-          hide={true}
-        />
-        <Tooltip cursor={false} content={<CustomTooltip />} />
-        <Bar
-          dataKey="value"
-          fill={COLORS[0]}
-          isAnimationActive={false}
-          maxBarSize={60}
-        />
-      </BarChart>
-    </ResponsiveContainer>
+    <BarChart width={400} height={150} data={truncatedData}>
+      <XAxis
+        dataKey="date"
+        stroke="#aaaaaa"
+        axisLine={false}
+        tickLine={false}
+        tick={{
+          fontWeight: 300,
+          fontSize: variant === "desktop" ? 14 : 12,
+        }}
+        interval={0}
+      />
+      <YAxis
+        domain={[
+          (dataMin) => (dataMin > 0 ? 0.9 : 1.1) * dataMin,
+          (dataMax) => Math.max(1000, dataMax),
+        ]}
+        hide={true}
+      />
+      <Tooltip cursor={false} content={<CustomTooltip />} />
+      <Bar
+        dataKey="value"
+        fill={COLORS[0]}
+        isAnimationActive={false}
+        maxBarSize={60}
+      />
+    </BarChart>
   );
 }
 
