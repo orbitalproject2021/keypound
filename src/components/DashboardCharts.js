@@ -10,7 +10,6 @@ import {
   BarChart,
   Tooltip,
   YAxis,
-  ResponsiveContainer,
 } from "recharts";
 
 export function DashboardPie({ data, variant = "desktop" }) {
