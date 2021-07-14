@@ -235,16 +235,3 @@ const CustomTooltip = ({ active, payload, label }) => {
 
   return null;
 };
-
-// TODO
-// export function ExpenseTable({data}) {
-
-// }
-
-// function TableItem({data}) {
-//     return (
-//         <div className="dashboard-table-item">
-
-//         </div>
-//     )
-// }
