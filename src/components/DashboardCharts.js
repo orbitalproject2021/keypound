@@ -121,10 +121,7 @@ export function DashboardPie({ data, variant = "desktop" }) {
     }
   }
   return (
-    <ResponsiveContainer
-      //width={variant === "desktop" ? "45%" : "99%"}
-      height={200}
-    >
+    <ResponsiveContainer width={variant === "desktop" ? 160 : 200} height={200}>
       <PieChart height={300} width={400}>
         <Pie
           isAnimationActive={false}
@@ -182,10 +179,7 @@ export function DashboardBar({ data, variant }) {
   }, [dimensions, data]);
 
   return (
-    <ResponsiveContainer
-      //width={"99%"}
-      height={150}
-    >
+    <ResponsiveContainer width={400} height={150}>
       <BarChart data={truncatedData}>
         <XAxis
           dataKey="date"
