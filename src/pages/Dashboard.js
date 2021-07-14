@@ -56,37 +56,59 @@ function Dashboard() {
       {error && <Alert variant="danger">{error}</Alert>}
       {message && <Alert variant="success">{message}</Alert>}
 
-      <Content
-        display="flex"
-        flexWrap="wrap"
-        flexDirection="column"
-        title="home"
-        justifyContent="center"
-      >
+      <Content title="home">
         <div className="dashboard-combined-charts">
           {barchartData && piechartData && (
             <>
               <h4 className="body-title">Balance History</h4>
+
               <h4 className="body-title desktop-only">This Month</h4>
+              <div></div>
               <div className="dashboard-bar-div desktop-only">
                 <DashboardBar data={barchartData} variant="desktop" />
+              </div>
+              <div className="dashboard-pie-div desktop-only">
+                <DashboardPie data={piechartData.slice(0, 4)} />
+              </div>
+              <div className="dashboard-pie-div desktop-only">
+                <DashboardPie data={piechartData.slice(4)} />
               </div>
               <div className="dashboard-bar-div mobile-only">
                 <DashboardBar data={barchartData} variant="mobile" />
               </div>
               <h4 className="body-title mobile-only">This Month</h4>
-              <div className="dashboard-pie-div desktop-only">
-                <DashboardPie data={piechartData.slice(0, 4)} />
-                <DashboardPie data={piechartData.slice(4)} />
-              </div>
               <div className="dashboard-pie-div mobile-only">
                 <DashboardPie
                   data={piechartData.slice(0, 4)}
                   variant="mobile"
                 />
+              </div>
+              <div className="dashboard-pie-div mobile-only">
                 <DashboardPie data={piechartData.slice(4)} variant="mobile" />
               </div>
             </>
+            //   <>
+            //   <h4 className="body-title">Balance History</h4>
+            //   <h4 className="body-title desktop-only">This Month</h4>
+            //   <div className="dashboard-bar-div desktop-only">
+            //     <DashboardBar data={barchartData} variant="desktop" />
+            //   </div>
+            //   <div className="dashboard-bar-div mobile-only">
+            //     <DashboardBar data={barchartData} variant="mobile" />
+            //   </div>
+            //   <h4 className="body-title mobile-only">This Month</h4>
+            //   <div className="dashboard-pie-div desktop-only">
+            //     <DashboardPie data={piechartData.slice(0, 4)} />
+            //     <DashboardPie data={piechartData.slice(4)} />
+            //   </div>
+            //   <div className="dashboard-pie-div mobile-only">
+            //     <DashboardPie
+            //       data={piechartData.slice(0, 4)}
+            //       variant="mobile"
+            //     />
+            //     <DashboardPie data={piechartData.slice(4)} variant="mobile" />
+            //   </div>
+            // </>
           )}
         </div>
         <div className="large-padding"></div>
