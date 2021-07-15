@@ -5,7 +5,6 @@ import {
   dateToDateString,
   monthsSinceDateString,
   updateBalance,
-  getDocs,
   updateDocs,
 } from "../backendUtils";
 import Navigation from "../components/Navigation";
@@ -85,7 +84,7 @@ export default function UpdateEntry() {
       newId++;
     }
 
-    getDocs(currentUser, {
+    updateDocs(currentUser, {
       monthArr: monthArr,
     })
       .then(() => {
