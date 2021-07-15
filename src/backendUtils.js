@@ -204,20 +204,27 @@ export function dashboardBarData(firestoreData) {
  *                           previous month, to be updated
  */
 export function updateBalance(currentUser, delta, monthsAgo = 0) {
-  const isBetween = (num, start, end) => num >= start && num <= end;
-  var docRef = db.collection("users").doc(currentUser.uid);
-  docRef.get().then((doc) => {
-    let monthArr = doc.data().monthArr;
-    const endIndex = monthArr.length - 1;
-    const startIndex = endIndex - monthsAgo;
-    monthArr = monthArr.map((obj) =>
-      isBetween(obj.id, startIndex, endIndex)
-        ? { ...obj, balance: obj.balance + delta }
-        : obj
-    );
-    docRef.update({
-      monthArr: monthArr,
+  const updateBalanceHelper = (currentUser, delta, monthsAgo = 0) =>
+    new Promise((resolve) => {
+      let monthArr;
+      const isBetween = (num, start, end) => num >= start && num <= end;
+      getDocs(currentUser).then((doc) => {
+        monthArr = doc.data().monthArr;
+        const endIndex = monthArr.length - 1;
+        const startIndex = endIndex - monthsAgo;
+        monthArr = monthArr.map((obj) =>
+          isBetween(obj.id, startIndex, endIndex)
+            ? { ...obj, balance: obj.balance + delta }
+            : obj
+        );
+        console.log(monthArr);
+        resolve(monthArr);
+      });
     });
+
+  updateBalanceHelper(currentUser, delta, monthsAgo).then((monthArr) => {
+    updateDocs(currentUser, { monthArr: monthArr });
+    console.log("Docs updated.");
   });
 }
 
