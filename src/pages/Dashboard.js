@@ -2,19 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Alert } from "react-bootstrap";
 import { Content } from "../components/ContentCard";
 import Navigation from "../components/Navigation";
-import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { DashboardPie, DashboardBar } from "../components/DashboardCharts";
 import {
   dashboardPieData,
   dashboardBarData,
   updateDatabase,
+  getDocs,
 } from "../backendUtils";
 import { useHistory } from "react-router-dom";
 import { Table } from "../components/Table";
 
 function Dashboard() {
-  const [message] = useState("");
   const [error] = useState("");
   const { currentUser } = useAuth();
   const [piechartData, setPiechartData] = useState([]);
@@ -26,13 +25,11 @@ function Dashboard() {
     document.title = "Dashboard - Keypound";
 
     // Reference to current user document from 'users' collection
-    const docRef = db.collection("users").doc(currentUser.uid);
-    docRef
-      .get()
+    getDocs(currentUser)
       .then((doc) => {
         if (doc.exists) {
           updateDatabase(currentUser).then(() => {
-            docRef.get().then((doc) => {
+            getDocs(currentUser).then((doc) => {
               if (doc.exists) {
                 setTableData(doc.data().monthArr);
                 setPiechartData(dashboardPieData(doc.data()));
@@ -52,65 +49,60 @@ function Dashboard() {
       });
   }, [currentUser, history]);
 
-  return (
-    <>
-      <Navigation active="home" />
-      {error && <Alert variant="danger">{error}</Alert>}
-      {message && <Alert variant="success">{message}</Alert>}
+  const charts = () =>
+    barchartData &&
+    piechartData && (
+      <div className="dashboard-combined-charts">
+        <h4 className="body-title">Balance History</h4>
 
-      <Content
-        display="flex"
-        flexWrap="wrap"
-        flexDirection="column"
-        title="home"
-        justifyContent="center"
-      >
-        <div className="combined-charts">
-          {barchartData && piechartData && (
-            <>
-              <h4 className="body-title">balance history</h4>
-              <h4 className="body-title desktop-only">this month</h4>
-              <div className="dashboard-bar-div desktop-only">
-                <DashboardBar data={barchartData} variant="desktop" />
-              </div>
-              <div className="dashboard-bar-div mobile-only">
-                <DashboardBar data={barchartData} variant="mobile" />
-              </div>
-              <h4 className="body-title mobile-only">this month</h4>
-              <div className="dashboard-pie-div desktop-only">
-                <DashboardPie data={piechartData.slice(0, 4)} />
-                <DashboardPie data={piechartData.slice(4)} />
-              </div>
-              <div className="dashboard-pie-div mobile-only">
-                <DashboardPie
-                  data={piechartData.slice(0, 4)}
-                  variant="mobile"
-                />
-                <DashboardPie data={piechartData.slice(4)} variant="mobile" />
-              </div>
-            </>
-          )}
+        <h4 className="body-title desktop-only">This Month</h4>
+        <div></div>
+        <div className="dashboard-bar-div desktop-only">
+          <DashboardBar data={barchartData} variant="desktop" />
         </div>
-        <div style={{ padding: "1em" }}></div>
+        <div className="dashboard-pie-div desktop-only">
+          <DashboardPie data={piechartData.slice(0, 4)} />
+        </div>
+        <div className="dashboard-pie-div desktop-only">
+          <DashboardPie data={piechartData.slice(4)} />
+        </div>
+        <div className="dashboard-bar-div mobile-only">
+          <DashboardBar data={barchartData} variant="mobile" />
+        </div>
+        <h4 className="body-title mobile-only">This Month</h4>
+        <div className="dashboard-pie-div mobile-only">
+          <DashboardPie data={piechartData.slice(0, 4)} variant="mobile" />
+        </div>
+        <div className="dashboard-pie-div mobile-only">
+          <DashboardPie data={piechartData.slice(4)} variant="mobile" />
+        </div>
+      </div>
+    );
+
+  const recentTransactions = () =>
+    tableData && (
+      <>
         <h4 className="body-title">recent transactions</h4>
-        {tableData && <Table monthArr={tableData} limit={5} />}
-        <div
-          style={{
-            padding: "1em",
-            display: "flex",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <Table monthArr={tableData} limit={5} />
+        <div className="dashboard-bottom-text">
           <p
-            className="content-text"
-            style={{ cursor: "pointer" }}
+            className="content-text link"
             onClick={() => history.push("/breakdown")}
           >
-            View all transactions
+            View All Transactions
           </p>
         </div>
+      </>
+    );
+
+  return (
+    <>
+      <Navigation active="Home" />
+      {error && <Alert variant="danger">{error}</Alert>}
+      <Content title="Home">
+        {charts()}
+        <div className="large-padding"></div>
+        {recentTransactions()}
       </Content>
     </>
   );

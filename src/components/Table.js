@@ -1,6 +1,5 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import "./Table.css";
 
 export function TableRow({ transactionObj }) {
   const { date, description, type, value, id, expenseId, monthObj, monthArr } =
@@ -9,7 +8,7 @@ export function TableRow({ transactionObj }) {
   const history = useHistory();
   return (
     <div
-      className="tableRow"
+      className="table-row"
       style={{ backgroundColor: COLORS[expenseId % 2] }}
       onClick={() => {
         history.push("/update-entry", {
@@ -21,13 +20,13 @@ export function TableRow({ transactionObj }) {
         });
       }}
     >
-      <div className="overflow-container">
-        <p className="tableRowDetails hide-when-tiny">
+      <div className="table-overflow-container">
+        <p className="table-row-details table-hide-when-tiny">
           {date.toDate().toISOString().split("T")[0]}
         </p>
-        <p className="tableRowDetails">{description}</p>
-        <p className="tableRowDetails hide-when-narrow">{type}</p>
-        <p className="tableRowDetails right-align">
+        <p className="table-row-details">{description}</p>
+        <p className="table-row-details table-hide-when-narrow">{type}</p>
+        <p className="table-row-details table-right-align">
           {`${value > 0 ? "+" : "-"}$${Math.abs(value / 100)
             .toFixed(2)
             .toString()
@@ -41,22 +40,19 @@ export function TableRow({ transactionObj }) {
 export function TableHeader() {
   return (
     <>
-      <div
-        className="tableRow"
-        style={{ backgroundColor: "#f8a66c", color: "#4d3321" }}
-      >
-        <div className="overflow-container" style={{ cursor: "auto" }}>
-          <p className="tableHeaderDetails hide-when-tiny">Date</p>
+      <div className="table-row table-header">
+        <div className="table-overflow-container table-header">
+          <p className="tableHeaderDetails table-hide-when-tiny">Date</p>
           <p className="tableHeaderDetails">Description</p>
-          <p className="tableHeaderDetails hide-when-narrow">Type</p>
-          <p className="tableHeaderDetails right-align">Amount</p>
+          <p className="tableHeaderDetails table-hide-when-narrow">Type</p>
+          <p className="tableHeaderDetails table-right-align">Amount</p>
         </div>
       </div>
     </>
   );
 }
 
-export function Table({ monthArr, limit = 25 }) {
+export function Table({ monthArr, limit }) {
   const transactionArr = [];
   let expenseId = 0;
   const reversedMonthArr = [...monthArr].reverse();

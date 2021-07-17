@@ -38,6 +38,22 @@ const DATE_MAP = {
 // * UTILITY FUNCTIONS
 
 /**
+ * Returns a promise containing the user account information from server.
+ *
+ * @param {User} currentUser
+ * @returns Promise containing user document
+ */
+export function getDocs(currentUser) {
+  const docRef = db.collection("users").doc(currentUser.uid);
+  return docRef.get();
+}
+
+export function updateDocs(currentUser, obj) {
+  const docRef = db.collection("users").doc(currentUser.uid);
+  return docRef.update(obj);
+}
+
+/**
  * Converts a date object to an end-user friendly string, such as Jun '21.
  *
  * @param {Date} dateObj The date object to be converted to a string
@@ -187,10 +203,21 @@ export function dashboardBarData(firestoreData) {
  * @param {Number} monthsAgo The number of additional months, starting with the
  *                           previous month, to be updated
  */
-export function updateBalance(currentUser, delta, monthsAgo = 0) {
+// export function updateBalance(currentUser, delta, monthsAgo = 0) {
+//   updateBalanceHelper(currentUser, delta, monthsAgo).then((monthArr) => {
+//     updateDocs(currentUser, { monthArr: monthArr });
+//     console.log("Docs updated.");
+//   });
+// }
+
+export function updateBalance(
+  currentUser,
+  delta,
+  monthsAgo = 0,
+  callback = () => {}
+) {
   const isBetween = (num, start, end) => num >= start && num <= end;
-  var docRef = db.collection("users").doc(currentUser.uid);
-  docRef.get().then((doc) => {
+  getDocs(currentUser).then((doc) => {
     let monthArr = doc.data().monthArr;
     const endIndex = monthArr.length - 1;
     const startIndex = endIndex - monthsAgo;
@@ -199,9 +226,9 @@ export function updateBalance(currentUser, delta, monthsAgo = 0) {
         ? { ...obj, balance: obj.balance + delta }
         : obj
     );
-    docRef.update({
+    updateDocs(currentUser, {
       monthArr: monthArr,
-    });
+    }).then(() => callback());
   });
 }
 

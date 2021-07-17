@@ -10,7 +10,6 @@ import {
   BarChart,
   Tooltip,
   YAxis,
-  ResponsiveContainer,
 } from "recharts";
 
 export function DashboardPie({ data, variant = "desktop" }) {
@@ -53,7 +52,7 @@ export function DashboardPie({ data, variant = "desktop" }) {
           dy={-3}
           textAnchor="middle"
           fill={fill}
-          style={{ fontSize: "1em", fontWeight: 300 }}
+          className="dashboard-pie-label"
         >
           {payload.name}
         </text>
@@ -63,7 +62,7 @@ export function DashboardPie({ data, variant = "desktop" }) {
           dy={19}
           textAnchor="middle"
           fill={fill}
-          style={{ fontSize: "1em", fontWeight: 300 }}
+          className="dashboard-pie-label"
         >
           {`$${(value / 100).toFixed(2)}`}
         </text>
@@ -121,32 +120,27 @@ export function DashboardPie({ data, variant = "desktop" }) {
     }
   }
   return (
-    <ResponsiveContainer
-      width={variant === "desktop" ? "45%" : "99%"}
-      height={200}
-    >
-      <PieChart height={300} width={400}>
-        <Pie
-          isAnimationActive={false}
-          activeIndex={activeIndex}
-          activeShape={renderActiveShape}
-          data={data}
-          dataKey="value"
-          nameKey="name"
-          innerRadius={"60%"}
-          outerRadius={"80%"}
-          fill="#8884d8"
-          paddingAngle={1}
-          labelLine={false}
-          stroke="none"
-          onMouseEnter={onPieEnter}
-        >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-      </PieChart>
-    </ResponsiveContainer>
+    <PieChart height={200} width={160}>
+      <Pie
+        isAnimationActive={false}
+        activeIndex={activeIndex}
+        activeShape={renderActiveShape}
+        data={data}
+        dataKey="value"
+        nameKey="name"
+        innerRadius={"60%"}
+        outerRadius={"80%"}
+        fill="#8884d8"
+        paddingAngle={1}
+        labelLine={false}
+        stroke="none"
+        onMouseEnter={onPieEnter}
+      >
+        {data.map((entry, index) => (
+          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+        ))}
+      </Pie>
+    </PieChart>
   );
 }
 
@@ -182,44 +176,42 @@ export function DashboardBar({ data, variant }) {
   }, [dimensions, data]);
 
   return (
-    <ResponsiveContainer width={"99%"} height={150}>
-      <BarChart data={truncatedData}>
-        <XAxis
-          dataKey="date"
-          stroke="#aaaaaa"
-          axisLine={false}
-          tickLine={false}
-          tick={{
-            fontWeight: 300,
-            fontSize: variant === "desktop" ? 14 : 12,
-          }}
-          interval={0}
-        />
-        <YAxis
-          domain={[
-            (dataMin) => (dataMin > 0 ? 0.9 : 1.1) * dataMin,
-            (dataMax) => Math.max(1000, dataMax),
-          ]}
-          hide={true}
-        />
-        <Tooltip cursor={false} content={<CustomTooltip />} />
-        <Bar
-          dataKey="value"
-          fill={COLORS[0]}
-          isAnimationActive={false}
-          maxBarSize={60}
-        />
-      </BarChart>
-    </ResponsiveContainer>
+    <BarChart width={400} height={150} data={truncatedData}>
+      <XAxis
+        dataKey="date"
+        stroke="#aaaaaa"
+        axisLine={false}
+        tickLine={false}
+        tick={{
+          fontWeight: 300,
+          fontSize: variant === "desktop" ? 14 : 12,
+        }}
+        interval={0}
+      />
+      <YAxis
+        domain={[
+          (dataMin) => (dataMin > 0 ? 0.9 : 1.1) * dataMin,
+          (dataMax) => Math.max(1000, dataMax),
+        ]}
+        hide={true}
+      />
+      <Tooltip cursor={false} content={<CustomTooltip />} />
+      <Bar
+        dataKey="value"
+        fill={COLORS[0]}
+        isAnimationActive={false}
+        maxBarSize={60}
+      />
+    </BarChart>
   );
 }
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active) {
     return (
-      <div className="custom-tooltip">
-        <p className="tooltip-label">{label}</p>
-        <p className="tooltip-label">{`$${
+      <div className="dashboard-custom-tooltip">
+        <p className="dashboard-tooltip-label">{label}</p>
+        <p className="dashboard-tooltip-label">{`$${
           payload &&
           (payload[0].value / 100)
             .toFixed(2)
@@ -232,16 +224,3 @@ const CustomTooltip = ({ active, payload, label }) => {
 
   return null;
 };
-
-// TODO
-// export function ExpenseTable({data}) {
-
-// }
-
-// function TableItem({data}) {
-//     return (
-//         <div className="dashboard-table-item">
-
-//         </div>
-//     )
-// }
