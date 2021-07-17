@@ -263,13 +263,13 @@ function AddTransaction() {
 
   const messageDescription = message && (
     <>
-      <span className="custom-alert">{message}</span>
+      <span className="add-transaction-custom-alert">{message}</span>
     </>
   );
 
   const errorDescription = error && (
     <>
-      <span className="custom-alert error">{error}</span>
+      <span className="add-transaction-custom-alert error">{error}</span>
     </>
   );
 

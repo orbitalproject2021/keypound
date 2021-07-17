@@ -57,15 +57,20 @@ export default function UpdateEntry() {
       id,
     };
 
-    await updateDocs(currentUser, {
-      monthArr: monthArr,
-    });
-    updateBalance(
-      currentUser,
-      value - transactionObj.value,
-      monthsSinceDateString(dateToDateString(new Date(date))),
-      history.goBack
-    );
+    try {
+      await updateDocs(currentUser, {
+        monthArr: monthArr,
+      });
+      updateBalance(
+        currentUser,
+        value - transactionObj.value,
+        monthsSinceDateString(dateToDateString(new Date(date))),
+        history.goBack
+      );
+    } catch (e) {
+      console.log(e);
+      setError(e);
+    }
   }
 
   async function handleDelete() {
@@ -79,15 +84,20 @@ export default function UpdateEntry() {
       newId++;
     }
 
-    await updateDocs(currentUser, {
-      monthArr: monthArr,
-    });
-    updateBalance(
-      currentUser,
-      -transactionObj.value,
-      monthsSinceDateString(dateToDateString(new Date(date))),
-      history.goBack
-    );
+    try {
+      await updateDocs(currentUser, {
+        monthArr: monthArr,
+      });
+      updateBalance(
+        currentUser,
+        -transactionObj.value,
+        monthsSinceDateString(dateToDateString(new Date(date))),
+        history.goBack
+      );
+    } catch (e) {
+      console.log(e);
+      setError(e);
+    }
   }
 
   //Abstractions for frontend
