@@ -39,6 +39,7 @@ export default function UpdateEntry() {
   }, [transactionObj, date, id]);
 
   const handleSubmit = (e) => {
+    // update button
     setDisabled(true); // prevent re-submission during request time
     e.preventDefault();
 
@@ -65,7 +66,7 @@ export default function UpdateEntry() {
           value - transactionObj.value,
           monthsSinceDateString(dateToDateString(new Date(date)))
         );
-        history.goBack();
+        // history.goBack();
       })
       .catch((error) => {
         console.log(error);
@@ -73,7 +74,7 @@ export default function UpdateEntry() {
       });
   };
 
-  const handleDelete = () => {
+  async function handleDelete() {
     setDisabled(true); // prevent re-submission during request time
     monthObj.transactions = monthObj.transactions.filter(
       (transaction) => transaction.id !== id
@@ -84,21 +85,16 @@ export default function UpdateEntry() {
       newId++;
     }
 
-    updateDocs(currentUser, {
+    await updateDocs(currentUser, {
       monthArr: monthArr,
-    })
-      .then(() => {
-        updateBalance(
-          currentUser,
-          -transactionObj.value,
-          monthsSinceDateString(dateToDateString(new Date(date)))
-        );
-        history.goBack();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+    });
+    await updateBalance(
+      currentUser,
+      -transactionObj.value,
+      monthsSinceDateString(dateToDateString(new Date(date)))
+    );
+    history.goBack();
+  }
 
   //Abstractions for frontend
   const padding = <div style={{ padding: "10pt" }}></div>;

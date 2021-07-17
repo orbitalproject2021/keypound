@@ -203,30 +203,38 @@ export function dashboardBarData(firestoreData) {
  * @param {Number} monthsAgo The number of additional months, starting with the
  *                           previous month, to be updated
  */
-export function updateBalance(currentUser, delta, monthsAgo = 0) {
-  const updateBalanceHelper = (currentUser, delta, monthsAgo = 0) =>
-    new Promise((resolve) => {
-      let monthArr;
-      const isBetween = (num, start, end) => num >= start && num <= end;
-      getDocs(currentUser).then((doc) => {
-        monthArr = doc.data().monthArr;
-        const endIndex = monthArr.length - 1;
-        const startIndex = endIndex - monthsAgo;
-        monthArr = monthArr.map((obj) =>
-          isBetween(obj.id, startIndex, endIndex)
-            ? { ...obj, balance: obj.balance + delta }
-            : obj
-        );
-        console.log(monthArr);
-        resolve(monthArr);
-      });
-    });
+// export function updateBalance(currentUser, delta, monthsAgo = 0) {
+//   updateBalanceHelper(currentUser, delta, monthsAgo).then((monthArr) => {
+//     updateDocs(currentUser, { monthArr: monthArr });
+//     console.log("Docs updated.");
+//   });
+// }
 
-  updateBalanceHelper(currentUser, delta, monthsAgo).then((monthArr) => {
-    updateDocs(currentUser, { monthArr: monthArr });
-    console.log("Docs updated.");
+export const updateBalance = (currentUser, delta, monthsAgo = 0) =>
+  new Promise((resolve) => {
+    updateBalanceHelper(currentUser, delta, monthsAgo).then((monthArr) => {
+      updateDocs(currentUser, { monthArr: monthArr });
+    });
+    resolve();
   });
-}
+
+const updateBalanceHelper = (currentUser, delta, monthsAgo = 0) =>
+  new Promise((resolve) => {
+    let monthArr;
+    const isBetween = (num, start, end) => num >= start && num <= end;
+    getDocs(currentUser).then((doc) => {
+      monthArr = doc.data().monthArr;
+      const endIndex = monthArr.length - 1;
+      const startIndex = endIndex - monthsAgo;
+      monthArr = monthArr.map((obj) =>
+        isBetween(obj.id, startIndex, endIndex)
+          ? { ...obj, balance: obj.balance + delta }
+          : obj
+      );
+      console.log(monthArr);
+      resolve(monthArr);
+    });
+  });
 
 /**
  * Returns a Promise that ensures monthArr contains objects for all months up
