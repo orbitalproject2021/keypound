@@ -52,7 +52,7 @@ export function TableHeader() {
   );
 }
 
-export function Table({ monthArr, limit = 25 }) {
+export function Table({ monthArr, limit }) {
   const transactionArr = [];
   let expenseId = 0;
   const reversedMonthArr = [...monthArr].reverse();

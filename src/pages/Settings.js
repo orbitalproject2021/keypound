@@ -71,7 +71,7 @@ function Settings() {
 
   const messageDescription = message && (
     <>
-      <span className="custom-alert">{message}</span>
+      <span className="add-transaction-custom-alert">{message}</span>
     </>
   );
   return (
