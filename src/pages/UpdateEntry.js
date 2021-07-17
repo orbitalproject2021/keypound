@@ -91,9 +91,9 @@ export default function UpdateEntry() {
     await updateBalance(
       currentUser,
       -transactionObj.value,
-      monthsSinceDateString(dateToDateString(new Date(date)))
+      monthsSinceDateString(dateToDateString(new Date(date))),
+      () => history.goBack()
     );
-    history.goBack();
   }
 
   //Abstractions for frontend
