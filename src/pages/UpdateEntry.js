@@ -38,7 +38,7 @@ export default function UpdateEntry() {
       .replace("/B(?=(d{3})+(?!d))/g", " ")}`;
   }, [transactionObj, date, id]);
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     // update button
     setDisabled(true); // prevent re-submission during request time
     e.preventDefault();
@@ -57,22 +57,16 @@ export default function UpdateEntry() {
       id,
     };
 
-    updateDocs(currentUser, {
+    await updateDocs(currentUser, {
       monthArr: monthArr,
-    })
-      .then(() => {
-        updateBalance(
-          currentUser,
-          value - transactionObj.value,
-          monthsSinceDateString(dateToDateString(new Date(date)))
-        );
-        // history.goBack();
-      })
-      .catch((error) => {
-        console.log(error);
-        setError(error);
-      });
-  };
+    });
+    updateBalance(
+      currentUser,
+      value - transactionObj.value,
+      monthsSinceDateString(dateToDateString(new Date(date))),
+      history.goBack
+    );
+  }
 
   async function handleDelete() {
     setDisabled(true); // prevent re-submission during request time
@@ -88,11 +82,11 @@ export default function UpdateEntry() {
     await updateDocs(currentUser, {
       monthArr: monthArr,
     });
-    await updateBalance(
+    updateBalance(
       currentUser,
       -transactionObj.value,
       monthsSinceDateString(dateToDateString(new Date(date))),
-      () => history.goBack()
+      history.goBack
     );
   }
 
