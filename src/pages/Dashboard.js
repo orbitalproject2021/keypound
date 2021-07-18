@@ -82,7 +82,7 @@ function Dashboard() {
   const recentTransactions = () =>
     tableData && (
       <>
-        <h4 className="body-title">recent transactions</h4>
+        <h4 className="body-title">Recent Transactions</h4>
         <Table monthArr={tableData} limit={5} />
         <div className="dashboard-bottom-text">
           <p
