@@ -77,10 +77,14 @@ export function Table({ monthArr, limit }) {
   const componentArr = transactionArr.map((transactionObj) => (
     <TableRow transactionObj={transactionObj} key={transactionObj.expenseId} />
   ));
-  return (
-    <>
-      <TableHeader />
-      {componentArr}
-    </>
-  );
+  if (transactionArr.length === 0) {
+    return <p className="content-text">No transactions to show</p>;
+  } else {
+    return (
+      <>
+        <TableHeader />
+        {componentArr}
+      </>
+    );
+  }
 }
