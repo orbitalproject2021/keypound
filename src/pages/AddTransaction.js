@@ -27,6 +27,7 @@ function AddTransaction() {
   const [disabled, setDisabled] = useState(false);
   const [category, setCategory] = useState("Money Out");
   const [type, setType] = useState("Need");
+  const [subscribeBool, setSubscribeBool] = useState(false);
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -209,6 +210,16 @@ function AddTransaction() {
     </Form.Group>
   );
 
+  const subscriptionAbstract = (
+    <Form.Group id="checkbox">
+      <Form.Check
+        label="Subscription"
+        type="checkbox"
+        onChange={() => setSubscribeBool(!subscribeBool)}
+      ></Form.Check>
+    </Form.Group>
+  );
+
   const expenseFill = (
     <Form.Group id="expense">
       <Form.Label>{category === "Money Out" ? "Expense" : "Income"}</Form.Label>
@@ -228,7 +239,9 @@ function AddTransaction() {
     </Form.Group>
   );
 
-  const dateFill = (
+  const dateFill = subscribeBool ? (
+    <p> Subscription will be added automatically at the end of the month.</p>
+  ) : (
     <Form.Group id="date">
       <Form.Label>Date</Form.Label>
       <Form.Control
@@ -291,12 +304,18 @@ function AddTransaction() {
           >
             {categoryAbstract}
             {padding}
-            {category !== "Money In" && (
-              <>
-                {typeAbstract}
-                {padding}
-              </>
-            )}
+            {category !== "Money In" && <>{typeAbstract}</>}
+            {padding}
+            <div
+              style={{
+                display: "flex",
+                paddingTop: "35pt",
+                paddingBottom: "10pt",
+              }}
+            >
+              {category !== "Money In" && <>{subscriptionAbstract}</>}
+              {console.log(subscribeBool)}
+            </div>
           </div>
           {expenseFill}
           {padding}
