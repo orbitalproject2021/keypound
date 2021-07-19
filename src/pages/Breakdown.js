@@ -76,6 +76,7 @@ function Breakdown() {
       transactionArr={tableTransactions(
         tableData,
         -1,
+        query,
         predicate,
         sortObj.compareFunc,
         sortObj.reverse
@@ -88,13 +89,28 @@ function Breakdown() {
 
   const searchAndFilter = () => {
     return (
-      <input
-        type="text"
-        ref={searchRef}
-        onChange={() => {
-          setQuery(searchRef.current.value);
+      <div
+        style={{
+          display: "flex",
+          padding: "0.5em",
+          marginTop: "0.5em",
+          backgroundColor: "#ffb886",
+          color: "#4d3321",
+          fontWeight: "600",
+          justifyContent: "space-evenly",
+          alignItems: "center",
         }}
-      />
+      >
+        <span>Search:</span>
+        <input
+          type="text"
+          ref={searchRef}
+          onChange={() => {
+            const query = searchRef.current.value.toLowerCase();
+            setQuery(query);
+          }}
+        />
+      </div>
     );
   };
 

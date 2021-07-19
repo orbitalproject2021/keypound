@@ -367,9 +367,19 @@ export function handleSubscriptions(monthObj) {
 }
 
 // * BREAKDOWN //
+function transactionFilter(query, predicate) {
+  return (transaction) =>
+    transaction.description.toLowerCase().includes(query) ||
+    transaction.type.toLowerCase().includes(query) ||
+    (transaction.tag &&
+      transaction.tag.toLowerCase().includes(query) &&
+      predicate(transaction));
+}
+
 export function tableTransactions(
   monthArr,
   limit = -1,
+  query = "",
   predicate = (transaction) => true,
   compareFunc = (t1, t2) => t2.date.seconds - t1.date.seconds,
   reverse = false
@@ -379,7 +389,7 @@ export function tableTransactions(
   for (const monthObj of reversedMonthArr) {
     const reversedMonthObjTransactions = [...monthObj.transactions].reverse();
     for (const transaction of reversedMonthObjTransactions) {
-      if (predicate(transaction)) {
+      if (transactionFilter(query, predicate)(transaction)) {
         transactionArr.push({
           ...transaction, // date, description, type, value, tag
           monthObj,
