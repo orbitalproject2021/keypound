@@ -279,7 +279,7 @@ export default function UpdateEntry() {
             <div
               style={{
                 display: "flex",
-                paddingTop: "35pt",
+                paddingTop: "30pt",
                 paddingBottom: "10pt",
               }}
             >
