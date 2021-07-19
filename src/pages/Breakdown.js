@@ -19,9 +19,8 @@ function Breakdown() {
   const searchRef = useRef();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("Category");
-  const [operator, setOperator] = useState("Filter options");
+  const [operator, setOperator] = useState("Operator");
   const [type, setType] = useState("Select type");
-  const [end, setEnd] = useState();
   const startRef = useRef();
   const endRef = useRef();
 
@@ -33,6 +32,10 @@ function Breakdown() {
       }
     });
   }, [currentUser]);
+
+  useEffect(() => {
+    tableData && searchRef.current.focus();
+  }, [tableData]);
 
   const clickFunctions = {
     date: () =>
@@ -107,7 +110,7 @@ function Breakdown() {
       </Dropdown.Item>
     );
     const categoryDropdown = (
-      <DropdownButton className="breakdown-dropdown-button" title={category}>
+      <DropdownButton id="breakdown-dropdown-button" title={category}>
         {categoryItem("Date")}
         {categoryItem("Description")}
         {categoryItem("Tag")}
@@ -127,7 +130,7 @@ function Breakdown() {
         </Dropdown.Item>
       );
     const operatorDropdown = (
-      <DropdownButton className="breakdown-dropdown-button" title={operator}>
+      <DropdownButton id="breakdown-dropdown-button" title={operator}>
         {operatorItem("before", ["Date"])}
         {operatorItem("after", ["Date"])}
         {operatorItem("between", ["Date"])}
@@ -142,14 +145,14 @@ function Breakdown() {
       </DropdownButton>
     );
 
-    function input1() {
+    function userInput() {
       const dropdownItem = (item) => (
         <Dropdown.Item className="dropdown-item" onClick={() => setType(item)}>
           {item}
         </Dropdown.Item>
       );
       const dropdown = (
-        <DropdownButton className="breakdown-dropdown-button" title={type}>
+        <DropdownButton id="breakdown-dropdown-button" title={type}>
           {dropdownItem("Need")}
           {dropdownItem("Want")}
           {dropdownItem("Unexpected")}
@@ -160,8 +163,9 @@ function Breakdown() {
       const input = (
         <>
           <input
+            className="breakdown-input"
             type={
-              ["Description, Tag"].includes(category)
+              ["Description", "Tag"].includes(category)
                 ? "text"
                 : category === "Date"
                 ? "date"
@@ -173,6 +177,7 @@ function Breakdown() {
             <>
               <span className="breakdown-search-label">and</span>
               <input
+                className="breakdown-input"
                 type={
                   ["Description, Tag"].includes(category)
                     ? "text"
@@ -194,10 +199,11 @@ function Breakdown() {
       }
     }
 
-    return (
-      <div className="breakdown-search-div">
+    const searchBox = (
+      <>
         <span className="breakdown-search-label">Search: </span>
         <input
+          className="breakdown-input"
           type="text"
           ref={searchRef}
           onChange={() => {
@@ -205,13 +211,63 @@ function Breakdown() {
             setQuery(query);
           }}
         />
+      </>
+    );
+
+    const handleSubmit = () => {
+      // Date
+      if (category === "Date") {
+        if (operator === "after") {
+          setPredicate(
+            () => (transaction) =>
+              transaction.date.seconds * 1000 >=
+              new Date(startRef.current.value).getTime()
+          );
+        } else if (operator === "before") {
+          setPredicate(
+            () => (transaction) =>
+              transaction.date.seconds * 1000 >=
+              new Date(startRef.current.value).getTime()
+          );
+        } else if (operator === "between") {
+          setPredicate(
+            () => (transaction) =>
+              transaction.date.seconds * 1000 >=
+                new Date(startRef.current.value).getTime() &&
+              transaction.date.seconds * 1000 <= new Date(endRef.current.value)
+          );
+        }
+      }
+    };
+
+    const handleReset = () => {
+      setQuery("");
+      setCategory("Category");
+      setOperator("Operator");
+      setType("Select type");
+      setPredicate(() => (transaction) => true);
+      searchRef.current.value = "";
+    };
+
+    return (
+      <div className="breakdown-search-div">
+        {searchBox}
         <span className="breakdown-search-label">Filter: </span>
         {categoryDropdown}
-        {operatorDropdown}
-        {input1()}
+        {category !== "Category" && operatorDropdown}
+        {operator !== "Operator" && userInput()}
 
-        <Button className="custom-button-green breakdown-submit-button">
+        <Button
+          onClick={handleSubmit}
+          className="custom-button-green breakdown-submit-button"
+        >
           Submit
+        </Button>
+        <Button
+          onClick={handleReset}
+          className="custom-button-red breakdown-submit-button"
+        >
+          Reset
         </Button>
       </div>
     );
@@ -222,7 +278,7 @@ function Breakdown() {
       <Navigation active="Breakdown" />
 
       {tableData && (
-        <Content title="Breakdown">
+        <Content title="Breakdown" minHeight={350}>
           <h4 className="body-title">All Transactions</h4>
           <p className="content-text">Select an entry to edit or delete it.</p>
           {SearchAndFilter()}

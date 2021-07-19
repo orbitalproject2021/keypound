@@ -369,11 +369,10 @@ export function handleSubscriptions(monthObj) {
 // * BREAKDOWN //
 function transactionFilter(query, predicate) {
   return (transaction) =>
-    transaction.description.toLowerCase().includes(query) ||
-    transaction.type.toLowerCase().includes(query) ||
-    (transaction.tag &&
-      transaction.tag.toLowerCase().includes(query) &&
-      predicate(transaction));
+    (transaction.description.toLowerCase().includes(query) ||
+      transaction.type.toLowerCase().includes(query) ||
+      (transaction.tag && transaction.tag.toLowerCase().includes(query))) &&
+    predicate(transaction);
 }
 
 export function tableTransactions(
