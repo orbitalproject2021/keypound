@@ -22,6 +22,7 @@ function AddTransaction() {
   const expenseRef = useRef();
   const dateRef = useRef();
   const descriptionRef = useRef();
+  const tagRef = useRef();
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
@@ -72,6 +73,7 @@ function AddTransaction() {
           type: type,
           value: value,
           id: transactions.length,
+          tag: tagRef.current.value,
         });
         monthArr[index].transactions = transactions;
         updateDocs(currentUser, {
@@ -245,6 +247,21 @@ function AddTransaction() {
     </Form.Group>
   );
 
+  const tagFill = (
+    <Form.Group id="tag">
+      <Form.Label>{"Tag (Optional)"}</Form.Label>
+      <Form.Control
+        type="text"
+        ref={tagRef}
+        onChange={() => {
+          setDisabled(false);
+          setError("");
+          setMessage("");
+        }}
+      />
+    </Form.Group>
+  );
+
   const submitButton = (
     <Button disabled={disabled} type={"submit"} className={"custom-button"}>
       Submit
@@ -282,6 +299,8 @@ function AddTransaction() {
         <div className="small-padding"></div>
         <Form onSubmit={handleSubmit}>
           {descriptionFill}
+          {padding}
+          {tagFill}
           <div
             style={{
               display: "flex",
