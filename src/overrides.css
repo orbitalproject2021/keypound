@@ -500,7 +500,7 @@ nav {
 
 .table-overflow-container {
   display: grid;
-  grid-template-columns: 120px 2fr 1fr 150px;
+  grid-template-columns: 120px 2fr 1.5fr 1fr 150px;
   justify-content: stretch;
   align-items: center;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,

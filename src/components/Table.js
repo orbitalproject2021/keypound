@@ -2,8 +2,17 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 export function TableRow({ transactionObj }) {
-  const { date, description, type, value, id, expenseId, monthObj, monthArr } =
-    transactionObj;
+  const {
+    date,
+    description,
+    type,
+    value,
+    id,
+    tag,
+    expenseId,
+    monthObj,
+    monthArr,
+  } = transactionObj;
   const COLORS = ["#777777", "#666666"];
   const history = useHistory();
   return (
@@ -25,6 +34,7 @@ export function TableRow({ transactionObj }) {
           {date.toDate().toISOString().split("T")[0]}
         </p>
         <p className="table-row-details">{description}</p>
+        <p className="table-row-details table-hide-when-narrow">{tag}</p>
         <p className="table-row-details table-hide-when-narrow">{type}</p>
         <p className="table-row-details table-right-align">
           {`${value > 0 ? "+" : "-"}$${Math.abs(value / 100)
@@ -44,6 +54,7 @@ export function TableHeader() {
         <div className="table-overflow-container table-header">
           <p className="tableHeaderDetails table-hide-when-tiny">Date</p>
           <p className="tableHeaderDetails">Description</p>
+          <p className="tableHeaderDetails table-hide-when-narrow">Tag</p>
           <p className="tableHeaderDetails table-hide-when-narrow">Type</p>
           <p className="tableHeaderDetails table-right-align">Amount</p>
         </div>
@@ -60,7 +71,7 @@ export function Table({ monthArr, limit }) {
     const reversedMonthObjTransactions = [...monthObj.transactions].reverse();
     for (const transaction of reversedMonthObjTransactions) {
       transactionArr.push({
-        ...transaction, // date, description, type, value
+        ...transaction, // date, description, type, value, tag
         monthObj,
         monthArr,
         expenseId,
