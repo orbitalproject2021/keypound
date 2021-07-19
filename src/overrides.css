@@ -529,6 +529,7 @@ nav {
 
 .table-right-align {
   text-align: right;
+  justify-content: flex-end;
 }
 
 .table-header {
