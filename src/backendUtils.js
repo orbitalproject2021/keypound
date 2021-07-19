@@ -371,13 +371,10 @@ export function tableTransactions(
   monthArr,
   limit = -1,
   predicate = (transaction) => true,
-  compareFunc = (t1, t2) => {
-    console.log(t1);
-    return t2.date.seconds - t1.date.seconds;
-  }
+  compareFunc = (t1, t2) => t2.date.seconds - t1.date.seconds,
+  reverse = false
 ) {
   const transactionArr = [];
-  let expenseId = 0;
   const reversedMonthArr = [...monthArr].reverse();
   for (const monthObj of reversedMonthArr) {
     const reversedMonthObjTransactions = [...monthObj.transactions].reverse();
@@ -387,9 +384,7 @@ export function tableTransactions(
           ...transaction, // date, description, type, value, tag
           monthObj,
           monthArr,
-          expenseId,
         });
-        expenseId++;
       }
       if (transactionArr.length === limit) {
         break;
@@ -400,5 +395,16 @@ export function tableTransactions(
     }
   }
   transactionArr.sort(compareFunc);
+  if (reverse) {
+    transactionArr.reverse();
+  }
+  let expenseId = 0;
+  for (let i = 0; i < transactionArr.length; i++) {
+    transactionArr[i] = {
+      ...transactionArr[i],
+      expenseId,
+    };
+    expenseId++;
+  }
   return transactionArr;
 }

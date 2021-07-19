@@ -47,29 +47,59 @@ export function TableRow({ transactionObj }) {
   );
 }
 
-export function TableHeader() {
+export function TableHeader({ functions }) {
   return (
     <>
       <div className="table-row table-header">
         <div className="table-overflow-container table-header">
-          <p className="tableHeaderDetails table-hide-when-tiny">Date</p>
-          <p className="tableHeaderDetails">Description</p>
-          <p className="tableHeaderDetails table-hide-when-narrow">Tag</p>
-          <p className="tableHeaderDetails table-hide-when-narrow">Type</p>
-          <p className="tableHeaderDetails table-right-align">Amount</p>
+          <p
+            className="tableHeaderDetails table-hide-when-tiny"
+            onClick={functions.date}
+          >
+            Date
+          </p>
+          <p className="tableHeaderDetails" onClick={functions.description}>
+            Description
+          </p>
+          <p
+            className="tableHeaderDetails table-hide-when-narrow"
+            onClick={functions.tag}
+          >
+            Tag
+          </p>
+          <p
+            className="tableHeaderDetails table-hide-when-narrow"
+            onClick={functions.type}
+          >
+            Type
+          </p>
+          <p
+            className="tableHeaderDetails table-right-align"
+            onClick={functions.amount}
+          >
+            Amount
+          </p>
         </div>
       </div>
     </>
   );
 }
 
-export function Table({ transactionArr }) {
+const defaults = {
+  date: () => {},
+  description: () => {},
+  tag: () => {},
+  type: () => {},
+  amount: () => {},
+};
+
+export function Table({ transactionArr, functions = defaults }) {
   const componentArr = transactionArr.map((transactionObj) => (
     <TableRow transactionObj={transactionObj} key={transactionObj.expenseId} />
   ));
   return (
     <>
-      <TableHeader />
+      <TableHeader functions={functions} />
       {componentArr}
     </>
   );

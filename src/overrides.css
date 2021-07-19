@@ -521,6 +521,7 @@ nav {
   margin-bottom: 0.5em;
   color: #4d3321;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .table-right-align {
