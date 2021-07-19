@@ -269,7 +269,7 @@ export default function UpdateEntry() {
     <>
       <Navigation active="Breakdown" />
       {error && <Alert>{error}</Alert>}
-      <Content title="Edit Entry">
+      <Content title="edit entry">
         <h4 className="body-title">{date}</h4>
         <Form onSubmit={handleSubmit}>
           {descriptionFill}
