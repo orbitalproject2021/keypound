@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Navigation from "../components/Navigation";
 import { Table } from "../components/Table";
 import { Content } from "../components/ContentCard";
 import "firebase/firestore";
 import { useAuth } from "../contexts/AuthContext";
 import { getDocs, tableTransactions } from "../backendUtils";
+import { Form } from "react-bootstrap";
 
 function Breakdown() {
   const { currentUser } = useAuth();
@@ -15,6 +16,8 @@ function Breakdown() {
     compareFunc: (t1, t2) => t2.date.seconds - t1.date.seconds,
     reverse: false,
   });
+  const searchRef = useRef();
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     document.title = "Breakdown - Keypound";
@@ -40,7 +43,7 @@ function Breakdown() {
         : setSortObj({
             sortBy: "description",
             compareFunc: (t1, t2) => (t2.description < t1.description ? 1 : -1),
-            reverse: false,
+            reverse: true,
           }),
     tag: () =>
       sortObj.sortBy === "tag"
@@ -48,7 +51,7 @@ function Breakdown() {
         : setSortObj({
             sortBy: "tag",
             compareFunc: (t1, t2) => (t2.tag < t1.tag ? 1 : -1),
-            reverse: false,
+            reverse: true,
           }),
     type: () =>
       sortObj.sortBy === "type"
@@ -56,7 +59,7 @@ function Breakdown() {
         : setSortObj({
             sortBy: "type",
             compareFunc: (t1, t2) => (t2.type < t1.type ? 1 : -1),
-            reverse: false,
+            reverse: true,
           }),
     amount: () =>
       sortObj.sortBy === "amount"
@@ -83,6 +86,18 @@ function Breakdown() {
     />
   );
 
+  const searchAndFilter = () => {
+    return (
+      <input
+        type="text"
+        ref={searchRef}
+        onChange={() => {
+          setQuery(searchRef.current.value);
+        }}
+      />
+    );
+  };
+
   return (
     <>
       <Navigation active="Breakdown" />
@@ -91,6 +106,7 @@ function Breakdown() {
         <Content title="Breakdown">
           <h4 className="body-title">All Transactions</h4>
           <p className="content-text">Select an entry to edit or delete it.</p>
+          {searchAndFilter()}
           {table()}
         </Content>
       )}
