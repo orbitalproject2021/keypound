@@ -6,6 +6,8 @@ import "firebase/firestore";
 import { useAuth } from "../contexts/AuthContext";
 import { getDocs, tableTransactions } from "../backendUtils";
 import { Button, Dropdown, DropdownButton } from "react-bootstrap";
+import search from "../icons/search.png";
+import erase from "../icons/erase.png";
 
 function Breakdown() {
   const { currentUser } = useAuth();
@@ -101,6 +103,7 @@ function Breakdown() {
       <Dropdown.Item
         className="dropdown-item"
         onClick={() => {
+          setPredicate(() => (transaction) => true);
           setCategory(category);
           setOperator("Operator");
           setType("Select type");
@@ -314,13 +317,13 @@ function Breakdown() {
           onClick={handleSubmit}
           className="custom-button-green breakdown-submit-button"
         >
-          Submit
+          <img src={search} alt="" className="breakdown-search-icon" />
         </Button>
         <Button
           onClick={handleReset}
           className="custom-button-red breakdown-submit-button"
         >
-          Reset
+          <img src={erase} alt="" className="breakdown-search-icon" />
         </Button>
       </div>
     );
