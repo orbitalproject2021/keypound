@@ -389,6 +389,7 @@ nav {
 .dashboard-combined-charts {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
+  gap: 1em;
   align-items: center;
 }
 

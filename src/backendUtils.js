@@ -257,11 +257,13 @@ export function updateBalance(
  *          handle income and subscription transactions
  */
 // ! Must be updated for any further database changes.
-export async function updateDatabase(currentUser) {
+export async function updateDatabase(currentUser, handleIncome = true) {
   var docRef = db.collection("users").doc(currentUser.uid);
   return await docRef.get().then((doc) => {
     let monthArr = doc.data().monthArr;
-    let latestObj = handleIncomeAndSubscriptions(monthArr[monthArr.length - 1]);
+    let latestObj = handleIncome
+      ? handleIncomeAndSubscriptions(monthArr[monthArr.length - 1])
+      : monthArr[monthArr.length - 1];
     let dateString = latestObj.date;
     const numOfMissingMonths = monthsSinceDateString(dateString);
 
@@ -276,7 +278,9 @@ export async function updateDatabase(currentUser) {
         isIncomeAdded: false,
         isSubscriptionAdded: false,
       };
-      latestObj = handleIncomeAndSubscriptions(monthObj);
+      latestObj = handleIncome
+        ? handleIncomeAndSubscriptions(monthObj)
+        : monthObj;
       monthArr.push(latestObj);
     }
 
@@ -317,6 +321,7 @@ export function handleIncome(monthObj) {
       type: "Money In",
       value: monthObj.income,
       id: monthObj.transactions.length,
+      tag: "Monthly Income",
     });
     monthObj.balance += monthObj.income;
     monthObj.isIncomeAdded = true;
@@ -352,6 +357,7 @@ export function handleSubscriptions(monthObj) {
       type: "Subscription",
       value: monthObj.subscriptionAmount,
       id: monthObj.transactions.length,
+      tag: "Monthly Subscription",
     });
     monthObj.balance += monthObj.subscriptionAmount;
     monthObj.isSubscriptionAdded = true;
