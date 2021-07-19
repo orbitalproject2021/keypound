@@ -314,7 +314,6 @@ function AddTransaction() {
               }}
             >
               {category !== "Money In" && <>{subscriptionAbstract}</>}
-              {console.log(subscribeBool)}
             </div>
           </div>
           {expenseFill}
