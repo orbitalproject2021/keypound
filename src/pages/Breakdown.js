@@ -226,7 +226,7 @@ function Breakdown() {
         } else if (operator === "before") {
           setPredicate(
             () => (transaction) =>
-              transaction.date.seconds * 1000 >=
+              transaction.date.seconds * 1000 <=
               new Date(startRef.current.value).getTime()
           );
         } else if (operator === "between") {
@@ -261,6 +261,14 @@ function Breakdown() {
                 .toLowerCase()
                 .endsWith(startRef.current.value.toLowerCase())
           );
+        }
+      }
+      // Type
+      else if (category === "Type") {
+        if (operator === "is") {
+          setPredicate(() => (transaction) => transaction.type === type);
+        } else if (operator === "is not") {
+          setPredicate(() => (transaction) => transaction.type !== type);
         }
       }
     };
