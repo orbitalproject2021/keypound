@@ -4,12 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../firebase";
 import { Submit, authStyle, Dialog } from "./utility/AuthSheets";
 import { Form, Card } from "react-bootstrap";
-import {
-  dateToDateString,
-  getDocs,
-  updateDatabase,
-  updateDocs,
-} from "../../backendUtils";
+import { dateToDateString, updateDatabase } from "../../backendUtils";
 
 function Start() {
   const balanceRef = useRef();
