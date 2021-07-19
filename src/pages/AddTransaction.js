@@ -47,6 +47,7 @@ function AddTransaction() {
     setDisabled(true); // prevent re-submission during request time
     e.preventDefault();
 
+    // TODO: see if we can use the new specific date function to replace this
     const [year, month, day] = dateRef.current.value.split("-");
     const tempDate = new Date(year, month - 1, day);
     const date = new Date(

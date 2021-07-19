@@ -78,6 +78,21 @@ export function dateStringToDateObject(str) {
 }
 
 /**
+ * Converts a specific date string of the form "YYYY/MM/DD to a Date object.
+ *
+ * @param {*} str Date string to be converted
+ * @returns Date object
+ */
+export function specificDateStringToDateObject(str) {
+  const [year, month, day] = str.split("-");
+  const tempDate = new Date(year, month - 1, day);
+  const date = new Date(
+    tempDate.getTime() - new Date().getTimezoneOffset() * 60000
+  );
+  return date;
+}
+
+/**
  * Returns the number of months that has passed since the given date string.
  * Days are ignored, i.e. 31 May and 1 June are considered 1 month apart.
  *
@@ -349,4 +364,41 @@ export function handleSubscriptions(monthObj) {
     monthObj.isSubscriptionAdded = true;
   }
   return monthObj;
+}
+
+// * BREAKDOWN //
+export function tableTransactions(
+  monthArr,
+  limit = -1,
+  predicate = (transaction) => true,
+  compareFunc = (t1, t2) => {
+    console.log(t1);
+    return t2.date.seconds - t1.date.seconds;
+  }
+) {
+  const transactionArr = [];
+  let expenseId = 0;
+  const reversedMonthArr = [...monthArr].reverse();
+  for (const monthObj of reversedMonthArr) {
+    const reversedMonthObjTransactions = [...monthObj.transactions].reverse();
+    for (const transaction of reversedMonthObjTransactions) {
+      if (predicate(transaction)) {
+        transactionArr.push({
+          ...transaction, // date, description, type, value, tag
+          monthObj,
+          monthArr,
+          expenseId,
+        });
+        expenseId++;
+      }
+      if (transactionArr.length === limit) {
+        break;
+      }
+    }
+    if (transactionArr.length === limit) {
+      break;
+    }
+  }
+  transactionArr.sort(compareFunc);
+  return transactionArr;
 }

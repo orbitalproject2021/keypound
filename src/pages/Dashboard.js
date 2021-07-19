@@ -9,6 +9,7 @@ import {
   dashboardBarData,
   updateDatabase,
   getDocs,
+  tableTransactions,
 } from "../backendUtils";
 import { useHistory } from "react-router-dom";
 import { Table } from "../components/Table";
@@ -83,7 +84,7 @@ function Dashboard() {
     tableData && (
       <>
         <h4 className="body-title">recent transactions</h4>
-        <Table monthArr={tableData} limit={5} />
+        <Table transactionArr={tableTransactions(tableData, 5)} />
         <div className="dashboard-bottom-text">
           <p
             className="content-text link"

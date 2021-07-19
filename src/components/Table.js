@@ -63,28 +63,7 @@ export function TableHeader() {
   );
 }
 
-export function Table({ monthArr, limit }) {
-  const transactionArr = [];
-  let expenseId = 0;
-  const reversedMonthArr = [...monthArr].reverse();
-  for (const monthObj of reversedMonthArr) {
-    const reversedMonthObjTransactions = [...monthObj.transactions].reverse();
-    for (const transaction of reversedMonthObjTransactions) {
-      transactionArr.push({
-        ...transaction, // date, description, type, value, tag
-        monthObj,
-        monthArr,
-        expenseId,
-      });
-      expenseId++;
-      if (transactionArr.length >= limit) {
-        break;
-      }
-    }
-    if (transactionArr.length >= limit) {
-      break;
-    }
-  }
+export function Table({ transactionArr }) {
   const componentArr = transactionArr.map((transactionObj) => (
     <TableRow transactionObj={transactionObj} key={transactionObj.expenseId} />
   ));

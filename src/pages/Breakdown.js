@@ -4,7 +4,7 @@ import { Table } from "../components/Table";
 import { Content } from "../components/ContentCard";
 import "firebase/firestore";
 import { useAuth } from "../contexts/AuthContext";
-import { getDocs } from "../backendUtils";
+import { getDocs, tableTransactions } from "../backendUtils";
 
 function Breakdown() {
   const { currentUser } = useAuth();
@@ -27,7 +27,7 @@ function Breakdown() {
         <Content title="Breakdown">
           <h4 className="body-title">All Transactions</h4>
           <p className="content-text">Select an entry to edit or delete it.</p>
-          <Table monthArr={tableData} />
+          <Table transactionArr={tableTransactions(tableData, -1)} />
         </Content>
       )}
     </>
