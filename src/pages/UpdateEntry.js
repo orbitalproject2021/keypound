@@ -29,7 +29,7 @@ export default function UpdateEntry() {
   useEffect(() => {
     document.title = "Edit entry - Keypound";
     descriptionRef.current.value = transactionObj.description;
-    tagRef.current.value = transactionObj.tag || "";
+    tagRef.current.value = transactionObj.tag;
     if (window.innerWidth > 767) {
       descriptionRef.current.focus();
     }

@@ -371,7 +371,7 @@ function transactionFilter(query, predicate) {
   return (transaction) =>
     (transaction.description.toLowerCase().includes(query) ||
       transaction.type.toLowerCase().includes(query) ||
-      (transaction.tag && transaction.tag.toLowerCase().includes(query))) &&
+      transaction.tag.toLowerCase().includes(query)) &&
     predicate(transaction);
 }
 

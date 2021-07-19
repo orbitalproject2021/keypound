@@ -238,6 +238,31 @@ function Breakdown() {
           );
         }
       }
+      // Description / Tag
+      else if (category === "Description" || category === "Tag") {
+        if (operator === "contains") {
+          setPredicate(
+            () => (transaction) =>
+              transaction[category.toLowerCase()]
+                .toLowerCase()
+                .includes(startRef.current.value.toLowerCase())
+          );
+        } else if (operator === "starts with") {
+          setPredicate(
+            () => (transaction) =>
+              transaction[category.toLowerCase()]
+                .toLowerCase()
+                .startsWith(startRef.current.value.toLowerCase())
+          );
+        } else if (operator === "ends with") {
+          setPredicate(
+            () => (transaction) =>
+              transaction[category.toLowerCase()]
+                .toLowerCase()
+                .endsWith(startRef.current.value.toLowerCase())
+          );
+        }
+      }
     };
 
     const handleReset = () => {
