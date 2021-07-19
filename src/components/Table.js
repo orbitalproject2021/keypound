@@ -1,5 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import up from "../icons/up.png";
+import down from "../icons/down.png";
 
 export function TableRow({ transactionObj }) {
   const {
@@ -47,7 +49,34 @@ export function TableRow({ transactionObj }) {
   );
 }
 
-export function TableHeader({ functions }) {
+export function TableHeader({ functions, sortBy, reverse }) {
+  function upDownArrows(active) {
+    return (
+      <>
+        <img
+          className="table-arrow"
+          src={up}
+          alt=""
+          style={{
+            display: sortBy === active && reverse ? "block" : "none",
+          }}
+        />
+        <img
+          className="table-arrow"
+          src={down}
+          alt=""
+          style={{
+            display:
+              sortBy === active && reverse
+                ? "none"
+                : sortBy === active
+                ? "block"
+                : "none",
+          }}
+        />
+      </>
+    );
+  }
   return (
     <>
       <div className="table-row table-header">
@@ -56,28 +85,33 @@ export function TableHeader({ functions }) {
             className="tableHeaderDetails table-hide-when-tiny"
             onClick={functions.date}
           >
-            Date
+            <span>Date</span>
+            {upDownArrows("date")}
           </p>
           <p className="tableHeaderDetails" onClick={functions.description}>
-            Description
+            <span>Description</span>
+            {upDownArrows("description")}
           </p>
           <p
             className="tableHeaderDetails table-hide-when-narrow"
             onClick={functions.tag}
           >
-            Tag
+            <span>Tag</span>
+            {upDownArrows("tag")}
           </p>
           <p
             className="tableHeaderDetails table-hide-when-narrow"
             onClick={functions.type}
           >
-            Type
+            <span>Type</span>
+            {upDownArrows("type")}
           </p>
           <p
             className="tableHeaderDetails table-right-align"
             onClick={functions.amount}
           >
-            Amount
+            <span>Amount</span>
+            {upDownArrows("amount")}
           </p>
         </div>
       </div>
@@ -93,13 +127,18 @@ const defaults = {
   amount: () => {},
 };
 
-export function Table({ transactionArr, functions = defaults }) {
+export function Table({
+  transactionArr,
+  functions = defaults,
+  sortBy,
+  reverse,
+}) {
   const componentArr = transactionArr.map((transactionObj) => (
     <TableRow transactionObj={transactionObj} key={transactionObj.expenseId} />
   ));
   return (
     <>
-      <TableHeader functions={functions} />
+      <TableHeader functions={functions} sortBy={sortBy} reverse={reverse} />
       {componentArr}
     </>
   );

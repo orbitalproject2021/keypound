@@ -78,6 +78,8 @@ function Breakdown() {
         sortObj.reverse
       )}
       functions={clickFunctions}
+      sortBy={sortObj.sortBy}
+      reverse={sortObj.reverse}
     />
   );
 

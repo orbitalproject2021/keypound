@@ -522,6 +522,9 @@ nav {
   color: #4d3321;
   font-weight: 600;
   cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .table-right-align {
@@ -532,6 +535,13 @@ nav {
   background-color: var(--em2);
   color: var(--em6);
   cursor: auto;
+}
+
+.table-arrow {
+  width: 10px;
+  height: 10px;
+  object-fit: contain;
+  margin-left: 5px;
 }
 
 @media (max-width: 700px) {
