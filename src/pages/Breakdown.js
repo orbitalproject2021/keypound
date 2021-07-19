@@ -5,7 +5,7 @@ import { Content } from "../components/ContentCard";
 import "firebase/firestore";
 import { useAuth } from "../contexts/AuthContext";
 import { getDocs, tableTransactions } from "../backendUtils";
-import { Form } from "react-bootstrap";
+import { Button, Dropdown, DropdownButton } from "react-bootstrap";
 
 function Breakdown() {
   const { currentUser } = useAuth();
@@ -18,6 +18,12 @@ function Breakdown() {
   });
   const searchRef = useRef();
   const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("Category");
+  const [operator, setOperator] = useState("Filter options");
+  const [type, setType] = useState("Select type");
+  const [end, setEnd] = useState();
+  const startRef = useRef();
+  const endRef = useRef();
 
   useEffect(() => {
     document.title = "Breakdown - Keypound";
@@ -87,21 +93,110 @@ function Breakdown() {
     />
   );
 
-  const searchAndFilter = () => {
-    return (
-      <div
-        style={{
-          display: "flex",
-          padding: "0.5em",
-          marginTop: "0.5em",
-          backgroundColor: "#ffb886",
-          color: "#4d3321",
-          fontWeight: "600",
-          justifyContent: "space-evenly",
-          alignItems: "center",
+  function SearchAndFilter() {
+    const categoryItem = (category) => (
+      <Dropdown.Item
+        className="dropdown-item"
+        onClick={() => {
+          setCategory(category);
+          setOperator("Operator");
+          setType("Select type");
         }}
       >
-        <span>Search:</span>
+        {category}
+      </Dropdown.Item>
+    );
+    const categoryDropdown = (
+      <DropdownButton className="breakdown-dropdown-button" title={category}>
+        {categoryItem("Date")}
+        {categoryItem("Description")}
+        {categoryItem("Tag")}
+        {categoryItem("Type")}
+        {categoryItem("Amount")}
+      </DropdownButton>
+    );
+    const operatorItem = (operator, categories) =>
+      categories.includes(category) && (
+        <Dropdown.Item
+          className="dropdown-item"
+          onClick={() => {
+            setOperator(operator);
+          }}
+        >
+          {operator}
+        </Dropdown.Item>
+      );
+    const operatorDropdown = (
+      <DropdownButton className="breakdown-dropdown-button" title={operator}>
+        {operatorItem("before", ["Date"])}
+        {operatorItem("after", ["Date"])}
+        {operatorItem("between", ["Date"])}
+        {operatorItem("contains", ["Description", "Tag"])}
+        {operatorItem("starts with", ["Description", "Tag"])}
+        {operatorItem("ends with", ["Description", "Tag"])}
+        {operatorItem("is", ["Type"])}
+        {operatorItem("is not", ["Type"])}
+        {operatorItem("is more than", ["Amount"])}
+        {operatorItem("is less than", ["Amount"])}
+        {operatorItem("is between", ["Amount"])}
+      </DropdownButton>
+    );
+
+    function input1() {
+      const dropdownItem = (item) => (
+        <Dropdown.Item className="dropdown-item" onClick={() => setType(item)}>
+          {item}
+        </Dropdown.Item>
+      );
+      const dropdown = (
+        <DropdownButton className="breakdown-dropdown-button" title={type}>
+          {dropdownItem("Need")}
+          {dropdownItem("Want")}
+          {dropdownItem("Unexpected")}
+          {dropdownItem("Subscription")}
+          {dropdownItem("Money In")}
+        </DropdownButton>
+      );
+      const input = (
+        <>
+          <input
+            type={
+              ["Description, Tag"].includes(category)
+                ? "text"
+                : category === "Date"
+                ? "date"
+                : "number"
+            }
+            ref={startRef}
+          />
+          {["is between", "between"].includes(operator) && (
+            <>
+              <span className="breakdown-search-label">and</span>
+              <input
+                type={
+                  ["Description, Tag"].includes(category)
+                    ? "text"
+                    : category === "Date"
+                    ? "date"
+                    : "number"
+                }
+                ref={endRef}
+              />
+            </>
+          )}
+        </>
+      );
+
+      if (category === "Type") {
+        return dropdown;
+      } else {
+        return input;
+      }
+    }
+
+    return (
+      <div className="breakdown-search-div">
+        <span className="breakdown-search-label">Search: </span>
         <input
           type="text"
           ref={searchRef}
@@ -110,9 +205,17 @@ function Breakdown() {
             setQuery(query);
           }}
         />
+        <span className="breakdown-search-label">Filter: </span>
+        {categoryDropdown}
+        {operatorDropdown}
+        {input1()}
+
+        <Button className="custom-button-green breakdown-submit-button">
+          Submit
+        </Button>
       </div>
     );
-  };
+  }
 
   return (
     <>
@@ -122,7 +225,7 @@ function Breakdown() {
         <Content title="Breakdown">
           <h4 className="body-title">All Transactions</h4>
           <p className="content-text">Select an entry to edit or delete it.</p>
-          {searchAndFilter()}
+          {SearchAndFilter()}
           {table()}
         </Content>
       )}
