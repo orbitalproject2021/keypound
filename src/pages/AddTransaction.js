@@ -35,24 +35,27 @@ function AddTransaction() {
     if (window.innerWidth > 767) {
       descriptionRef.current.focus();
     }
-    dateRef.current.value = new Date().toISOString().substr(0, 10);
+    if (!subscribeBool) {
+      dateRef.current.value = new Date().toISOString().substr(0, 10);
+    }
     expenseRef.current.value = "0";
     getDocs(currentUser).then((doc) => {
       let monthArr = doc.data().monthArr;
       setMinDate(dateStringToDateObject(monthArr[0].date));
     });
-  }, [currentUser]);
+  }, [currentUser, subscribeBool]);
 
   const handleSubmit = (e) => {
     setDisabled(true); // prevent re-submission during request time
     e.preventDefault();
-
-    const [year, month, day] = dateRef.current.value.split("-");
-    const tempDate = new Date(year, month - 1, day);
-    const date = new Date(
-      tempDate.getTime() - new Date().getTimezoneOffset() * 60000
-    );
-    console.log(date);
+    if (!subscribeBool) {
+      const [year, month, day] = dateRef.current.value.split("-");
+      const tempDate = new Date(year, month - 1, day);
+      const date = new Date(
+        tempDate.getTime() - new Date().getTimezoneOffset() * 60000
+      );
+      console.log(date);
+    }
     const value =
       category === "Money Out"
         ? expenseRef.current.value * -100
@@ -67,14 +70,27 @@ function AddTransaction() {
         let monthArr = doc.data().monthArr;
 
         let transactions = monthArr[index].transactions;
-        transactions.push({
-          description: descriptionRef.current.value,
-          date: firebase.firestore.Timestamp.fromDate(date),
-          type: type,
-          value: value,
-          id: transactions.length,
-        });
-        monthArr[index].transactions = transactions;
+        let subscriptions = monthArr[index].subscriptions;
+
+        if (subscribeBool) {
+          subscriptions.push({
+            description: descriptionRef.current.value,
+            value: value,
+            tag: "subscriptions", //To implement: change to tag part
+            id: subscriptions.length,
+          });
+          monthArr[monthArr.length - 1].subscriptions = subscriptions;
+        } else {
+          transactions.push({
+            description: descriptionRef.current.value,
+            date: firebase.firestore.Timestamp.fromDate(date),
+            type: type,
+            value: value,
+            id: transactions.length,
+          });
+          monthArr[index].transactions = transactions;
+        }
+        console.log(monthArr);
         updateDocs(currentUser, {
           monthArr: monthArr,
         })

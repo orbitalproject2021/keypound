@@ -36,6 +36,7 @@ function Start() {
             isSubscriptionAdded: false,
             subscriptionAmount: 0,
             transactions: [],
+            subscriptions: [],
           },
         ],
       })
