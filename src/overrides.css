@@ -102,6 +102,18 @@ a:hover {
   padding: 1em;
 }
 
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 /** NAVBAR **/
 
 .navbar {
@@ -674,4 +686,22 @@ nav {
   .breakdown-search-label {
     margin: 0.5em 0.5em;
   }
+}
+
+/** MONTH VIEW **/
+.month-view-back {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+  margin-right: 0.5em;
+}
+
+.month-view-text-big {
+  font-weight: 300;
+  font-size: 1.2em;
+}
+
+.month-view-text {
+  font-weight: 300;
+  font-size: 0.9em;
 }

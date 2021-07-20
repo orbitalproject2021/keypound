@@ -28,7 +28,6 @@ export default function BalanceHistory() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("Category");
   const [operator, setOperator] = useState("Operator");
-  const [type, setType] = useState("Select type");
   const startRef = useRef();
   const endRef = useRef();
   const history = useHistory();
@@ -104,7 +103,6 @@ export default function BalanceHistory() {
           setPredicate(() => (monthObj) => true);
           setCategory(category);
           setOperator("Operator");
-          setType("Select type");
         }}
       >
         {category}
@@ -251,7 +249,6 @@ export default function BalanceHistory() {
       setQuery("");
       setCategory("Category");
       setOperator("Operator");
-      setType("Select type");
       setPredicate(() => (monthObj) => true);
       searchRef.current.value = "";
     };
@@ -294,7 +291,9 @@ export default function BalanceHistory() {
           </span>
 
           <span className="body-title">Balance History</span>
-          <p className="content-text">Select an entry to edit it.</p>
+          <p className="content-text">
+            Select an entry to see and overview for that month.
+          </p>
           {SearchAndFilter()}
           {table()}
         </Content>

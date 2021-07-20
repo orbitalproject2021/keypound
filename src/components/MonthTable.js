@@ -1,10 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import {
-  centsToReadableDollars,
-  dashboardPieData,
-  monthsSinceDateString,
-} from "../backendUtils";
+import { formatCents } from "../backendUtils";
 
 export function MonthTableRow({ monthObj }) {
   // monthObj augmented with pointer to monthArr and pieData
@@ -33,16 +29,16 @@ export function MonthTableRow({ monthObj }) {
         <p className="table-row-details">{monthObj.date}</p>
         <p className="table-row-details table-hide-when-narrow">
           {
-            centsToReadableDollars(pieData[5].value) // money in
+            formatCents(pieData[5].value) // money in
           }
         </p>
         <p className="table-row-details table-hide-when-narrow">
           {
-            centsToReadableDollars(pieData[4].value) // money out
+            formatCents(pieData[4].value) // money out
           }
         </p>
         <p className="table-row-details table-right-align">
-          {centsToReadableDollars(monthObj.balance)}
+          {formatCents(monthObj.balance)}
         </p>
       </div>
     </div>

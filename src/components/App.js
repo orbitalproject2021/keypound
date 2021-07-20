@@ -15,6 +15,7 @@ import Settings from "../pages/Settings";
 import Start from "./account/Start";
 import UpdateEntry from "../pages/UpdateEntry";
 import BalanceHistory from "../pages/BalanceHistory";
+import MonthView from "../pages/MonthView";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <AuthProvider>
         <Switch>
           <PrivateRoute exact path="/" component={Dashboard} />
+          <PrivateRoute path="/month-view" component={MonthView} />
           <PrivateRoute path="/breakdown" component={Breakdown} />
           <PrivateRoute path="/breakdown-balance" component={BalanceHistory} />
           <PrivateRoute path="/update-entry" component={UpdateEntry} />

@@ -142,6 +142,36 @@ export function getLastTimeOfMonth(str) {
   );
 }
 
+export function centsToPlusMinusDollars(cents) {
+  return `${cents > 0 ? "+" : "-"}$${Math.abs(cents / 100)
+    .toFixed(2)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
+}
+
+export function formatCents(cents) {
+  return `$${Math.abs(cents / 100)
+    .toFixed(2)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
+}
+
+export function formatDollars(dollars) {
+  return `$${dollars
+    .toFixed(2)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
+}
+
+export function debug(obj) {
+  console.log(obj);
+  return obj;
+}
+
+export function firebaseTimestampToDate(dateObj) {
+  return new Date(dateObj.seconds * 1000);
+}
+
 // * DASHBOARD
 
 /**
@@ -461,18 +491,4 @@ export function monthTableTransactions(
     outputArr.reverse();
   }
   return outputArr;
-}
-
-export function centsToReadableDollars(cents) {
-  return `$${Math.abs(cents / 100)
-    .toFixed(2)
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
-}
-
-export function centsToPlusMinusDollars(cents) {
-  return `${cents > 0 ? "+" : "-"}$${Math.abs(cents / 100)
-    .toFixed(2)
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
 }

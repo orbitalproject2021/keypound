@@ -2,6 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import up from "../icons/up.png";
 import down from "../icons/down.png";
+import { firebaseTimestampToDate } from "../backendUtils";
 
 export function TableRow({ transactionObj }) {
   const {
@@ -27,13 +28,13 @@ export function TableRow({ transactionObj }) {
           monthObj,
           id,
           transactionObj,
-          date: date.toDate().toISOString().split("T")[0],
+          date: firebaseTimestampToDate(date).toISOString().split("T")[0],
         });
       }}
     >
       <div className="table-overflow-container">
         <p className="table-row-details table-hide-when-tiny">
-          {date.toDate().toISOString().split("T")[0]}
+          {firebaseTimestampToDate(date).toISOString().split("T")[0]}
         </p>
         <p className="table-row-details">{description}</p>
         <p className="table-row-details table-hide-when-narrow">{tag}</p>
