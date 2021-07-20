@@ -16,6 +16,7 @@ import Start from "./account/Start";
 import UpdateEntry from "../pages/UpdateEntry";
 import BalanceHistory from "../pages/BalanceHistory";
 import MonthView from "../pages/MonthView";
+import Debug from "../pages/Debug";
 
 function App() {
   return (
@@ -36,6 +37,8 @@ function App() {
           <PrivateRoute path="/change-password" component={ChangePassword} />
           <PrivateRoute path="/start" component={Start} />
           <Route path="/forgot-password" component={ForgotPassword} />
+
+          <PrivateRoute path="/nothingtoseehere" component={Debug} />
         </Switch>
       </AuthProvider>
     </Router>

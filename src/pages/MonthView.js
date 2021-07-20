@@ -98,7 +98,7 @@ function MonthView() {
 
   return (
     <>
-      <Navigation active="Home" />
+      <Navigation active="Breakdown" />
       {error && <Alert variant="danger">{error}</Alert>}
       <Content title={`${monthObj.date} Overview`}>
         {charts()}
