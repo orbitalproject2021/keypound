@@ -331,13 +331,17 @@ export function handleSubscriptions(monthObj) {
     !monthObj.isSubscriptionAdded &&
     monthObj.subscriptionAmount > 0
   ) {
-    monthObj.transactions.push({
-      date: getLastTimeOfMonth(monthObj.date),
-      description: `${monthObj.date} subscriptions`,
-      type: "Subscription",
-      value: monthObj.subscriptionAmount,
-      id: monthObj.transactions.length,
-    });
+    const subscriptionArray = monthObj.subscriptionArray;
+    subscriptionArray.map((transaction) =>
+      monthObj.transactions.push({
+        date: getLastTimeOfMonth(monthObj.date),
+        description: transaction.description,
+        type: "Subscription",
+        value: transaction.value,
+        id: transaction.id,
+        tag: transaction.tag,
+      })
+    );
     monthObj.balance += monthObj.subscriptionAmount;
     monthObj.isSubscriptionAdded = true;
     return monthObj;

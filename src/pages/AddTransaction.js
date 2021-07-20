@@ -76,10 +76,11 @@ function AddTransaction() {
           subscriptions.push({
             description: descriptionRef.current.value,
             value: value,
-            tag: "subscriptions", //To implement: change to tag part
+            tag: "subscriptions", //TODO: change to tag part
             id: subscriptions.length,
           });
           monthArr[monthArr.length - 1].subscriptions = subscriptions;
+          monthArr[monthArr.length - 1].subscriptionAmount += value;
         } else {
           transactions.push({
             description: descriptionRef.current.value,
