@@ -65,7 +65,7 @@ function MonthView() {
           <DashboardPie data={pieData.slice(4)} />
         </div>
         <div className="mobile-only">{balanceText()}</div>
-        <h4 className="body-title mobile-only"></h4>
+        <p className="body-title mobile-only"></p>
         <div className="dashboard-pie-div mobile-only">
           <DashboardPie data={pieData.slice(0, 4)} variant="mobile" />
         </div>

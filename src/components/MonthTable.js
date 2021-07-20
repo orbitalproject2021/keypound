@@ -5,8 +5,8 @@ import up from "../icons/up.png";
 import down from "../icons/down.png";
 
 export function MonthTableRow({ monthObj }) {
-  // monthObj augmented with pointer to monthArr and pieData
-  const { id, monthArr, pieData, tableId } = monthObj;
+  // monthObj augmented with id, tableId (for color) and pieData
+  const { id, pieData, tableId } = monthObj;
   const COLORS = ["#777777", "#666666"];
   const history = useHistory();
 
