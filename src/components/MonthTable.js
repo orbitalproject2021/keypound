@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { formatCents } from "../backendUtils";
+import { formatCents, debug } from "../backendUtils";
 
 export function MonthTableRow({ monthObj }) {
   // monthObj augmented with pointer to monthArr and pieData
@@ -18,10 +18,7 @@ export function MonthTableRow({ monthObj }) {
       style={{ backgroundColor: COLORS[id % 2] }}
       onClick={() => {
         history.push("/month-view", {
-          monthArr,
-          monthObj,
           id,
-          pieData,
         });
       }}
     >

@@ -11,6 +11,7 @@ import {
   Tooltip,
   YAxis,
 } from "recharts";
+import { monthsSinceDateString } from "../backendUtils";
 
 export function DashboardPie({ data, variant = "desktop" }) {
   const COLORS = ["--ac-red", "--ac-green", "--em2", "--tm1"].map((id) =>
@@ -171,7 +172,8 @@ export function DashboardPie({ data, variant = "desktop" }) {
   );
 }
 
-export function DashboardBar({ data, variant }) {
+export function DashboardBar({ data, variant, monthArr }) {
+  const history = useHistory();
   const COLORS = ["--tm1"].map((id) =>
     getComputedStyle(document.documentElement).getPropertyValue(id)
   );
@@ -183,6 +185,15 @@ export function DashboardBar({ data, variant }) {
     width: window.innerWidth,
   });
   const [width, setWidth] = useState(0);
+
+  function clickBar(props) {
+    const date = props.date;
+    const index = monthArr.length - 1 - monthsSinceDateString(date);
+    console.log(index);
+    history.push("/month-view", {
+      id: index,
+    });
+  }
 
   useEffect(() => {
     function handleResize() {
@@ -233,6 +244,7 @@ export function DashboardBar({ data, variant }) {
         fill={COLORS[0]}
         isAnimationActive={false}
         maxBarSize={60}
+        onClick={clickBar}
       />
     </BarChart>
   );

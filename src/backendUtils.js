@@ -206,9 +206,9 @@ export function firebaseTimestampToDate(dateObj) {
  * @returns                      An array of objects
  */
 export function dashboardPieData(firestoreData, monthsAgo = 0) {
-  const thisMonthTransactions = debug(
-    firestoreData.monthArr[debug(firestoreData.monthArr.length - 1 - monthsAgo)]
-  ).transactions;
+  const thisMonthTransactions =
+    firestoreData.monthArr[firestoreData.monthArr.length - 1 - monthsAgo]
+      .transactions;
 
   function reducer(accumulator, current) {
     // Note that expenses are negative in value

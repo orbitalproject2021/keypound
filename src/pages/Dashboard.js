@@ -67,7 +67,11 @@ function Dashboard() {
         <h4 className="body-title desktop-only">This Month</h4>
         <div></div>
         <div className="dashboard-bar-div desktop-only">
-          <DashboardBar data={barchartData} variant="desktop" />
+          <DashboardBar
+            data={barchartData}
+            variant="desktop"
+            monthArr={tableData}
+          />
         </div>
         <div className="dashboard-pie-div desktop-only">
           <DashboardPie data={piechartData.slice(0, 4)} />
@@ -76,7 +80,11 @@ function Dashboard() {
           <DashboardPie data={piechartData.slice(4)} />
         </div>
         <div className="dashboard-bar-div mobile-only">
-          <DashboardBar data={barchartData} variant="mobile" />
+          <DashboardBar
+            data={barchartData}
+            variant="mobile"
+            monthArr={tableData}
+          />
         </div>
         <h4 className="body-title mobile-only">This Month</h4>
         <div className="dashboard-pie-div mobile-only">

@@ -32,6 +32,7 @@ function MonthView() {
   useEffect(() => {
     document.title = `${monthObj.date} - Keypound`;
     setTableData(monthArr);
+    console.log(monthObj);
   }, [monthObj]);
 
   useEffect(() => {
