@@ -429,7 +429,7 @@ nav {
   color: var(--ac-green);
 }
 
-.add-transaction-custom-alert .error {
+.error {
   color: var(--ac-red);
 }
 

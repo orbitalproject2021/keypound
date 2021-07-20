@@ -64,41 +64,56 @@ function AddTransaction() {
           ? expenseRef.current.value * -100
           : expenseRef.current.value * 100;
 
-      getDocs(currentUser).then((doc) => {
-        const index =
-          doc.data().monthArr.length -
-          1 -
-          monthsSinceDateString(dateToDateString(date));
-        let monthArr = doc.data().monthArr;
-        let transactions = monthArr[index].transactions;
-        transactions.push({
-          description: descriptionRef.current.value,
-          date: firebase.firestore.Timestamp.fromDate(date),
-          type: type,
-          value: value,
-          id: transactions.length,
-          tag: tagRef.current.value,
-        });
-        monthArr[index].transactions = transactions;
-
-        updateDocs(currentUser, { monthArr: monthArr })
-          .then(() => {
-            updateBalance(
-              currentUser,
-              value,
-              monthsSinceDateString(dateToDateString(date))
-            );
-            setMessage(
-              category === "Money Out"
-                ? "Expense added successfully."
-                : "Income added successfully."
-            );
-          })
-          .catch((error) => {
-            console.log(error);
-            setError(error);
+      getDocs(currentUser)
+        .then((doc) => {
+          const index =
+            doc.data().monthArr.length -
+            1 -
+            monthsSinceDateString(dateToDateString(date));
+          let monthArr = doc.data().monthArr;
+          let transactions = monthArr[index].transactions;
+          transactions.push({
+            description: descriptionRef.current.value,
+            date: firebase.firestore.Timestamp.fromDate(date),
+            type: type,
+            value: value,
+            id: transactions.length,
+            tag: tagRef.current.value,
           });
-      });
+          monthArr[index].transactions = transactions;
+
+          updateDocs(currentUser, { monthArr: monthArr })
+            .then(() => {
+              updateBalance(
+                currentUser,
+                value,
+                monthsSinceDateString(dateToDateString(date))
+              );
+              setMessage(
+                category === "Money Out"
+                  ? "Expense added successfully."
+                  : "Income added successfully."
+              );
+            })
+            .catch((error) => {
+              console.log(error);
+              setError(error);
+            });
+        })
+        .catch((error) => {
+          if (error instanceof TypeError) {
+            console.log(error);
+            setError(
+              `Please select a date on or after 1 ${minDate.toLocaleString(
+                "default",
+                { month: "long" }
+              )} ${minDate.getFullYear()}.`
+            );
+          } else {
+            console.log(error);
+            setError((prev) => prev + "\n" + error);
+          }
+        });
     } else {
       // subscription
 
@@ -329,7 +344,6 @@ function AddTransaction() {
   return (
     <>
       <Navigation active="Add Transaction" />
-      {error && <Alert>{error}</Alert>}
       <Content title="Add Transaction">
         <span className="body-title">{`Input your expenses or income here. `}</span>
         <div className="small-padding"></div>
