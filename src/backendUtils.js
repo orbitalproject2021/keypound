@@ -329,9 +329,9 @@ export function handleSubscriptions(monthObj) {
   if (
     monthsSinceDateString(monthObj.date) > 0 &&
     !monthObj.isSubscriptionAdded &&
-    monthObj.subscriptionAmount > 0
+    monthObj.subscriptionAmount < 0
   ) {
-    const subscriptionArray = monthObj.subscriptionArray;
+    const subscriptionArray = monthObj.subscriptions;
     subscriptionArray.forEach((transaction) =>
       monthObj.transactions.push({
         date: getLastTimeOfMonth(monthObj.date),
@@ -342,12 +342,12 @@ export function handleSubscriptions(monthObj) {
         tag: transaction.tag,
       })
     );
-    console.log(monthObj);
     monthObj.balance += monthObj.subscriptionAmount;
     monthObj.isSubscriptionAdded = true;
     return monthObj;
   } else if (
     // no subscriptions
+
     monthsSinceDateString(monthObj.date) > 0 &&
     !monthObj.isSubscriptionAdded
   ) {

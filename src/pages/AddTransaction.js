@@ -48,53 +48,37 @@ function AddTransaction() {
   const handleSubmit = (e) => {
     setDisabled(true); // prevent re-submission during request time
     e.preventDefault();
+
     if (!subscribeBool) {
+      // normal transaction
       const [year, month, day] = dateRef.current.value.split("-");
       const tempDate = new Date(year, month - 1, day);
       const date = new Date(
         tempDate.getTime() - new Date().getTimezoneOffset() * 60000
       );
-      console.log(date);
-    }
-    const value =
-      category === "Money Out"
-        ? expenseRef.current.value * -100
-        : expenseRef.current.value * 100;
 
-    getDocs(currentUser)
-      .then((doc) => {
+      const value =
+        category === "Money Out"
+          ? expenseRef.current.value * -100
+          : expenseRef.current.value * 100;
+
+      getDocs(currentUser).then((doc) => {
         const index =
           doc.data().monthArr.length -
           1 -
           monthsSinceDateString(dateToDateString(date));
         let monthArr = doc.data().monthArr;
-
         let transactions = monthArr[index].transactions;
-        let subscriptions = monthArr[index].subscriptions;
+        transactions.push({
+          description: descriptionRef.current.value,
+          date: firebase.firestore.Timestamp.fromDate(date),
+          type: type,
+          value: value,
+          id: transactions.length,
+        });
+        monthArr[index].transactions = transactions;
 
-        if (subscribeBool) {
-          subscriptions.push({
-            description: descriptionRef.current.value,
-            value: value,
-            tag: "subscriptions", //TODO: change to tag part
-            id: subscriptions.length,
-          });
-          monthArr[monthArr.length - 1].subscriptions = subscriptions;
-          monthArr[monthArr.length - 1].subscriptionAmount += value;
-        } else {
-          transactions.push({
-            description: descriptionRef.current.value,
-            date: firebase.firestore.Timestamp.fromDate(date),
-            type: type,
-            value: value,
-            id: transactions.length,
-          });
-          monthArr[index].transactions = transactions;
-        }
-        console.log(monthArr);
-        updateDocs(currentUser, {
-          monthArr: monthArr,
-        })
+        updateDocs(currentUser, { monthArr: monthArr })
           .then(() => {
             updateBalance(
               currentUser,
@@ -111,21 +95,41 @@ function AddTransaction() {
             console.log(error);
             setError(error);
           });
-      })
-      .catch((error) => {
-        if (error instanceof TypeError) {
-          console.log(error);
-          setMessage(
-            `Please select a date on or after 1 ${minDate.toLocaleString(
-              "default",
-              { month: "long" }
-            )} ${minDate.getFullYear()}.`
-          );
-        } else {
+      });
+    } else {
+      // subscription
+
+      const value = expenseRef.current.value * -100;
+      getDocs(currentUser)
+        .then((doc) => {
+          let monthArr = doc.data().monthArr;
+          let subscriptions = monthArr[monthArr.length - 1].subscriptions;
+
+          subscriptions.push({
+            description: descriptionRef.current.value,
+            value: value,
+            tag: "subscriptions", //TODO: change to tag part
+            id: subscriptions.length,
+          });
+          monthArr[monthArr.length - 1].subscriptions = subscriptions;
+          monthArr[monthArr.length - 1].subscriptionAmount += value;
+
+          updateDocs(currentUser, {
+            monthArr: monthArr,
+          })
+            .then(() => {
+              setMessage("Subscription added successfully.");
+            })
+            .catch((error) => {
+              console.log(error);
+              setError(error);
+            });
+        })
+        .catch((error) => {
           console.log(error);
           setError((prev) => prev + "\n" + error);
-        }
-      });
+        });
+    }
   };
 
   function clearPage() {
