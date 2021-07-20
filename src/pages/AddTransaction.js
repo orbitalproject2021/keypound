@@ -126,7 +126,7 @@ function AddTransaction() {
           subscriptions.push({
             description: descriptionRef.current.value,
             value: value,
-            tag: "subscriptions", //TODO: change to tag part
+            tag: tagRef.current.value,
             id: subscriptions.length,
           });
           monthArr[monthArr.length - 1].subscriptions = subscriptions;
@@ -202,6 +202,7 @@ function AddTransaction() {
       onClick={() => {
         setCategory("Money In");
         setType("Money In");
+        setSubscribeBool(false);
       }}
     >
       Money In
@@ -280,7 +281,7 @@ function AddTransaction() {
   );
 
   const dateFill = subscribeBool ? (
-    <p> Subscription will be added automatically at the end of the month.</p>
+    <p> Subscription will be added automatically at the end of each month.</p>
   ) : (
     <Form.Group id="date">
       <Form.Label>Date</Form.Label>
