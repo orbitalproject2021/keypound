@@ -1,16 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
-import { formatCents, debug } from "../backendUtils";
+import { formatCents } from "../backendUtils";
 
 export function MonthTableRow({ monthObj }) {
   // monthObj augmented with pointer to monthArr and pieData
   const { id, monthArr, pieData } = monthObj;
   const COLORS = ["#777777", "#666666"];
   const history = useHistory();
-
-  useEffect(() => {
-    console.log(pieData);
-  });
 
   return (
     <div

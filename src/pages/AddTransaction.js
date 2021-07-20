@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Navigation from "../components/Navigation";
 import { Content } from "../components/ContentCard";
-import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
+import { Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import {
   dateStringToDateObject,

@@ -26,13 +26,10 @@ function MonthView() {
     date: "",
     balance: 0,
   });
-  const [tableData, setTableData] = useState();
   const [pieData, setPieData] = useState([]);
 
   useEffect(() => {
     document.title = `${monthObj.date} - Keypound`;
-    setTableData(monthArr);
-    console.log(monthObj);
   }, [monthObj]);
 
   useEffect(() => {
@@ -43,10 +40,6 @@ function MonthView() {
       setPieData(dashboardPieData(docs.data(), monthsAgo));
     });
   }, [currentUser, id]);
-
-  useEffect(() => {
-    console.log(pieData);
-  }, [pieData]);
 
   const charts = () => (
     <>
@@ -98,12 +91,12 @@ function MonthView() {
   );
 
   const recentTransactions = () =>
-    tableData && (
+    monthArr && (
       <>
         <h4 className="body-title">{`${monthObj.date} transactions`}</h4>
         <Table
           transactionArr={tableTransactions(
-            tableData,
+            monthArr,
             -1,
             "",
             (transaction) =>

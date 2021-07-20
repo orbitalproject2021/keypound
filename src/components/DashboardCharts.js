@@ -189,7 +189,6 @@ export function DashboardBar({ data, variant, monthArr }) {
   function clickBar(props) {
     const date = props.date;
     const index = monthArr.length - 1 - monthsSinceDateString(date);
-    console.log(index);
     history.push("/month-view", {
       id: index,
     });

@@ -216,15 +216,13 @@ export default function BalanceHistory() {
       }
       // Money In / Money Out / Balance
       else if (["Money In", "Money Out", "Balance"].includes(category)) {
-        const value = (monthObj) => {
-          console.log(monthObj);
-
-          return category === "Money In"
+        const value = (monthObj) =>
+          category === "Money In"
             ? monthObj.pieData[5].value
             : category === "Money Out"
             ? monthObj.pieData[4].value
             : monthObj.balance;
-        };
+
         if (operator === "is more than") {
           setPredicate(
             () => (monthObj) =>

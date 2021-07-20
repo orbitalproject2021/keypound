@@ -268,12 +268,6 @@ export function dashboardBarData(firestoreData) {
  * @param {Number} monthsAgo The number of additional months, starting with the
  *                           previous month, to be updated
  */
-// export function updateBalance(currentUser, delta, monthsAgo = 0) {
-//   updateBalanceHelper(currentUser, delta, monthsAgo).then((monthArr) => {
-//     updateDocs(currentUser, { monthArr: monthArr });
-//     console.log("Docs updated.");
-//   });
-// }
 
 export function updateBalance(
   currentUser,

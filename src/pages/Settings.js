@@ -45,7 +45,6 @@ function Settings() {
 
     if (balanceRef.current.value) {
       const newBalance = balanceRef.current.value;
-      console.log(newBalance - oldBalance);
       getDocs(currentUser).then((doc) => {
         const monthArr = doc.data().monthArr;
         updateBalance(
