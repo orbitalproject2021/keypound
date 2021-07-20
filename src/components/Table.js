@@ -137,10 +137,14 @@ export function Table({
   const componentArr = transactionArr.map((transactionObj) => (
     <TableRow transactionObj={transactionObj} key={transactionObj.expenseId} />
   ));
-  return (
-    <>
-      <TableHeader functions={functions} sortBy={sortBy} reverse={reverse} />
-      {componentArr}
-    </>
-  );
+  if (transactionArr.length === 0) {
+    return <p className="content-text">No transactions to show</p>;
+  } else {
+    return (
+      <>
+        <TableHeader functions={functions} sortBy={sortBy} reverse={reverse} />
+        {componentArr}
+      </>
+    );
+  }
 }

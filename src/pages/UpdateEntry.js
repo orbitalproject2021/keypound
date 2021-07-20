@@ -23,9 +23,10 @@ export default function UpdateEntry() {
     transactionObj.type === "Money In" ? "Money In" : "Money Out"
   );
   const [type, setType] = useState(transactionObj.type);
+  const [subscribeBool, setSubscribeBool] = useState(false);
+
   const { currentUser } = useAuth();
   const history = useHistory();
-
   useEffect(() => {
     document.title = "Edit entry - Keypound";
     descriptionRef.current.value = transactionObj.description;
@@ -190,6 +191,16 @@ export default function UpdateEntry() {
     </Form.Group>
   );
 
+  const subscriptionAbstract = (
+    <Form.Group id="checkbox">
+      <Form.Check
+        label="Subscription"
+        type="checkbox"
+        onChange={() => setSubscribeBool(!subscribeBool)}
+      ></Form.Check>
+    </Form.Group>
+  );
+
   const expenseFill = (
     <Form.Group id="expense">
       <Form.Label>{category === "Money Out" ? "Expense" : "Income"}</Form.Label>
@@ -269,7 +280,7 @@ export default function UpdateEntry() {
     <>
       <Navigation active="Breakdown" />
       {error && <Alert>{error}</Alert>}
-      <Content title="edit entry">
+      <Content title="Edit Entry">
         <h4 className="body-title">{date}</h4>
         <Form onSubmit={handleSubmit}>
           {descriptionFill}
@@ -284,12 +295,17 @@ export default function UpdateEntry() {
           >
             {categoryAbstract}
             {padding}
-            {category !== "Money In" && (
-              <>
-                {typeAbstract}
-                {padding}
-              </>
-            )}
+            {category !== "Money In" && <>{typeAbstract}</>}
+            {padding}
+            <div
+              style={{
+                display: "flex",
+                paddingTop: "30pt",
+                paddingBottom: "10pt",
+              }}
+            >
+              {category !== "Money In" && <>{subscriptionAbstract}</>}
+            </div>
           </div>
           {expenseFill}
           {padding}

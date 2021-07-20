@@ -28,6 +28,7 @@ function AddTransaction() {
   const [disabled, setDisabled] = useState(false);
   const [category, setCategory] = useState("Money Out");
   const [type, setType] = useState("Need");
+  const [subscribeBool, setSubscribeBool] = useState(false);
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -35,38 +36,40 @@ function AddTransaction() {
     if (window.innerWidth > 767) {
       descriptionRef.current.focus();
     }
-    dateRef.current.value = new Date().toISOString().substr(0, 10);
+    if (!subscribeBool) {
+      dateRef.current.value = new Date().toISOString().substr(0, 10);
+    }
     expenseRef.current.value = "0";
     getDocs(currentUser).then((doc) => {
       let monthArr = doc.data().monthArr;
       setMinDate(dateStringToDateObject(monthArr[0].date));
     });
-  }, [currentUser]);
+  }, [currentUser, subscribeBool]);
 
   const handleSubmit = (e) => {
     setDisabled(true); // prevent re-submission during request time
     e.preventDefault();
 
-    // TODO: see if we can use the new specific date function to replace this
-    const [year, month, day] = dateRef.current.value.split("-");
-    const tempDate = new Date(year, month - 1, day);
-    const date = new Date(
-      tempDate.getTime() - new Date().getTimezoneOffset() * 60000
-    );
-    console.log(date);
-    const value =
-      category === "Money Out"
-        ? expenseRef.current.value * -100
-        : expenseRef.current.value * 100;
+    if (!subscribeBool) {
+      // normal transaction
+      // TODO: see if we can use the new specific date function to replace this
+      const [year, month, day] = dateRef.current.value.split("-");
+      const tempDate = new Date(year, month - 1, day);
+      const date = new Date(
+        tempDate.getTime() - new Date().getTimezoneOffset() * 60000
+      );
 
-    getDocs(currentUser)
-      .then((doc) => {
+      const value =
+        category === "Money Out"
+          ? expenseRef.current.value * -100
+          : expenseRef.current.value * 100;
+
+      getDocs(currentUser).then((doc) => {
         const index =
           doc.data().monthArr.length -
           1 -
           monthsSinceDateString(dateToDateString(date));
         let monthArr = doc.data().monthArr;
-
         let transactions = monthArr[index].transactions;
         transactions.push({
           description: descriptionRef.current.value,
@@ -77,9 +80,8 @@ function AddTransaction() {
           tag: tagRef.current.value,
         });
         monthArr[index].transactions = transactions;
-        updateDocs(currentUser, {
-          monthArr: monthArr,
-        })
+
+        updateDocs(currentUser, { monthArr: monthArr })
           .then(() => {
             updateBalance(
               currentUser,
@@ -96,21 +98,41 @@ function AddTransaction() {
             console.log(error);
             setError(error);
           });
-      })
-      .catch((error) => {
-        if (error instanceof TypeError) {
-          console.log(error);
-          setMessage(
-            `Please select a date on or after 1 ${minDate.toLocaleString(
-              "default",
-              { month: "long" }
-            )} ${minDate.getFullYear()}.`
-          );
-        } else {
+      });
+    } else {
+      // subscription
+
+      const value = expenseRef.current.value * -100;
+      getDocs(currentUser)
+        .then((doc) => {
+          let monthArr = doc.data().monthArr;
+          let subscriptions = monthArr[monthArr.length - 1].subscriptions;
+
+          subscriptions.push({
+            description: descriptionRef.current.value,
+            value: value,
+            tag: "subscriptions", //TODO: change to tag part
+            id: subscriptions.length,
+          });
+          monthArr[monthArr.length - 1].subscriptions = subscriptions;
+          monthArr[monthArr.length - 1].subscriptionAmount += value;
+
+          updateDocs(currentUser, {
+            monthArr: monthArr,
+          })
+            .then(() => {
+              setMessage("Subscription added successfully.");
+            })
+            .catch((error) => {
+              console.log(error);
+              setError(error);
+            });
+        })
+        .catch((error) => {
           console.log(error);
           setError((prev) => prev + "\n" + error);
-        }
-      });
+        });
+    }
   };
 
   function clearPage() {
@@ -213,6 +235,16 @@ function AddTransaction() {
     </Form.Group>
   );
 
+  const subscriptionAbstract = (
+    <Form.Group id="checkbox">
+      <Form.Check
+        label="Subscription"
+        type="checkbox"
+        onChange={() => setSubscribeBool(!subscribeBool)}
+      ></Form.Check>
+    </Form.Group>
+  );
+
   const expenseFill = (
     <Form.Group id="expense">
       <Form.Label>{category === "Money Out" ? "Expense" : "Income"}</Form.Label>
@@ -232,7 +264,9 @@ function AddTransaction() {
     </Form.Group>
   );
 
-  const dateFill = (
+  const dateFill = subscribeBool ? (
+    <p> Subscription will be added automatically at the end of the month.</p>
+  ) : (
     <Form.Group id="date">
       <Form.Label>Date</Form.Label>
       <Form.Control
@@ -312,12 +346,17 @@ function AddTransaction() {
           >
             {categoryAbstract}
             {padding}
-            {category !== "Money In" && (
-              <>
-                {typeAbstract}
-                {padding}
-              </>
-            )}
+            {category !== "Money In" && <>{typeAbstract}</>}
+            {padding}
+            <div
+              style={{
+                display: "flex",
+                paddingTop: "30pt",
+                paddingBottom: "10pt",
+              }}
+            >
+              {category !== "Money In" && <>{subscriptionAbstract}</>}
+            </div>
           </div>
           {expenseFill}
           {padding}
