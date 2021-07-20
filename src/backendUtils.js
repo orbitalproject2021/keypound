@@ -423,3 +423,17 @@ export function tableTransactions(
   }
   return transactionArr;
 }
+
+export function centsToReadableDollars(cents) {
+  return `$${Math.abs(cents / 100)
+    .toFixed(2)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
+}
+
+export function centsToPlusMinusDollars(cents) {
+  return `${cents > 0 ? "+" : "-"}$${Math.abs(cents / 100)
+    .toFixed(2)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
+}

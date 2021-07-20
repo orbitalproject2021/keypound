@@ -344,6 +344,15 @@ nav {
 .body-title {
   font-weight: 100;
   font-size: 1.8em;
+  margin-right: 15px;
+}
+
+.body-title-unselected {
+  color: #999999;
+  cursor: pointer;
+  font-weight: 100;
+  font-size: 1.8em;
+  margin-right: 15px;
 }
 
 .content-title-window {
@@ -510,6 +519,18 @@ nav {
   cursor: pointer;
 }
 
+.month-table-overflow-container {
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr 1.5fr;
+  justify-content: stretch;
+  align-items: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  min-width: min-content;
+  color: white;
+  cursor: pointer;
+}
+
 .table-row-details {
   margin: 1em;
   margin-top: 0.5em;
@@ -551,6 +572,9 @@ nav {
   }
   .table-overflow-container {
     grid-template-columns: 120px auto 150px;
+  }
+  .month-table-overflow-container {
+    grid-template-columns: 120px 1fr;
   }
 }
 

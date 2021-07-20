@@ -14,6 +14,7 @@ import Goals from "../pages/Goals";
 import Settings from "../pages/Settings";
 import Start from "./account/Start";
 import UpdateEntry from "../pages/UpdateEntry";
+import BalanceHistory from "../pages/BalanceHistory";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Switch>
           <PrivateRoute exact path="/" component={Dashboard} />
           <PrivateRoute path="/breakdown" component={Breakdown} />
+          <PrivateRoute path="/breakdown-balance" component={BalanceHistory} />
           <PrivateRoute path="/update-entry" component={UpdateEntry} />
           <PrivateRoute path="/add-transaction" component={AddTransaction} />
           <PrivateRoute path="/goals" component={Goals} />

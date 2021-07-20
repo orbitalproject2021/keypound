@@ -8,6 +8,7 @@ import { getDocs, tableTransactions } from "../backendUtils";
 import { Button, Dropdown, DropdownButton } from "react-bootstrap";
 import search from "../icons/search.png";
 import erase from "../icons/erase.png";
+import { useHistory } from "react-router-dom";
 
 function Breakdown() {
   const { currentUser } = useAuth();
@@ -25,6 +26,7 @@ function Breakdown() {
   const [type, setType] = useState("Select type");
   const startRef = useRef();
   const endRef = useRef();
+  const history = useHistory();
 
   useEffect(() => {
     document.title = "Breakdown - Keypound";
@@ -335,7 +337,14 @@ function Breakdown() {
 
       {tableData && (
         <Content title="Breakdown" minHeight={350}>
-          <h4 className="body-title">All Transactions</h4>
+          <span className="body-title">Transaction History</span>
+          <span
+            className="body-title-unselected"
+            onClick={() => history.push("/breakdown-balance")}
+          >
+            Balance History
+          </span>
+
           <p className="content-text">Select an entry to edit or delete it.</p>
           {SearchAndFilter()}
           {table()}
