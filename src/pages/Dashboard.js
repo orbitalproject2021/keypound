@@ -54,7 +54,15 @@ function Dashboard() {
     barchartData &&
     piechartData && (
       <div className="dashboard-combined-charts">
-        <h4 className="body-title">Balance History</h4>
+        <div>
+          <h4 className="body-title">Balance History</h4>
+          <span
+            className="content-text link"
+            onClick={() => history.push("/balance-history")}
+          >
+            View full balance history
+          </span>
+        </div>
 
         <h4 className="body-title desktop-only">This Month</h4>
         <div></div>
@@ -83,7 +91,7 @@ function Dashboard() {
   const recentTransactions = () =>
     tableData && (
       <>
-        <h4 className="body-title">recent transactions</h4>
+        <h4 className="body-title">Recent Transactions</h4>
         <Table transactionArr={tableTransactions(tableData, 5)} />
         <div className="dashboard-bottom-text">
           <p
