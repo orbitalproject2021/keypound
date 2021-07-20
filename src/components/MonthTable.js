@@ -7,14 +7,10 @@ import {
 } from "../backendUtils";
 
 export function MonthTableRow({ monthObj }) {
-  // monthObj augmented with pointer to monthArr
-  const { id, monthArr } = monthObj;
+  // monthObj augmented with pointer to monthArr and pieData
+  const { id, monthArr, pieData } = monthObj;
   const COLORS = ["#777777", "#666666"];
   const history = useHistory();
-  const pieData = dashboardPieData(
-    { monthArr },
-    monthsSinceDateString(monthObj.date)
-  );
 
   useEffect(() => {
     console.log(pieData);
@@ -36,10 +32,14 @@ export function MonthTableRow({ monthObj }) {
       <div className="month-table-overflow-container">
         <p className="table-row-details">{monthObj.date}</p>
         <p className="table-row-details table-hide-when-narrow">
-          {centsToReadableDollars(pieData[5].value)}
+          {
+            centsToReadableDollars(pieData[5].value) // money in
+          }
         </p>
         <p className="table-row-details table-hide-when-narrow">
-          {centsToReadableDollars(pieData[4].value)}
+          {
+            centsToReadableDollars(pieData[4].value) // money out
+          }
         </p>
         <p className="table-row-details table-right-align">
           {centsToReadableDollars(monthObj.balance)}

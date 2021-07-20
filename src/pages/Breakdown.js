@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import Navigation from "../components/Navigation";
 import { Table } from "../components/Table";
 import { Content } from "../components/ContentCard";
-import "firebase/firestore";
 import { useAuth } from "../contexts/AuthContext";
 import { getDocs, tableTransactions } from "../backendUtils";
 import { Button, Dropdown, DropdownButton } from "react-bootstrap";

@@ -424,6 +424,45 @@ export function tableTransactions(
   return transactionArr;
 }
 
+function monthObjFilter(query, predicate) {
+  return (monthObj) =>
+    monthObj.date.toLowerCase().includes(query) && predicate(monthObj);
+}
+
+export function monthTableTransactions(
+  monthArr,
+  limit = -1,
+  query = "",
+  predicate = (monthObj) => true,
+  compareFunc = (m1, m2) =>
+    dateStringToDateObject(m2.date).getTime() -
+    dateStringToDateObject(m1.date).getTime(),
+  reverse = false
+) {
+  const outputArr = [];
+  for (const monthObj of monthArr) {
+    const augmentedMonthObj = {
+      ...monthObj,
+      monthArr,
+      pieData: dashboardPieData(
+        { monthArr },
+        monthsSinceDateString(monthObj.date)
+      ),
+    };
+    if (monthObjFilter(query, predicate)(augmentedMonthObj)) {
+      outputArr.push(augmentedMonthObj);
+    }
+    if (outputArr.length === limit) {
+      break;
+    }
+  }
+  outputArr.sort(compareFunc);
+  if (reverse) {
+    outputArr.reverse();
+  }
+  return outputArr;
+}
+
 export function centsToReadableDollars(cents) {
   return `$${Math.abs(cents / 100)
     .toFixed(2)
