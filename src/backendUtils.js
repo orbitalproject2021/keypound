@@ -508,5 +508,13 @@ export function monthTableTransactions(
   if (reverse) {
     outputArr.reverse();
   }
+  let tableId = 0;
+  for (let i = 0; i < outputArr.length; i++) {
+    outputArr[i] = {
+      ...outputArr[i],
+      tableId,
+    };
+    tableId++;
+  }
   return outputArr;
 }

@@ -1,17 +1,19 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { formatCents } from "../backendUtils";
+import up from "../icons/up.png";
+import down from "../icons/down.png";
 
 export function MonthTableRow({ monthObj }) {
   // monthObj augmented with pointer to monthArr and pieData
-  const { id, monthArr, pieData } = monthObj;
+  const { id, monthArr, pieData, tableId } = monthObj;
   const COLORS = ["#777777", "#666666"];
   const history = useHistory();
 
   return (
     <div
       className="table-row"
-      style={{ backgroundColor: COLORS[id % 2] }}
+      style={{ backgroundColor: COLORS[tableId % 2] }}
       onClick={() => {
         history.push("/month-view", {
           id,
@@ -38,28 +40,80 @@ export function MonthTableRow({ monthObj }) {
   );
 }
 
-export function MonthTableHeader() {
+export function MonthTableHeader({ functions, sortBy, reverse }) {
+  function upDownArrows(active) {
+    return (
+      <>
+        <img
+          className="table-arrow"
+          src={up}
+          alt=""
+          style={{
+            display: sortBy === active && reverse ? "block" : "none",
+          }}
+        />
+        <img
+          className="table-arrow"
+          src={down}
+          alt=""
+          style={{
+            display:
+              sortBy === active && reverse
+                ? "none"
+                : sortBy === active
+                ? "block"
+                : "none",
+          }}
+        />
+      </>
+    );
+  }
   return (
     <>
       <div className="table-row table-header">
         <div className="month-table-overflow-container table-header">
-          <p className="tableHeaderDetails">Date</p>
-          <p className="tableHeaderDetails table-hide-when-narrow">Money In</p>
-          <p className="tableHeaderDetails table-hide-when-narrow">Money Out</p>
-          <p className="tableHeaderDetails table-right-align">Balance</p>
+          <p className="tableHeaderDetails" onClick={functions.date}>
+            <span>Date</span>
+            {upDownArrows("date")}
+          </p>
+          <p
+            className="tableHeaderDetails table-hide-when-narrow"
+            onClick={functions.moneyIn}
+          >
+            <span>Money In</span>
+            {upDownArrows("moneyIn")}
+          </p>
+          <p
+            className="tableHeaderDetails table-hide-when-narrow"
+            onClick={functions.moneyOut}
+          >
+            <span>Money Out</span>
+            {upDownArrows("moneyOut")}
+          </p>
+          <p
+            className="tableHeaderDetails table-right-align"
+            onClick={functions.balance}
+          >
+            <span>Balance</span>
+            {upDownArrows("balance")}
+          </p>
         </div>
       </div>
     </>
   );
 }
 
-export function MonthTable({ monthArr }) {
+export function MonthTable({ monthArr, functions, sortBy, reverse }) {
   const componentArr = monthArr.map((monthObj) => (
     <MonthTableRow monthObj={monthObj} key={monthObj.id} />
   ));
   return (
     <>
-      <MonthTableHeader />
+      <MonthTableHeader
+        functions={functions}
+        sortBy={sortBy}
+        reverse={reverse}
+      />
       {componentArr}
     </>
   );
