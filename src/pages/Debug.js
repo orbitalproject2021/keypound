@@ -2524,7 +2524,7 @@ export default function Debug() {
   }
 
   function randomValue() {
-    return -Math.round(Math.random() * 1000000);
+    return -Math.round(Math.random() * 10000);
   }
 
   function randomTransaction(date) {
