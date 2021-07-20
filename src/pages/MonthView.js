@@ -4,7 +4,12 @@ import { Content } from "../components/ContentCard";
 import Navigation from "../components/Navigation";
 import { useAuth } from "../contexts/AuthContext";
 import { DashboardPie } from "../components/DashboardCharts";
-import { formatCents, tableTransactions } from "../backendUtils";
+import {
+  formatCents,
+  getFirstTimeOfMonth,
+  getLastTimeOfMonth,
+  tableTransactions,
+} from "../backendUtils";
 import { useHistory, useLocation } from "react-router-dom";
 import { Table } from "../components/Table";
 import back from "../icons/back.png";
@@ -20,8 +25,8 @@ function MonthView() {
   useEffect(() => {
     document.title = `${monthObj.date} - Keypound`;
     console.log(monthObj);
-    setTableData([monthObj]);
-  }, [monthObj]);
+    setTableData(monthArr);
+  }, [monthObj, monthArr]);
 
   const charts = () => (
     <>
@@ -76,7 +81,18 @@ function MonthView() {
     tableData && (
       <>
         <h4 className="body-title">{`${monthObj.date} transactions`}</h4>
-        <Table transactionArr={tableTransactions(tableData)} />
+        <Table
+          transactionArr={tableTransactions(
+            tableData,
+            -1,
+            "",
+            (transaction) =>
+              transaction.date.seconds * 1000 >=
+                getFirstTimeOfMonth(monthObj.date).getTime() &&
+              transaction.date.seconds * 1000 <=
+                getLastTimeOfMonth(monthObj.date).getTime()
+          )}
+        />
       </>
     );
 

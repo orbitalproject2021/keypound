@@ -5,7 +5,7 @@ import { Form, Button } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import "firebase/auth";
 import "firebase/firestore";
-import { getDocs, updateDocs } from "../backendUtils";
+import { getDocs, updateBalance, updateDocs } from "../backendUtils";
 
 function Settings() {
   const incomeRef = useRef();
@@ -40,10 +40,22 @@ function Settings() {
       monthArr[index].income = newIncome;
       updateDocs(currentUser, {
         monthArr: monthArr,
-      }).then(() => {
-        setMessage("Income updated successfully");
       });
     });
+
+    if (balanceRef.current.value) {
+      const newBalance = balanceRef.current.value;
+      console.log(newBalance - oldBalance);
+      getDocs(currentUser).then((doc) => {
+        const monthArr = doc.data().monthArr;
+        updateBalance(
+          currentUser,
+          newBalance * 100 - oldBalance * 100,
+          monthArr.length - 1,
+          setMessage((message) => message + "Balance updated successfully.")
+        );
+      });
+    }
   };
 
   //Abstractions for frontend

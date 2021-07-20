@@ -142,6 +142,26 @@ export function getLastTimeOfMonth(str) {
   );
 }
 
+/**
+ * Returns a Date object representing the first possible millisecond of the month
+ * as given by the input date string
+ *
+ * @param {String} str Date string in the form "Jan '20"
+ * @returns Date object
+ */
+export function getFirstTimeOfMonth(str) {
+  const date = dateStringToDateObject(str);
+  return new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+    date.getMilliseconds()
+  );
+}
+
 export function centsToPlusMinusDollars(cents) {
   return `${cents > 0 ? "+" : "-"}$${Math.abs(cents / 100)
     .toFixed(2)
@@ -186,9 +206,9 @@ export function firebaseTimestampToDate(dateObj) {
  * @returns                      An array of objects
  */
 export function dashboardPieData(firestoreData, monthsAgo = 0) {
-  const thisMonthTransactions =
-    firestoreData.monthArr[firestoreData.monthArr.length - 1 - monthsAgo]
-      .transactions;
+  const thisMonthTransactions = debug(
+    firestoreData.monthArr[debug(firestoreData.monthArr.length - 1 - monthsAgo)]
+  ).transactions;
 
   function reducer(accumulator, current) {
     // Note that expenses are negative in value
