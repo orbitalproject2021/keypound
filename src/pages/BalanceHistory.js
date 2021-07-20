@@ -290,7 +290,7 @@ export default function BalanceHistory() {
 
           <span className="body-title">Balance History</span>
           <p className="content-text">
-            Select an entry to see and overview for that month.
+            Select an entry to see an overview for that month.
           </p>
           {SearchAndFilter()}
           {table()}
