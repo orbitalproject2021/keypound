@@ -332,7 +332,7 @@ export function handleSubscriptions(monthObj) {
     monthObj.subscriptionAmount > 0
   ) {
     const subscriptionArray = monthObj.subscriptionArray;
-    subscriptionArray.map((transaction) =>
+    subscriptionArray.forEach((transaction) =>
       monthObj.transactions.push({
         date: getLastTimeOfMonth(monthObj.date),
         description: transaction.description,
@@ -342,6 +342,7 @@ export function handleSubscriptions(monthObj) {
         tag: transaction.tag,
       })
     );
+    console.log(monthObj);
     monthObj.balance += monthObj.subscriptionAmount;
     monthObj.isSubscriptionAdded = true;
     return monthObj;
