@@ -56,12 +56,6 @@ function Dashboard() {
       <div className="dashboard-combined-charts">
         <div>
           <h4 className="body-title">Balance History</h4>
-          <span
-            className="content-text link"
-            onClick={() => history.push("/breakdown-balance")}
-          >
-            View full balance history
-          </span>
         </div>
 
         <h4 className="body-title desktop-only">This Month</h4>
