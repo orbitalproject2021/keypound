@@ -78,6 +78,21 @@ export function dateStringToDateObject(str) {
 }
 
 /**
+ * Converts a specific date string of the form "YYYY/MM/DD to a Date object.
+ *
+ * @param {*} str Date string to be converted
+ * @returns Date object
+ */
+export function specificDateStringToDateObject(str) {
+  const [year, month, day] = str.split("-");
+  const tempDate = new Date(year, month - 1, day);
+  const date = new Date(
+    tempDate.getTime() - new Date().getTimezoneOffset() * 60000
+  );
+  return date;
+}
+
+/**
  * Returns the number of months that has passed since the given date string.
  * Days are ignored, i.e. 31 May and 1 June are considered 1 month apart.
  *
@@ -127,6 +142,56 @@ export function getLastTimeOfMonth(str) {
   );
 }
 
+/**
+ * Returns a Date object representing the first possible millisecond of the month
+ * as given by the input date string
+ *
+ * @param {String} str Date string in the form "Jan '20"
+ * @returns Date object
+ */
+export function getFirstTimeOfMonth(str) {
+  const date = dateStringToDateObject(str);
+  return new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+    date.getMilliseconds()
+  );
+}
+
+export function centsToPlusMinusDollars(cents) {
+  return `${cents > 0 ? "+" : "-"}$${Math.abs(cents / 100)
+    .toFixed(2)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
+}
+
+export function formatCents(cents) {
+  return `$${Math.abs(cents / 100)
+    .toFixed(2)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
+}
+
+export function formatDollars(dollars) {
+  return `$${dollars
+    .toFixed(2)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
+}
+
+export function debug(obj) {
+  console.log(obj);
+  return obj;
+}
+
+export function firebaseTimestampToDate(dateObj) {
+  return new Date(dateObj.seconds * 1000);
+}
+
 // * DASHBOARD
 
 /**
@@ -141,9 +206,9 @@ export function getLastTimeOfMonth(str) {
  * @returns                      An array of objects
  */
 export function dashboardPieData(firestoreData, monthsAgo = 0) {
-  const thisMonthTransactions =
-    firestoreData.monthArr[firestoreData.monthArr.length - 1 - monthsAgo]
-      .transactions;
+  const thisMonthTransactions = debug(
+    firestoreData.monthArr[debug(firestoreData.monthArr.length - 1 - monthsAgo)]
+  ).transactions;
 
   function reducer(accumulator, current) {
     // Note that expenses are negative in value
@@ -242,11 +307,13 @@ export function updateBalance(
  *          handle income and subscription transactions
  */
 // ! Must be updated for any further database changes.
-export async function updateDatabase(currentUser) {
+export async function updateDatabase(currentUser, handleIncome = true) {
   var docRef = db.collection("users").doc(currentUser.uid);
   return await docRef.get().then((doc) => {
     let monthArr = doc.data().monthArr;
-    let latestObj = handleIncomeAndSubscriptions(monthArr[monthArr.length - 1]);
+    let latestObj = handleIncome
+      ? handleIncomeAndSubscriptions(monthArr[monthArr.length - 1])
+      : monthArr[monthArr.length - 1];
     let dateString = latestObj.date;
     const numOfMissingMonths = monthsSinceDateString(dateString);
 
@@ -261,7 +328,9 @@ export async function updateDatabase(currentUser) {
         isIncomeAdded: false,
         isSubscriptionAdded: false,
       };
-      latestObj = handleIncomeAndSubscriptions(monthObj);
+      latestObj = handleIncome
+        ? handleIncomeAndSubscriptions(monthObj)
+        : monthObj;
       monthArr.push(latestObj);
     }
 
@@ -302,6 +371,7 @@ export function handleIncome(monthObj) {
       type: "Money In",
       value: monthObj.income,
       id: monthObj.transactions.length,
+      tag: "Monthly Income",
     });
     monthObj.balance += monthObj.income;
     monthObj.isIncomeAdded = true;
@@ -354,4 +424,95 @@ export function handleSubscriptions(monthObj) {
     monthObj.isSubscriptionAdded = true;
   }
   return monthObj;
+}
+
+// * BREAKDOWN //
+function transactionFilter(query, predicate) {
+  return (transaction) =>
+    (transaction.description.toLowerCase().includes(query) ||
+      transaction.type.toLowerCase().includes(query) ||
+      transaction.tag.toLowerCase().includes(query)) &&
+    predicate(transaction);
+}
+
+export function tableTransactions(
+  monthArr,
+  limit = -1,
+  query = "",
+  predicate = (transaction) => true,
+  compareFunc = (t1, t2) => t2.date.seconds - t1.date.seconds,
+  reverse = false
+) {
+  const transactionArr = [];
+  const reversedMonthArr = [...monthArr].reverse();
+  for (const monthObj of reversedMonthArr) {
+    const reversedMonthObjTransactions = [...monthObj.transactions].reverse();
+    for (const transaction of reversedMonthObjTransactions) {
+      if (transactionFilter(query, predicate)(transaction)) {
+        transactionArr.push({
+          ...transaction, // date, description, type, value, tag
+          monthObj,
+          monthArr,
+        });
+      }
+      if (transactionArr.length === limit) {
+        break;
+      }
+    }
+    if (transactionArr.length === limit) {
+      break;
+    }
+  }
+  transactionArr.sort(compareFunc);
+  if (reverse) {
+    transactionArr.reverse();
+  }
+  let expenseId = 0;
+  for (let i = 0; i < transactionArr.length; i++) {
+    transactionArr[i] = {
+      ...transactionArr[i],
+      expenseId,
+    };
+    expenseId++;
+  }
+  return transactionArr;
+}
+
+function monthObjFilter(query, predicate) {
+  return (monthObj) =>
+    monthObj.date.toLowerCase().includes(query) && predicate(monthObj);
+}
+
+export function monthTableTransactions(
+  monthArr,
+  limit = -1,
+  query = "",
+  predicate = (monthObj) => true,
+  compareFunc = (m1, m2) =>
+    dateStringToDateObject(m2.date).getTime() -
+    dateStringToDateObject(m1.date).getTime(),
+  reverse = false
+) {
+  const outputArr = [];
+  for (const monthObj of monthArr) {
+    const augmentedMonthObj = {
+      ...monthObj,
+      monthArr,
+      pieData: dashboardPieData(
+        { monthArr },
+        monthsSinceDateString(monthObj.date)
+      ),
+    };
+    if (monthObjFilter(query, predicate)(augmentedMonthObj)) {
+      outputArr.push(augmentedMonthObj);
+    }
+    if (outputArr.length === limit) {
+      break;
+    }
+  }
+  outputArr.sort(compareFunc);
+  if (reverse) {
+    outputArr.reverse();
+  }
+  return outputArr;
 }

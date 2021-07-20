@@ -22,6 +22,7 @@ function AddTransaction() {
   const expenseRef = useRef();
   const dateRef = useRef();
   const descriptionRef = useRef();
+  const tagRef = useRef();
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
@@ -51,6 +52,7 @@ function AddTransaction() {
 
     if (!subscribeBool) {
       // normal transaction
+      // TODO: see if we can use the new specific date function to replace this
       const [year, month, day] = dateRef.current.value.split("-");
       const tempDate = new Date(year, month - 1, day);
       const date = new Date(
@@ -75,6 +77,7 @@ function AddTransaction() {
           type: type,
           value: value,
           id: transactions.length,
+          tag: tagRef.current.value,
         });
         monthArr[index].transactions = transactions;
 
@@ -134,6 +137,7 @@ function AddTransaction() {
 
   function clearPage() {
     descriptionRef.current.value = "";
+    tagRef.current.value = "";
     dateRef.current.value = new Date().toISOString().substr(0, 10);
     setDisabled(false);
     setError("");
@@ -279,6 +283,21 @@ function AddTransaction() {
     </Form.Group>
   );
 
+  const tagFill = (
+    <Form.Group id="tag">
+      <Form.Label>{"Tag (Optional)"}</Form.Label>
+      <Form.Control
+        type="text"
+        ref={tagRef}
+        onChange={() => {
+          setDisabled(false);
+          setError("");
+          setMessage("");
+        }}
+      />
+    </Form.Group>
+  );
+
   const submitButton = (
     <Button disabled={disabled} type={"submit"} className={"custom-button"}>
       Submit
@@ -316,6 +335,8 @@ function AddTransaction() {
         <div className="small-padding"></div>
         <Form onSubmit={handleSubmit}>
           {descriptionFill}
+          {padding}
+          {tagFill}
           <div
             style={{
               display: "flex",

@@ -9,6 +9,7 @@ import {
   dashboardBarData,
   updateDatabase,
   getDocs,
+  tableTransactions,
 } from "../backendUtils";
 import { useHistory } from "react-router-dom";
 import { Table } from "../components/Table";
@@ -53,7 +54,15 @@ function Dashboard() {
     barchartData &&
     piechartData && (
       <div className="dashboard-combined-charts">
-        <h4 className="body-title">Balance History</h4>
+        <div>
+          <h4 className="body-title">Balance History</h4>
+          <span
+            className="content-text link"
+            onClick={() => history.push("/breakdown-balance")}
+          >
+            View full balance history
+          </span>
+        </div>
 
         <h4 className="body-title desktop-only">This Month</h4>
         <div></div>
@@ -83,7 +92,7 @@ function Dashboard() {
     tableData && (
       <>
         <h4 className="body-title">Recent Transactions</h4>
-        <Table monthArr={tableData} limit={5} />
+        <Table transactionArr={tableTransactions(tableData, 5)} />
         <div className="dashboard-bottom-text">
           <p
             className="content-text link"

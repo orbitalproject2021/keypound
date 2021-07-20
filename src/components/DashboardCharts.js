@@ -100,6 +100,33 @@ export function DashboardPie({ data, variant = "desktop" }) {
     return true;
   }
 
+  const [dimensions, setDimensions] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    function handleResize() {
+      setDimensions({
+        height: window.innerHeight,
+        width: window.innerWidth,
+      });
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  });
+
+  useEffect(() => {
+    const width =
+      dimensions.width > 1032
+        ? 468
+        : dimensions.width < 768
+        ? dimensions.width - 64
+        : (dimensions.width - 80) / 2;
+    setWidth(dimensions.width > 767 ? (width - 8) / 2 : width - 8);
+  }, [dimensions, data]);
+
   if (allValuesZero(data)) {
     if (data.length === 4) {
       // no need to show the same message twice
@@ -120,7 +147,7 @@ export function DashboardPie({ data, variant = "desktop" }) {
     }
   }
   return (
-    <PieChart height={200} width={160}>
+    <PieChart height={200} width={width}>
       <Pie
         isAnimationActive={false}
         activeIndex={activeIndex}
@@ -155,6 +182,7 @@ export function DashboardBar({ data, variant }) {
     height: window.innerHeight,
     width: window.innerWidth,
   });
+  const [width, setWidth] = useState(0);
 
   useEffect(() => {
     function handleResize() {
@@ -168,15 +196,19 @@ export function DashboardBar({ data, variant }) {
   });
 
   useEffect(() => {
-    const numOfBars = Math.min(
-      6,
-      Math.round((window.innerWidth - 48) / 52) - 1
-    );
+    const width =
+      dimensions.width > 1032
+        ? 468
+        : dimensions.width < 768
+        ? dimensions.width - 64
+        : (dimensions.width - 80) / 2;
+    const numOfBars = Math.round(width / 52) - 1;
+    setWidth(width);
     setTruncatedData(data.slice(-numOfBars));
   }, [dimensions, data]);
 
   return (
-    <BarChart width={400} height={150} data={truncatedData}>
+    <BarChart width={width} height={150} data={truncatedData}>
       <XAxis
         dataKey="date"
         stroke="#aaaaaa"

@@ -15,6 +15,7 @@ export default function UpdateEntry() {
   const { monthArr, monthObj, id, transactionObj, date } = useLocation().state;
   const expenseRef = useRef();
   const descriptionRef = useRef();
+  const tagRef = useRef();
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
@@ -29,6 +30,7 @@ export default function UpdateEntry() {
   useEffect(() => {
     document.title = "Edit entry - Keypound";
     descriptionRef.current.value = transactionObj.description;
+    tagRef.current.value = transactionObj.tag;
     if (window.innerWidth > 767) {
       descriptionRef.current.focus();
     }
@@ -45,6 +47,7 @@ export default function UpdateEntry() {
     e.preventDefault();
 
     const description = descriptionRef.current.value;
+    const tag = tagRef.current.value;
     const value =
       category === "Money Out"
         ? expenseRef.current.value * -100
@@ -56,6 +59,7 @@ export default function UpdateEntry() {
       type,
       value,
       id,
+      tag,
     };
 
     try {
@@ -216,6 +220,21 @@ export default function UpdateEntry() {
     </Form.Group>
   );
 
+  const tagFill = (
+    <Form.Group id="tag">
+      <Form.Label>{"Tag (Optional)"}</Form.Label>
+      <Form.Control
+        type="text"
+        ref={tagRef}
+        onChange={() => {
+          setDisabled(false);
+          setError("");
+          setMessage("");
+        }}
+      />
+    </Form.Group>
+  );
+
   const updateButton = (
     <Button
       disabled={disabled}
@@ -265,6 +284,8 @@ export default function UpdateEntry() {
         <h4 className="body-title">{date}</h4>
         <Form onSubmit={handleSubmit}>
           {descriptionFill}
+          {padding}
+          {tagFill}
           <div
             style={{
               display: "flex",

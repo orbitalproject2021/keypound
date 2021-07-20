@@ -102,6 +102,18 @@ a:hover {
   padding: 1em;
 }
 
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 /** NAVBAR **/
 
 .navbar {
@@ -344,13 +356,22 @@ nav {
 .body-title {
   font-weight: 100;
   font-size: 1.8em;
+  margin-right: 15px;
+}
+
+.body-title-unselected {
+  color: #999999;
+  cursor: pointer;
+  font-weight: 100;
+  font-size: 1.8em;
+  margin-right: 15px;
 }
 
 .content-title-window {
-  margin: 0.5em;
+  margin: 1em;
   overflow: auto;
   flex: 1;
-  max-width: 800px;
+  max-width: 1000px;
   box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
     rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
@@ -389,6 +410,7 @@ nav {
 .dashboard-combined-charts {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
+  gap: 1em;
   align-items: center;
 }
 
@@ -429,7 +451,6 @@ nav {
   }
 
   .dropdown {
-    background-color: var(--bg4);
     padding: 0;
   }
   .dropdown-toggle {
@@ -500,7 +521,19 @@ nav {
 
 .table-overflow-container {
   display: grid;
-  grid-template-columns: 120px 2fr 1fr 150px;
+  grid-template-columns: 120px 2fr 1.5fr 1fr 150px;
+  justify-content: stretch;
+  align-items: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  min-width: min-content;
+  color: white;
+  cursor: pointer;
+}
+
+.month-table-overflow-container {
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr 1.5fr;
   justify-content: stretch;
   align-items: center;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
@@ -521,10 +554,15 @@ nav {
   margin-bottom: 0.5em;
   color: #4d3321;
   font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .table-right-align {
   text-align: right;
+  justify-content: flex-end;
 }
 
 .table-header {
@@ -533,12 +571,22 @@ nav {
   cursor: auto;
 }
 
+.table-arrow {
+  width: 10px;
+  height: 10px;
+  object-fit: contain;
+  margin-left: 5px;
+}
+
 @media (max-width: 700px) {
   .table-hide-when-narrow {
     display: none;
   }
   .table-overflow-container {
     grid-template-columns: 120px auto 150px;
+  }
+  .month-table-overflow-container {
+    grid-template-columns: 120px 1fr;
   }
 }
 
@@ -572,4 +620,88 @@ nav {
   display: flex;
   padding-top: 10pt;
   padding-bottom: 10pt;
+}
+
+/** BREAKDOWN **/
+.breakdown-search-div {
+  display: flex;
+  padding: 0.5em;
+  margin-top: 0.5em;
+  background-color: var(--em1);
+  color: var(--em6);
+  font-weight: 600;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.breakdown-search-label {
+  margin: 0em 0.5em;
+}
+
+.breakdown-submit-button {
+  flex: 0 0 30px;
+  font-weight: 400;
+  margin-left: 1em;
+  padding: 0.1em 0.5em;
+  margin: 0.5em;
+}
+
+#breakdown-dropdown-button {
+  background-color: var(--em2);
+  border: 1px solid var(--em2);
+  color: var(--em6);
+  margin: 0em 0.5em;
+  padding: 0.1em 0.5em;
+}
+
+#breakdown-dropdown-button:focus {
+  outline: 1px solid var(--em3);
+  box-shadow: none;
+}
+
+.breakdown-input {
+  margin: 0em 0.5em;
+  width: 120px;
+}
+
+.breakdown-input:focus {
+  outline: 1px solid var(--tm2);
+}
+
+.breakdown-search-icon {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+}
+
+@media (max-width: 700px) {
+  .breakdown-search-div {
+    display: block;
+  }
+  #breakdown-dropdown-button {
+    margin: 0.5em 0.5em;
+    padding: 0.1em 0.5em;
+  }
+  .breakdown-search-label {
+    margin: 0.5em 0.5em;
+  }
+}
+
+/** MONTH VIEW **/
+.month-view-back {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+  margin-right: 0.5em;
+}
+
+.month-view-text-big {
+  font-weight: 300;
+  font-size: 1.2em;
+}
+
+.month-view-text {
+  font-weight: 300;
+  font-size: 0.9em;
 }

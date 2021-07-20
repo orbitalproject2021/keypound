@@ -1,28 +1,33 @@
 import React, { useEffect, useState, useRef } from "react";
 import Navigation from "../components/Navigation";
-import { Table } from "../components/Table";
+import { MonthTable } from "../components/MonthTable";
 import { Content } from "../components/ContentCard";
 import { useAuth } from "../contexts/AuthContext";
-import { getDocs, tableTransactions } from "../backendUtils";
+import {
+  dateStringToDateObject,
+  getDocs,
+  monthTableTransactions,
+} from "../backendUtils";
 import { Button, Dropdown, DropdownButton } from "react-bootstrap";
 import search from "../icons/search.png";
 import erase from "../icons/erase.png";
 import { useHistory } from "react-router-dom";
 
-function Breakdown() {
+export default function BalanceHistory() {
   const { currentUser } = useAuth();
   const [tableData, setTableData] = useState();
-  const [predicate, setPredicate] = useState(() => (transaction) => true);
+  const [predicate, setPredicate] = useState(() => (monthObj) => true);
   const [sortObj, setSortObj] = useState({
     sortBy: "date",
-    compareFunc: (t1, t2) => t2.date.seconds - t1.date.seconds,
+    compareFunc: (m1, m2) =>
+      dateStringToDateObject(m2.date).getTime() -
+      dateStringToDateObject(m1.date).getTime(),
     reverse: false,
   });
   const searchRef = useRef();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("Category");
   const [operator, setOperator] = useState("Operator");
-  const [type, setType] = useState("Select type");
   const startRef = useRef();
   const endRef = useRef();
   const history = useHistory();
@@ -36,56 +41,47 @@ function Breakdown() {
     });
   }, [currentUser]);
 
-  useEffect(() => {
-    tableData && searchRef.current.focus();
-  }, [tableData]);
-
   const clickFunctions = {
     date: () =>
       sortObj.sortBy === "date"
         ? setSortObj({ ...sortObj, reverse: !sortObj.reverse })
         : setSortObj({
             sortBy: "date",
-            compareFunc: (t1, t2) => t2.date.seconds - t1.date.seconds,
+            compareFunc: (m1, m2) =>
+              dateStringToDateObject(m2.date).getTime() -
+              dateStringToDateObject(m1.date).getTime(),
             reverse: false,
           }),
-    description: () =>
-      sortObj.sortBy === "description"
+
+    moneyIn: () =>
+      sortObj.sortBy === "moneyIn"
         ? setSortObj({ ...sortObj, reverse: !sortObj.reverse })
         : setSortObj({
-            sortBy: "description",
-            compareFunc: (t1, t2) => (t2.description < t1.description ? 1 : -1),
-            reverse: true,
+            sortBy: "moneyIn",
+            compareFunc: (m1, m2) => m2.pieData[5].value - m1.pieData[5].value,
+            reverse: false,
           }),
-    tag: () =>
-      sortObj.sortBy === "tag"
+    moneyOut: () =>
+      sortObj.sortBy === "moneyOut"
         ? setSortObj({ ...sortObj, reverse: !sortObj.reverse })
         : setSortObj({
-            sortBy: "tag",
-            compareFunc: (t1, t2) => (t2.tag < t1.tag ? 1 : -1),
-            reverse: true,
+            sortBy: "moneyOut",
+            compareFunc: (m1, m2) => m2.pieData[4].value - m1.pieData[4].value,
+            reverse: false,
           }),
-    type: () =>
-      sortObj.sortBy === "type"
+    balance: () =>
+      sortObj.sortBy === "balance"
         ? setSortObj({ ...sortObj, reverse: !sortObj.reverse })
         : setSortObj({
-            sortBy: "type",
-            compareFunc: (t1, t2) => (t2.type < t1.type ? 1 : -1),
-            reverse: true,
-          }),
-    amount: () =>
-      sortObj.sortBy === "amount"
-        ? setSortObj({ ...sortObj, reverse: !sortObj.reverse })
-        : setSortObj({
-            sortBy: "amount",
-            compareFunc: (t1, t2) => t2.value - t1.value,
+            sortBy: "balance",
+            compareFunc: (m1, m2) => m2.balance - m1.balance,
             reverse: false,
           }),
   };
 
   const table = () => (
-    <Table
-      transactionArr={tableTransactions(
+    <MonthTable
+      monthArr={monthTableTransactions(
         tableData,
         -1,
         query,
@@ -104,10 +100,9 @@ function Breakdown() {
       <Dropdown.Item
         className="dropdown-item"
         onClick={() => {
-          setPredicate(() => (transaction) => true);
+          setPredicate(() => (monthObj) => true);
           setCategory(category);
           setOperator("Operator");
-          setType("Select type");
         }}
       >
         {category}
@@ -116,10 +111,9 @@ function Breakdown() {
     const categoryDropdown = (
       <DropdownButton id="breakdown-dropdown-button" title={category}>
         {categoryItem("Date")}
-        {categoryItem("Description")}
-        {categoryItem("Tag")}
-        {categoryItem("Type")}
-        {categoryItem("Amount")}
+        {categoryItem("Money In")}
+        {categoryItem("Money Out")}
+        {categoryItem("Balance")}
       </DropdownButton>
     );
     const operatorItem = (operator, categories) =>
@@ -138,32 +132,13 @@ function Breakdown() {
         {operatorItem("before", ["Date"])}
         {operatorItem("after", ["Date"])}
         {operatorItem("between", ["Date"])}
-        {operatorItem("contains", ["Description", "Tag"])}
-        {operatorItem("starts with", ["Description", "Tag"])}
-        {operatorItem("ends with", ["Description", "Tag"])}
-        {operatorItem("is", ["Type"])}
-        {operatorItem("is not", ["Type"])}
-        {operatorItem("is more than", ["Amount"])}
-        {operatorItem("is less than", ["Amount"])}
-        {operatorItem("is between", ["Amount"])}
+        {operatorItem("is more than", ["Money In", "Money Out", "Balance"])}
+        {operatorItem("is less than", ["Money In", "Money Out", "Balance"])}
+        {operatorItem("is between", ["Money In", "Money Out", "Balance"])}
       </DropdownButton>
     );
 
     function userInput() {
-      const dropdownItem = (item) => (
-        <Dropdown.Item className="dropdown-item" onClick={() => setType(item)}>
-          {item}
-        </Dropdown.Item>
-      );
-      const dropdown = (
-        <DropdownButton id="breakdown-dropdown-button" title={type}>
-          {dropdownItem("Need")}
-          {dropdownItem("Want")}
-          {dropdownItem("Unexpected")}
-          {dropdownItem("Subscription")}
-          {dropdownItem("Money In")}
-        </DropdownButton>
-      );
       const input = (
         <>
           <input
@@ -196,11 +171,7 @@ function Breakdown() {
         </>
       );
 
-      if (category === "Type") {
-        return dropdown;
-      } else {
-        return input;
-      }
+      return input;
     }
 
     const searchBox = (
@@ -223,75 +194,52 @@ function Breakdown() {
       if (category === "Date") {
         if (operator === "after") {
           setPredicate(
-            () => (transaction) =>
-              transaction.date.seconds * 1000 >=
+            () => (monthObj) =>
+              dateStringToDateObject(monthObj.date).getTime() >=
               new Date(startRef.current.value).getTime()
           );
         } else if (operator === "before") {
           setPredicate(
-            () => (transaction) =>
-              transaction.date.seconds * 1000 <=
+            () => (monthObj) =>
+              dateStringToDateObject(monthObj.date).getTime() <=
               new Date(startRef.current.value).getTime()
           );
         } else if (operator === "between") {
           setPredicate(
-            () => (transaction) =>
-              transaction.date.seconds * 1000 >=
+            () => (monthObj) =>
+              dateStringToDateObject(monthObj.date).getTime() >=
                 new Date(startRef.current.value).getTime() &&
-              transaction.date.seconds * 1000 <= new Date(endRef.current.value)
+              dateStringToDateObject(monthObj.date).getTime() <=
+                new Date(endRef.current.value)
           );
         }
       }
-      // Description / Tag
-      else if (category === "Description" || category === "Tag") {
-        if (operator === "contains") {
-          setPredicate(
-            () => (transaction) =>
-              transaction[category.toLowerCase()]
-                .toLowerCase()
-                .includes(startRef.current.value.toLowerCase())
-          );
-        } else if (operator === "starts with") {
-          setPredicate(
-            () => (transaction) =>
-              transaction[category.toLowerCase()]
-                .toLowerCase()
-                .startsWith(startRef.current.value.toLowerCase())
-          );
-        } else if (operator === "ends with") {
-          setPredicate(
-            () => (transaction) =>
-              transaction[category.toLowerCase()]
-                .toLowerCase()
-                .endsWith(startRef.current.value.toLowerCase())
-          );
-        }
-      }
-      // Type
-      else if (category === "Type") {
-        if (operator === "is") {
-          setPredicate(() => (transaction) => transaction.type === type);
-        } else if (operator === "is not") {
-          setPredicate(() => (transaction) => transaction.type !== type);
-        }
-      }
-      // Amount
-      else if (category === "Amount") {
+      // Money In / Money Out / Balance
+      else if (["Money In", "Money Out", "Balance"].includes(category)) {
+        const value = (monthObj) => {
+          console.log(monthObj);
+
+          return category === "Money In"
+            ? monthObj.pieData[5].value
+            : category === "Money Out"
+            ? monthObj.pieData[4].value
+            : monthObj.balance;
+        };
         if (operator === "is more than") {
           setPredicate(
-            () => (transaction) =>
-              Math.abs(transaction.value) >= startRef.current.value * 100
+            () => (monthObj) =>
+              Math.abs(value(monthObj)) >= startRef.current.value * 100
           );
         } else if (operator === "is less than") {
           setPredicate(
-            () => (transaction) =>
-              Math.abs(transaction.value) <= startRef.current.value * 100
+            () => (monthObj) =>
+              Math.abs(value(monthObj)) <= startRef.current.value * 100
           );
         } else if (operator === "is between") {
           setPredicate(
-            () => (transaction) =>
-              Math.abs(transaction.value) >= startRef.current.value * 100 &&
-              Math.abs(transaction.value) <= endRef.current.value * 100
+            () => (monthObj) =>
+              Math.abs(value(monthObj)) >= startRef.current.value * 100 &&
+              Math.abs(value(monthObj)) <= endRef.current.value * 100
           );
         }
       }
@@ -301,8 +249,7 @@ function Breakdown() {
       setQuery("");
       setCategory("Category");
       setOperator("Operator");
-      setType("Select type");
-      setPredicate(() => (transaction) => true);
+      setPredicate(() => (monthObj) => true);
       searchRef.current.value = "";
     };
 
@@ -336,15 +283,17 @@ function Breakdown() {
 
       {tableData && (
         <Content title="Breakdown" minHeight={350}>
-          <span className="body-title">Transaction History</span>
           <span
             className="body-title-unselected"
-            onClick={() => history.push("/breakdown-balance")}
+            onClick={() => history.push("/breakdown")}
           >
-            Balance History
+            Transaction History
           </span>
 
-          <p className="content-text">Select an entry to edit or delete it.</p>
+          <span className="body-title">Balance History</span>
+          <p className="content-text">
+            Select an entry to see and overview for that month.
+          </p>
           {SearchAndFilter()}
           {table()}
         </Content>
@@ -352,5 +301,3 @@ function Breakdown() {
     </>
   );
 }
-
-export default Breakdown;
