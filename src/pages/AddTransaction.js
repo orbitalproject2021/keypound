@@ -366,8 +366,8 @@ function AddTransaction() {
             <div
               style={{
                 display: "flex",
-                paddingTop: "30pt",
-                paddingBottom: "10pt",
+                paddingTop: "28pt",
+                paddingBottom: "12pt",
               }}
             >
               {category !== "Money In" && <>{subscriptionAbstract}</>}

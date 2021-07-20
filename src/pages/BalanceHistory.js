@@ -252,7 +252,7 @@ export default function BalanceHistory() {
     };
 
     return (
-      <div className="breakdown-search-div">
+      <div className="breakdown-search-div desktop-only">
         {searchBox}
         <span className="breakdown-search-label">Filter: </span>
         {categoryDropdown}
