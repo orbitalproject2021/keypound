@@ -6,9 +6,11 @@ import { useAuth } from "../contexts/AuthContext";
 import { DashboardPie } from "../components/DashboardCharts";
 import {
   formatCents,
+  getDocs,
   getFirstTimeOfMonth,
   getLastTimeOfMonth,
   tableTransactions,
+  dashboardPieData,
 } from "../backendUtils";
 import { useHistory, useLocation } from "react-router-dom";
 import { Table } from "../components/Table";
@@ -16,17 +18,34 @@ import back from "../icons/back.png";
 
 function MonthView() {
   const history = useHistory();
-  const { monthArr, monthObj, id, pieData } = useLocation().state;
+  const { id } = useLocation().state;
   const [error] = useState("");
   const { currentUser } = useAuth();
-
+  const [monthArr, setMonthArr] = useState();
+  const [monthObj, setMonthObj] = useState({
+    date: "",
+    balance: 0,
+  });
   const [tableData, setTableData] = useState();
+  const [pieData, setPieData] = useState([]);
 
   useEffect(() => {
     document.title = `${monthObj.date} - Keypound`;
-    console.log(monthObj);
     setTableData(monthArr);
-  }, [monthObj, monthArr]);
+  }, [monthObj]);
+
+  useEffect(() => {
+    getDocs(currentUser).then((docs) => {
+      setMonthArr(docs.data().monthArr);
+      setMonthObj(docs.data().monthArr[id]);
+      const monthsAgo = docs.data().monthArr.length - 1 - id;
+      setPieData(dashboardPieData(docs.data(), monthsAgo));
+    });
+  }, [currentUser, id]);
+
+  useEffect(() => {
+    console.log(pieData);
+  }, [pieData]);
 
   const charts = () => (
     <>
@@ -44,14 +63,14 @@ function MonthView() {
         </h4>
       </div>
       <div className="dashboard-combined-charts">
-        <div className="desktop-only">{balanceText}</div>
+        <div className="desktop-only">{balanceText()}</div>
         <div className="dashboard-pie-div desktop-only">
           <DashboardPie data={pieData.slice(0, 4)} />
         </div>
         <div className="dashboard-pie-div desktop-only">
           <DashboardPie data={pieData.slice(4)} />
         </div>
-        <div className="mobile-only">{balanceText}</div>
+        <div className="mobile-only">{balanceText()}</div>
         <h4 className="body-title mobile-only"></h4>
         <div className="dashboard-pie-div mobile-only">
           <DashboardPie data={pieData.slice(0, 4)} variant="mobile" />
@@ -63,16 +82,16 @@ function MonthView() {
     </>
   );
 
-  const balanceText = (
+  const balanceText = () => (
     <>
       <p className="month-view-text-big">{`In ${
         monthObj.date
       }, your balance was ${formatCents(monthObj.balance)}.`}</p>
       <p className="month-view-text">{`You spent ${formatCents(
-        monthObj.pieData[4].value
+        pieData[4].value
       )}.`}</p>
       <p className="month-view-text">{`Your income was ${formatCents(
-        monthObj.pieData[5].value
+        pieData[5].value
       )}.`}</p>
     </>
   );
@@ -101,7 +120,7 @@ function MonthView() {
       <Navigation active="Breakdown" />
       {error && <Alert variant="danger">{error}</Alert>}
       <Content title={`${monthObj.date} Overview`}>
-        {charts()}
+        {pieData.length === 6 && charts()}
         <div className="large-padding"></div>
         {recentTransactions()}
       </Content>
