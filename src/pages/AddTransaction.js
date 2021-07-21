@@ -263,7 +263,13 @@ function AddTransaction() {
 
   const expenseFill = (
     <Form.Group id="expense">
-      <Form.Label>{category === "Money Out" ? "Expense" : "Income"}</Form.Label>
+      <Form.Label>
+        {category === "Money Out"
+          ? subscribeBool
+            ? "Monthly Fee"
+            : "Expense"
+          : "Income"}
+      </Form.Label>
       <Form.Control
         type="number"
         step={0.01}
