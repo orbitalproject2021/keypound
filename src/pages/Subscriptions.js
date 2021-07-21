@@ -14,6 +14,7 @@ import erase from "../icons/erase.png";
 import { Button, Dropdown, DropdownButton } from "react-bootstrap";
 import Content from "../components/ContentCard";
 import { useAuth } from "../contexts/AuthContext";
+import { emptyRowDisplay } from "../components/Table";
 
 export default function Subscriptions() {
   const { currentUser } = useAuth();
@@ -297,20 +298,17 @@ function SubscriptionTable({ subscriptionArr, functions, sortBy, reverse }) {
       key={subscriptionObj.id}
     />
   ));
-  if (subscriptionArr.length === 0) {
-    return <p className="content-text">No subscriptions to show</p>;
-  } else {
-    return (
-      <>
-        <SubscriptionHeader
-          functions={functions}
-          sortBy={sortBy}
-          reverse={reverse}
-        />
-        {componentArr}
-      </>
-    );
-  }
+
+  return (
+    <>
+      <SubscriptionHeader
+        functions={functions}
+        sortBy={sortBy}
+        reverse={reverse}
+      />
+      {subscriptionArr.length !== 0 ? componentArr : emptyRowDisplay}
+    </>
+  );
 }
 
 function SubscriptionRow({ subscriptionObj }) {

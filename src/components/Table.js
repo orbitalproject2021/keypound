@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import up from "../icons/up.png";
 import down from "../icons/down.png";
-import { firebaseTimestampToDate } from "../backendUtils";
+import { firebaseTimestampToDate, debug } from "../backendUtils";
 
 export function TableRow({ transactionObj }) {
   const {
@@ -137,14 +137,21 @@ export function Table({
   const componentArr = transactionArr.map((transactionObj) => (
     <TableRow transactionObj={transactionObj} key={transactionObj.expenseId} />
   ));
-  if (transactionArr.length === 0) {
-    return <p className="content-text">No transactions to show</p>;
-  } else {
-    return (
-      <>
-        <TableHeader functions={functions} sortBy={sortBy} reverse={reverse} />
-        {componentArr}
-      </>
-    );
-  }
+
+  return (
+    <>
+      <TableHeader functions={functions} sortBy={sortBy} reverse={reverse} />
+      {transactionArr.length !== 0 ? componentArr : emptyRowDisplay}
+    </>
+  );
 }
+
+export const emptyRowDisplay = (
+  <div className="table-row" style={{ backgroundColor: "#777777" }}>
+    <div className="table-row-empty-container">
+      <p className="table-row-details table-hide-when-tiny">
+        No results to display.
+      </p>
+    </div>
+  </div>
+);
