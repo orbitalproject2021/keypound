@@ -119,8 +119,7 @@ function Settings() {
           <p className="content-text" style={{ paddingTop: "1em" }}>
             Note: Any increase or decrease to your current balance will also be
             reflected in your balance for previous months. If you wish to only
-            change your balance for this month, consider adding a "Money In"
-            transaction.
+            change your balance for this month, consider adding a transaction.
           </p>
           {padding}
           {submitButton}
