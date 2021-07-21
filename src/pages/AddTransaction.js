@@ -361,6 +361,7 @@ function AddTransaction() {
               display: "flex",
               paddingTop: "10pt",
               paddingBottom: "10pt",
+              flexWrap: "wrap",
             }}
           >
             {categoryAbstract}
