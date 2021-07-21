@@ -37,7 +37,7 @@ function Breakdown() {
   }, [currentUser]);
 
   useEffect(() => {
-    tableData && searchRef.current.focus();
+    tableData && window.innerWidth > 767 && searchRef.current.focus();
   }, [tableData]);
 
   const clickFunctions = {

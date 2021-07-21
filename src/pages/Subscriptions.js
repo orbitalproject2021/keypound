@@ -266,6 +266,10 @@ export default function Subscriptions() {
     });
   }, [currentUser]);
 
+  useEffect(() => {
+    monthObj && window.innerWidth > 767 && searchRef.current.focus();
+  }, [monthObj]);
+
   return (
     <>
       <Navigation active="Subscriptions" />
