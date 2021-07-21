@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { formatCents } from "../backendUtils";
+import { centsToPlusMinusDollars, formatCents } from "../backendUtils";
 import up from "../icons/up.png";
 import down from "../icons/down.png";
 
@@ -30,6 +30,11 @@ export function MonthTableRow({ monthObj }) {
         <p className="table-row-details table-hide-when-narrow">
           {
             formatCents(pieData[4].value) // money out
+          }
+        </p>
+        <p className="table-row-details table-hide-when-narrow">
+          {
+            centsToPlusMinusDollars(pieData[5].value - pieData[4].value) // net change
           }
         </p>
         <p className="table-row-details table-right-align">
@@ -89,6 +94,13 @@ export function MonthTableHeader({ functions, sortBy, reverse }) {
           >
             <span>Money Out</span>
             {upDownArrows("moneyOut")}
+          </p>
+          <p
+            className="tableHeaderDetails table-hide-when-narrow"
+            onClick={functions.netChange}
+          >
+            <span>Net Change</span>
+            {upDownArrows("netChange")}
           </p>
           <p
             className="tableHeaderDetails table-right-align"

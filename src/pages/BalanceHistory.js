@@ -69,6 +69,17 @@ export default function BalanceHistory() {
             compareFunc: (m1, m2) => m2.pieData[4].value - m1.pieData[4].value,
             reverse: false,
           }),
+    netChange: () =>
+      sortObj.sortBy === "netChange"
+        ? setSortObj({ ...sortObj, reverse: !sortObj.reverse })
+        : setSortObj({
+            sortBy: "netChange",
+            compareFunc: (m1, m2) =>
+              m2.pieData[5].value -
+              m2.pieData[4].value -
+              (m1.pieData[5].value - m1.pieData[4].value),
+            reverse: false,
+          }),
     balance: () =>
       sortObj.sortBy === "balance"
         ? setSortObj({ ...sortObj, reverse: !sortObj.reverse })

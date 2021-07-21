@@ -533,7 +533,7 @@ nav {
 
 .month-table-overflow-container {
   display: grid;
-  grid-template-columns: 120px 1fr 1fr 1.5fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   justify-content: stretch;
   align-items: center;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
