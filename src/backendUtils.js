@@ -162,6 +162,10 @@ export function getFirstTimeOfMonth(str) {
   );
 }
 
+export function dateToOffsetDate(date) {
+  return new Date(date.getTime() - new Date().getTimezoneOffset() * 60000);
+}
+
 export function centsToPlusMinusDollars(cents) {
   return `${cents > 0 ? "+" : "-"}$${Math.abs(cents / 100)
     .toFixed(2)
@@ -269,7 +273,7 @@ export function dashboardBarData(firestoreData) {
  *                           previous month, to be updated
  */
 
-export function updateBalance(
+export async function updateBalance(
   currentUser,
   delta,
   monthsAgo = 0,

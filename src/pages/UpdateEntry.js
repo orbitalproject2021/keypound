@@ -6,7 +6,10 @@ import {
   monthsSinceDateString,
   updateBalance,
   updateDocs,
+  dateStringToDateObject,
+  specificDateStringToDateObject,
 } from "../backendUtils";
+import firebase from "firebase/app";
 import Navigation from "../components/Navigation";
 import { Content } from "../components/ContentCard";
 import { useHistory, useLocation } from "react-router-dom";
@@ -23,10 +26,11 @@ export default function UpdateEntry() {
     transactionObj.type === "Money In" ? "Money In" : "Money Out"
   );
   const [type, setType] = useState(transactionObj.type);
-  const [subscribeBool, setSubscribeBool] = useState(false);
-
+  const dateRef = useRef();
   const { currentUser } = useAuth();
   const history = useHistory();
+  const [minDate, setMinDate] = useState();
+
   useEffect(() => {
     document.title = "Edit entry - Keypound";
     descriptionRef.current.value = transactionObj.description;
@@ -34,17 +38,25 @@ export default function UpdateEntry() {
     if (window.innerWidth > 767) {
       descriptionRef.current.focus();
     }
-
+    dateRef.current.value = date;
     expenseRef.current.value = `${Math.abs(transactionObj.value / 100)
       .toFixed(2)
       .toString()
       .replace("/B(?=(d{3})+(?!d))/g", " ")}`;
-  }, [transactionObj, date, id]);
+    setMinDate(dateStringToDateObject(monthArr[0].date));
+  }, [transactionObj, date, monthArr]);
 
   async function handleSubmit(e) {
     // update button
     setDisabled(true); // prevent re-submission during request time
     e.preventDefault();
+
+    const index =
+      monthArr.length -
+      1 -
+      monthsSinceDateString(
+        dateToDateString(specificDateStringToDateObject(dateRef.current.value))
+      );
 
     const description = descriptionRef.current.value;
     const tag = tagRef.current.value;
@@ -53,29 +65,67 @@ export default function UpdateEntry() {
         ? expenseRef.current.value * -100
         : expenseRef.current.value * 100;
 
-    monthObj.transactions[id] = {
-      date: transactionObj.date,
+    monthObj.transactions = monthObj.transactions.filter(
+      (transaction) => transaction.id !== id
+    );
+    let newId = 0;
+    for (const transaction of monthObj.transactions) {
+      transaction.id = newId;
+      newId++;
+    }
+
+    const newObj = {
+      date: firebase.firestore.Timestamp.fromDate(
+        specificDateStringToDateObject(dateRef.current.value)
+      ),
       description,
       type,
       value,
-      id,
+      id: monthArr[index].transactions.length,
       tag,
     };
 
-    try {
-      await updateDocs(currentUser, {
-        monthArr: monthArr,
+    let transactions = monthArr[index].transactions;
+    transactions.push(newObj);
+
+    updateDocs(currentUser, { monthArr: monthArr })
+      .then(() => {
+        updateBalance(
+          currentUser,
+          -transactionObj.value,
+
+          monthsSinceDateString(
+            dateToDateString(specificDateStringToDateObject(date))
+          ),
+          () =>
+            updateBalance(
+              currentUser,
+              value,
+
+              monthsSinceDateString(
+                dateToDateString(
+                  specificDateStringToDateObject(dateRef.current.value)
+                )
+              ),
+              history.goBack
+            )
+        );
+      })
+
+      .catch((error) => {
+        if (error instanceof TypeError) {
+          console.log(error);
+          setError(
+            `Please select a date on or after 1 ${minDate.toLocaleString(
+              "default",
+              { month: "long" }
+            )} ${minDate.getFullYear()}.`
+          );
+        } else {
+          console.log(error);
+          setError((prev) => prev + "\n" + error);
+        }
       });
-      updateBalance(
-        currentUser,
-        value - transactionObj.value,
-        monthsSinceDateString(dateToDateString(new Date(date))),
-        history.goBack
-      );
-    } catch (e) {
-      console.log(e);
-      setError(e);
-    }
   }
 
   async function handleDelete() {
@@ -103,6 +153,7 @@ export default function UpdateEntry() {
       console.log(e);
       setError(e);
     }
+    return monthArr;
   }
 
   //Abstractions for frontend
@@ -191,16 +242,6 @@ export default function UpdateEntry() {
     </Form.Group>
   );
 
-  const subscriptionAbstract = (
-    <Form.Group id="checkbox">
-      <Form.Check
-        label="Subscription"
-        type="checkbox"
-        onChange={() => setSubscribeBool(!subscribeBool)}
-      ></Form.Check>
-    </Form.Group>
-  );
-
   const expenseFill = (
     <Form.Group id="expense">
       <Form.Label>{category === "Money Out" ? "Expense" : "Income"}</Form.Label>
@@ -226,6 +267,23 @@ export default function UpdateEntry() {
       <Form.Control
         type="text"
         ref={tagRef}
+        onChange={() => {
+          setDisabled(false);
+          setError("");
+          setMessage("");
+        }}
+      />
+    </Form.Group>
+  );
+
+  const dateFill = (
+    <Form.Group id="date">
+      <Form.Label>Date</Form.Label>
+      <Form.Control
+        type="date"
+        max={new Date().toISOString().substring(0, 10)}
+        ref={dateRef}
+        required
         onChange={() => {
           setDisabled(false);
           setError("");
@@ -273,42 +331,49 @@ export default function UpdateEntry() {
 
   const errorDescription = error && (
     <>
-      <span className="custom-alert error">{error}</span>
+      <span className="error">{error}</span>
     </>
   );
+
+  const subscriptionText = transactionObj.type === "Subscription" && (
+    <>
+      <p className="error">
+        This entry is a subscription. Any updates will only apply to this entry.
+        To manage subscriptions, use the subscriptions page.
+      </p>
+    </>
+  );
+
   return (
     <>
       <Navigation active="Breakdown" />
       {error && <Alert>{error}</Alert>}
       <Content title="Edit Entry">
-        <h4 className="body-title">{date}</h4>
+        <h4 className="body-title">Update your transaction here.</h4>
+        {subscriptionText}
         <Form onSubmit={handleSubmit}>
           {descriptionFill}
           {padding}
           {tagFill}
-          <div
-            style={{
-              display: "flex",
-              paddingTop: "10pt",
-              paddingBottom: "10pt",
-            }}
-          >
-            {categoryAbstract}
-            {padding}
-            {category !== "Money In" && <>{typeAbstract}</>}
-            {padding}
+          {type !== "Subscription" && (
             <div
               style={{
                 display: "flex",
-                paddingTop: "30pt",
+                paddingTop: "10pt",
                 paddingBottom: "10pt",
               }}
             >
-              {category !== "Money In" && <>{subscriptionAbstract}</>}
+              {categoryAbstract}
+              {padding}
+              {category !== "Money In" && <>{typeAbstract}</>}
             </div>
-          </div>
+          )}
+          {padding}
           {expenseFill}
           {padding}
+          {dateFill}
+          {padding}
+
           <div style={{ display: "flex" }}>
             {updateButton}
             {deleteButton}

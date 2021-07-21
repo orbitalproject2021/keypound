@@ -10,6 +10,7 @@ import {
   updateBalance,
   getDocs,
   updateDocs,
+  specificDateStringToDateObject,
 } from "../backendUtils";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -52,12 +53,7 @@ function AddTransaction() {
 
     if (!subscribeBool) {
       // normal transaction
-      // TODO: see if we can use the new specific date function to replace this
-      const [year, month, day] = dateRef.current.value.split("-");
-      const tempDate = new Date(year, month - 1, day);
-      const date = new Date(
-        tempDate.getTime() - new Date().getTimezoneOffset() * 60000
-      );
+      const date = specificDateStringToDateObject(dateRef.current.value);
 
       const value =
         category === "Money Out"
