@@ -179,7 +179,6 @@ export function DashboardBar({ data, variant, monthArr }) {
   );
 
   const [truncatedData, setTruncatedData] = useState([]);
-  // eslint-disable-next-line
   const [dimensions, setDimensions] = useState({
     height: window.innerHeight,
     width: window.innerWidth,
