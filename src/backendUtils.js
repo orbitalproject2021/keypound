@@ -522,3 +522,46 @@ export function monthTableTransactions(
   }
   return outputArr;
 }
+
+function subscriptionFilter(query, predicate) {
+  return (subscription) =>
+    (subscription.description.toLowerCase().includes(query) ||
+      subscription.tag.toLowerCase().includes(query)) &&
+    predicate(subscription);
+}
+
+export function tableSubscriptions(
+  monthObj,
+  limit = -1,
+  query = "",
+  predicate = (subscription) => true,
+  compareFunc = (s1, s2) => s2.id - s2.id, // TODO: check if order is right
+  reverse = false
+) {
+  const subscriptionArr = [];
+  for (const subscription of monthObj.subscriptions) {
+    if (subscriptionFilter(query, predicate)(subscription)) {
+      subscriptionArr.push({
+        ...subscription, // description, value, tag
+        monthObj,
+      });
+    }
+    if (subscriptionArr.length === limit) {
+      break;
+    }
+  }
+
+  subscriptionArr.sort(compareFunc);
+  if (reverse) {
+    subscriptionArr.reverse();
+  }
+  let tableId = 0;
+  for (let i = 0; i < subscriptionArr.length; i++) {
+    subscriptionArr[i] = {
+      ...subscriptionArr[i],
+      tableId: tableId,
+    };
+    tableId++;
+  }
+  return subscriptionArr;
+}
