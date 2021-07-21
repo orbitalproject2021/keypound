@@ -406,7 +406,7 @@ export function handleSubscriptions(monthObj) {
         description: transaction.description,
         type: "Subscription",
         value: transaction.value,
-        id: transaction.id,
+        id: monthObj.transactions.length,
         tag: transaction.tag,
       })
     );
