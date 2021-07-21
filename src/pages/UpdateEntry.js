@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
+import { Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import {
   dateToDateString,
   monthsSinceDateString,
@@ -347,7 +347,6 @@ export default function UpdateEntry() {
   return (
     <>
       <Navigation active="Breakdown" />
-      {error && <Alert>{error}</Alert>}
       <Content title="Edit Entry">
         <h4 className="body-title">Update your transaction here.</h4>
         {subscriptionText}
