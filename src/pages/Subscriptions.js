@@ -23,10 +23,11 @@ export default function Subscriptions() {
   const [query, setQuery] = useState("");
   const startRef = useRef();
   const endRef = useRef();
+  const history = useHistory();
   const [sortObj, setSortObj] = useState({
     sortBy: "id",
-    compareFunc: (s1, s2) => s2.id - s2.id,
-    reverse: false,
+    compareFunc: (s1, s2) => s2.id - s1.id,
+    reverse: true,
   });
   const clickFunctions = {
     id: () =>
@@ -43,7 +44,7 @@ export default function Subscriptions() {
         ? setSortObj({ ...sortObj, reverse: !sortObj.reverse })
         : setSortObj({
             sortBy: "description",
-            compareFunc: (s1, s2) => (s2.description < s1.description ? 1 : -1),
+            compareFunc: (s1, s2) => (s1.description < s2.description ? 1 : -1),
             reverse: true,
           }),
 
@@ -52,7 +53,7 @@ export default function Subscriptions() {
         ? setSortObj({ ...sortObj, reverse: !sortObj.reverse })
         : setSortObj({
             sortBy: "tag",
-            compareFunc: (s1, s2) => (s2.tag < s1.tag ? 1 : -1),
+            compareFunc: (s1, s2) => (s1.tag < s2.tag ? 1 : -1),
             reverse: true,
           }),
     value: () =>
@@ -100,7 +101,7 @@ export default function Subscriptions() {
       <DropdownButton id="breakdown-dropdown-button" title={category}>
         {categoryItem("Description")}
         {categoryItem("Tag")}
-        {categoryItem("Monthly Expense")}
+        {categoryItem("Monthly Fee")}
       </DropdownButton>
     );
     const operatorItem = (operator, categories) =>
@@ -119,9 +120,9 @@ export default function Subscriptions() {
         {operatorItem("contains", ["Description", "Tag"])}
         {operatorItem("starts with", ["Description", "Tag"])}
         {operatorItem("ends with", ["Description", "Tag"])}
-        {operatorItem("is more than", ["Monthly Expense"])}
-        {operatorItem("is less than", ["Monthly Expense"])}
-        {operatorItem("is between", ["Monthly Expense"])}
+        {operatorItem("is more than", ["Monthly Fee"])}
+        {operatorItem("is less than", ["Monthly Fee"])}
+        {operatorItem("is between", ["Monthly Fee"])}
       </DropdownButton>
     );
 
@@ -202,8 +203,8 @@ export default function Subscriptions() {
           );
         }
       }
-      // Monthly Expense
-      else if (category === "Monthly Expense") {
+      // Monthly Fee
+      else if (category === "Monthly Fee") {
         if (operator === "is more than") {
           setPredicate(
             () => (subscription) =>
@@ -271,7 +272,16 @@ export default function Subscriptions() {
         <Content title="Subscriptions" minHeight={350}>
           <span className="body-title">Manage Subscriptions</span>
 
-          <p className="content-text">Select a subscription to update it.</p>
+          <p className="content-text">
+            Select a subscription to update it, or go{" "}
+            <span
+              className="dark-link"
+              onClick={() => history.push("/add-transaction")}
+            >
+              here
+            </span>{" "}
+            to add a new subscription.
+          </p>
           {SearchAndFilter()}
           {table()}
         </Content>
@@ -381,7 +391,7 @@ export function SubscriptionHeader({ functions, sortBy, reverse }) {
             className="tableHeaderDetails table-right-align"
             onClick={functions.value}
           >
-            <span>Monthly Expense</span>
+            <span>Monthly Fee</span>
             {upDownArrows("value")}
           </p>
         </div>

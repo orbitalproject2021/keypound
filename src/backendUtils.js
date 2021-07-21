@@ -535,7 +535,7 @@ export function tableSubscriptions(
   limit = -1,
   query = "",
   predicate = (subscription) => true,
-  compareFunc = (s1, s2) => s2.id - s2.id, // TODO: check if order is right
+  compareFunc = (s1, s2) => s2.id - s1.id, // TODO: check if order is right
   reverse = false
 ) {
   const subscriptionArr = [];
