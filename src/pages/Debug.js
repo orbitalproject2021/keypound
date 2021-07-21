@@ -2504,11 +2504,11 @@ export default function Debug() {
 
   function randomType() {
     const random = Math.random();
-    if (random < 0.25) {
+    if (random < 0.167) {
       return "Need";
-    } else if (random < 0.5) {
+    } else if (random < 0.333) {
       return "Want";
-    } else if (random < 0.75) {
+    } else if (random < 0.5) {
       return "Unexpected";
     } else {
       return "Money In";
