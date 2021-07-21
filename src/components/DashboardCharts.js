@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import { monthsSinceDateString } from "../backendUtils";
 
-export function DashboardPie({ data, variant = "desktop" }) {
+export function DashboardPie({ data }) {
   const COLORS = ["--ac-red", "--ac-green", "--em2", "--tm1"].map((id) =>
     getComputedStyle(document.documentElement).getPropertyValue(id)
   );
@@ -231,10 +231,7 @@ export function DashboardBar({ data, variant, monthArr }) {
         interval={0}
       />
       <YAxis
-        domain={[
-          (dataMin) => (dataMin > 0 ? 0.9 : 1.1) * dataMin,
-          (dataMax) => Math.max(1000, dataMax),
-        ]}
+        domain={[(dataMin) => 0, (dataMax) => Math.max(1000, dataMax)]}
         hide={true}
       />
       <Tooltip cursor={false} content={<CustomTooltip />} />
