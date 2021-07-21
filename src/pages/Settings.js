@@ -79,7 +79,7 @@ function Settings() {
 
   const startingBalanceFill = (
     <Form.Group id="balance">
-      <Form.Label>Change balance:</Form.Label>
+      <Form.Label>Set current balance:</Form.Label>
       <Form.Control
         type="number"
         step={0.01}
@@ -117,8 +117,10 @@ function Settings() {
           {padding}
           {startingBalanceFill}
           <p className="content-text" style={{ paddingTop: "1em" }}>
-            Note: Any increase or decrease to this value from your current
-            balance will be applied to every month's balance.
+            Note: Any increase or decrease to your current balance will also be
+            reflected in your balance for previous months. If you wish to only
+            change your balance for this month, consider adding a "Money In"
+            transaction.
           </p>
           {padding}
           {submitButton}
