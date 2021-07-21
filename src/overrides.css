@@ -76,7 +76,11 @@ a:hover {
 }
 
 .link {
-  cursor: pointer;
+  cursor: pointer !important;
+}
+
+.not-clickable {
+  cursor: auto !important;
 }
 
 .dark-text {
@@ -414,6 +418,14 @@ nav {
   align-items: center;
 }
 
+.month-view-combined-charts {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1em;
+  align-items: center;
+  grid-template-rows: 200px;
+}
+
 .dashboard-bottom-text {
   padding: 1em;
   display: flex;
@@ -527,7 +539,7 @@ nav {
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   min-width: min-content;
   color: white;
-  cursor: pointer;
+  cursor: auto;
 }
 
 .table-overflow-container {

@@ -41,22 +41,32 @@ function MonthView() {
     });
   }, [currentUser, id]);
 
+  const prevDate = () => (id > 0 ? monthArr[id - 1].date : "");
+  const nextDate = () =>
+    id + 1 < monthArr.length ? monthArr[id + 1].date : "";
+
   const charts = () => (
     <>
       <div>
-        <h4 className="body-title">
-          <div className="flex-start">
-            <img
-              className="month-view-back link"
-              src={back}
-              alt=""
-              onClick={() => history.goBack()}
-            />
-            <span>{`${monthObj.date}`}</span>
-          </div>
-        </h4>
+        <div className="flex-start">
+          <img
+            className="month-view-back link"
+            src={back}
+            alt=""
+            onClick={() => history.goBack()}
+          />
+          <span
+            className="body-title-unselected"
+            onClick={() => history.push("/month-view", { id: id - 1 })}
+          >{`${prevDate()}`}</span>
+          <span className="body-title">{`${monthObj.date}`}</span>
+          <span
+            className="body-title-unselected"
+            onClick={() => history.push("/month-view", { id: id + 1 })}
+          >{`${nextDate()}`}</span>
+        </div>
       </div>
-      <div className="dashboard-combined-charts">
+      <div className="month-view-combined-charts">
         <div className="desktop-only">{balanceText()}</div>
         <div className="dashboard-pie-div desktop-only">
           <DashboardPie data={pieData.slice(0, 4)} />
@@ -76,6 +86,18 @@ function MonthView() {
     </>
   );
 
+  const incOrDec = () => {
+    const change = pieData[5].value - pieData[4].value;
+    const changeStr = formatCents(change);
+    if (change < 0) {
+      return ["decreased", `decreased by ${changeStr}.`];
+    } else if (change > 0) {
+      return ["increased", `increased by ${changeStr}.`];
+    } else {
+      return ["same", `remained the same.`];
+    }
+  };
+
   const balanceText = () => (
     <>
       <p className="month-view-text-big">{`In ${
@@ -87,6 +109,17 @@ function MonthView() {
       <p className="month-view-text">{`Your income was ${formatCents(
         pieData[5].value
       )}.`}</p>
+      <p
+        className="month-view-text"
+        style={{
+          color:
+            incOrDec()[0] === "decreased"
+              ? "#fea5ab"
+              : incOrDec()[0] === "increased"
+              ? "#98ddca"
+              : "white",
+        }}
+      >{`Overall, your balance ${incOrDec()[1]}`}</p>
     </>
   );
 
