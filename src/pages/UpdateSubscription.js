@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Form, Button } from "react-bootstrap";
-import { updateDocs, getDocs, formatCents, debug } from "../backendUtils";
+import { updateDocs, getDocs } from "../backendUtils";
 import Navigation from "../components/Navigation";
 import { Content } from "../components/ContentCard";
 import { useHistory, useLocation } from "react-router-dom";

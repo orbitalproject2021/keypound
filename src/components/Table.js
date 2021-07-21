@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import up from "../icons/up.png";
 import down from "../icons/down.png";
-import { firebaseTimestampToDate, debug } from "../backendUtils";
+import { firebaseTimestampToDate } from "../backendUtils";
 
 export function TableRow({ transactionObj }) {
   const {

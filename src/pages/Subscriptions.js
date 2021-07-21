@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import {
-  formatCents,
-  tableSubscriptions,
-  getDocs,
-  debug,
-} from "../backendUtils";
+import { formatCents, tableSubscriptions, getDocs } from "../backendUtils";
 import Navigation from "../components/Navigation";
 import up from "../icons/up.png";
 import down from "../icons/down.png";
