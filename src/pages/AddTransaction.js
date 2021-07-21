@@ -149,7 +149,9 @@ function AddTransaction() {
   function clearPage() {
     descriptionRef.current.value = "";
     tagRef.current.value = "";
-    dateRef.current.value = new Date().toISOString().substr(0, 10);
+    if (!subscribeBool) {
+      dateRef.current.value = new Date().toISOString().substr(0, 10);
+    }
     setDisabled(false);
     setError("");
     setMessage("");
