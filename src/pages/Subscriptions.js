@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import { formatCents, tableSubscriptions, getDocs } from "../backendUtils";
+import {
+  formatCents,
+  tableSubscriptions,
+  getDocs,
+  debug,
+} from "../backendUtils";
 import Navigation from "../components/Navigation";
 import up from "../icons/up.png";
 import down from "../icons/down.png";
@@ -24,6 +29,15 @@ export default function Subscriptions() {
     reverse: false,
   });
   const clickFunctions = {
+    id: () =>
+      sortObj.sortBy === "id"
+        ? setSortObj({ ...sortObj, reverse: !sortObj.reverse })
+        : setSortObj({
+            sortBy: "id",
+            compareFunc: (s1, s2) => s2.id - s1.id,
+            reverse: true,
+          }),
+
     description: () =>
       sortObj.sortBy === "description"
         ? setSortObj({ ...sortObj, reverse: !sortObj.reverse })
@@ -51,7 +65,7 @@ export default function Subscriptions() {
           }),
   };
 
-  const table = () => {
+  const table = () => (
     <SubscriptionTable
       subscriptionArr={tableSubscriptions(
         monthObj,
@@ -64,9 +78,8 @@ export default function Subscriptions() {
       functions={clickFunctions}
       sortBy={sortObj.sortBy}
       reverse={sortObj.reverse}
-    />;
-  };
-
+    />
+  );
   const [category, setCategory] = useState("Category");
   const [operator, setOperator] = useState("Operator");
 
@@ -302,7 +315,8 @@ function SubscriptionRow({ subscriptionObj }) {
         history.push("/update-subscription", { id });
       }}
     >
-      <div className="table-overflow-container">
+      <div className="subscription-table-overflow-container">
+        <p className="table-row-details table-hide-when-narrow">{id + 1}</p>
         <p className="table-row-details">{description}</p>
         <p className="table-row-details table-hide-when-narrow">{tag}</p>
         <p className="table-row-details table-right-align">
@@ -344,7 +358,14 @@ export function SubscriptionHeader({ functions, sortBy, reverse }) {
   return (
     <>
       <div className="table-row table-header">
-        <div className="table-overflow-container table-header">
+        <div className="subscription-table-overflow-container table-header">
+          <p
+            className="tableHeaderDetails table-hide-when-narrow"
+            onClick={functions.id}
+          >
+            <span>No.</span>
+            {upDownArrows("id")}
+          </p>
           <p className="tableHeaderDetails " onClick={functions.description}>
             <span>Description</span>
             {upDownArrows("description")}

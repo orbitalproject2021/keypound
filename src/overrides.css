@@ -543,6 +543,18 @@ nav {
   cursor: pointer;
 }
 
+.subscription-table-overflow-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 1fr;
+  justify-content: stretch;
+  align-items: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  min-width: min-content;
+  color: white;
+  cursor: pointer;
+}
+
 .table-row-details {
   margin: 1em;
   margin-top: 0.5em;
@@ -587,6 +599,9 @@ nav {
   }
   .month-table-overflow-container {
     grid-template-columns: 120px 1fr;
+  }
+  .subscription-table-overflow-container {
+    grid-template-columns: 100px 1fr;
   }
 }
 
