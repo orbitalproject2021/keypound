@@ -41,9 +41,9 @@ function MonthView() {
     });
   }, [currentUser, id]);
 
-  const prevDate = () => (id > 0 ? monthArr[id - 1].date : "");
+  const prevDate = () => (id > 0 ? monthArr[id - 1].date.slice(0, 3) : "");
   const nextDate = () =>
-    id + 1 < monthArr.length ? monthArr[id + 1].date : "";
+    id + 1 < monthArr.length ? monthArr[id + 1].date.slice(0, 3) : "";
 
   const charts = () => (
     <>
@@ -59,7 +59,7 @@ function MonthView() {
             className="body-title-unselected"
             onClick={() => history.push("/month-view", { id: id - 1 })}
           >{`${prevDate()}`}</span>
-          <span className="body-title">{`${monthObj.date}`}</span>
+          <span className="body-title">{`${monthObj.date.slice(0, 3)}`}</span>
           <span
             className="body-title-unselected"
             onClick={() => history.push("/month-view", { id: id + 1 })}
