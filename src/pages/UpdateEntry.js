@@ -8,6 +8,7 @@ import {
   updateDocs,
   dateStringToDateObject,
   specificDateStringToDateObject,
+  debug,
 } from "../backendUtils";
 import firebase from "firebase/app";
 import Navigation from "../components/Navigation";
@@ -38,13 +39,18 @@ export default function UpdateEntry() {
     if (window.innerWidth > 767) {
       descriptionRef.current.focus();
     }
-    dateRef.current.value = date;
     expenseRef.current.value = `${Math.abs(transactionObj.value / 100)
       .toFixed(2)
       .toString()
       .replace("/B(?=(d{3})+(?!d))/g", " ")}`;
     setMinDate(dateStringToDateObject(monthArr[0].date));
   }, [transactionObj, date, monthArr]);
+
+  useEffect(() => {
+    if (minDate) {
+      dateRef.current.value = date;
+    }
+  }, [minDate, date]);
 
   async function handleSubmit(e) {
     // update button
@@ -276,13 +282,13 @@ export default function UpdateEntry() {
     </Form.Group>
   );
 
-  const dateFill = (
+  const dateFill = () => (
     <Form.Group id="date">
       <Form.Label>Date</Form.Label>
       <Form.Control
         type="date"
         max={new Date().toISOString().substring(0, 10)}
-        min={minDate.toISOString().substring(0, 10)}
+        min={debug(minDate).toISOString().substring(0, 10)}
         ref={dateRef}
         required
         onChange={() => {
@@ -371,7 +377,7 @@ export default function UpdateEntry() {
           {padding}
           {expenseFill}
           {padding}
-          {dateFill}
+          {minDate && dateFill()}
           {padding}
 
           <div style={{ display: "flex" }}>

@@ -37,15 +37,19 @@ function AddTransaction() {
     if (window.innerWidth > 767) {
       descriptionRef.current.focus();
     }
-    if (!subscribeBool) {
-      dateRef.current.value = new Date().toISOString().substr(0, 10);
-    }
+
     expenseRef.current.value = "0";
     getDocs(currentUser).then((doc) => {
       let monthArr = doc.data().monthArr;
       setMinDate(dateStringToDateObject(monthArr[0].date));
     });
-  }, [currentUser, subscribeBool]);
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (!subscribeBool && minDate) {
+      dateRef.current.value = new Date().toISOString().substr(0, 10);
+    }
+  }, [minDate, subscribeBool]);
 
   const handleSubmit = (e) => {
     setDisabled(true); // prevent re-submission during request time
@@ -284,25 +288,26 @@ function AddTransaction() {
     </Form.Group>
   );
 
-  const dateFill = subscribeBool ? (
-    <p> Subscription will be added automatically at the end of each month.</p>
-  ) : (
-    <Form.Group id="date">
-      <Form.Label>Date</Form.Label>
-      <Form.Control
-        type="date"
-        max={maxDate}
-        min={minDate.toISOString().substring(0, 10)}
-        ref={dateRef}
-        required
-        onChange={() => {
-          setDisabled(false);
-          setError("");
-          setMessage("");
-        }}
-      />
-    </Form.Group>
-  );
+  const dateFill = () =>
+    subscribeBool ? (
+      <p> Subscription will be added automatically at the end of each month.</p>
+    ) : (
+      <Form.Group id="date">
+        <Form.Label>Date</Form.Label>
+        <Form.Control
+          type="date"
+          max={maxDate}
+          min={minDate.toISOString().substring(0, 10)}
+          ref={dateRef}
+          required
+          onChange={() => {
+            setDisabled(false);
+            setError("");
+            setMessage("");
+          }}
+        />
+      </Form.Group>
+    );
 
   const tagFill = (
     <Form.Group id="tag">
@@ -381,7 +386,7 @@ function AddTransaction() {
           </div>
           {expenseFill}
           {padding}
-          {dateFill}
+          {minDate && dateFill()}
           {padding}
           <div style={{ display: "flex" }}>
             {submitButton}
