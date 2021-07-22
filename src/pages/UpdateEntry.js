@@ -119,18 +119,8 @@ export default function UpdateEntry() {
       })
 
       .catch((error) => {
-        if (error instanceof TypeError) {
-          console.log(error);
-          setError(
-            `Please select a date on or after 1 ${minDate.toLocaleString(
-              "default",
-              { month: "long" }
-            )} ${minDate.getFullYear()}.`
-          );
-        } else {
-          console.log(error);
-          setError((prev) => prev + "\n" + error);
-        }
+        console.log(error);
+        setError((prev) => prev + "\n" + error);
       });
   }
 

@@ -82,37 +82,22 @@ function AddTransaction() {
           });
           monthArr[index].transactions = transactions;
 
-          updateDocs(currentUser, { monthArr: monthArr })
-            .then(() => {
-              updateBalance(
-                currentUser,
-                value,
-                monthsSinceDateString(dateToDateString(date))
-              );
-              setMessage(
-                category === "Money Out"
-                  ? "Expense added successfully."
-                  : "Income added successfully."
-              );
-            })
-            .catch((error) => {
-              console.log(error);
-              setError(error);
-            });
+          updateDocs(currentUser, { monthArr: monthArr }).then(() => {
+            updateBalance(
+              currentUser,
+              value,
+              monthsSinceDateString(dateToDateString(date))
+            );
+            setMessage(
+              category === "Money Out"
+                ? "Expense added successfully."
+                : "Income added successfully."
+            );
+          });
         })
         .catch((error) => {
-          if (error instanceof TypeError) {
-            console.log(error);
-            setError(
-              `Please select a date on or after 1 ${minDate.toLocaleString(
-                "default",
-                { month: "long" }
-              )} ${minDate.getFullYear()}.`
-            );
-          } else {
-            console.log(error);
-            setError((prev) => prev + "\n" + error);
-          }
+          console.log(error);
+          setError((prev) => prev + "\n" + error);
         });
     } else {
       // subscription
