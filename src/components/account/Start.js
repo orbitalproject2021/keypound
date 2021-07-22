@@ -76,6 +76,7 @@ function Start() {
       <Form.Control
         type="date"
         max={new Date().toISOString().substring(0, 10)} // current date
+        min={new Date("2000-01-01").toISOString().substring(0, 10)} // 1 Jan 2000
         ref={dateRef}
         required
       />
