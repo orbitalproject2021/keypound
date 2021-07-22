@@ -292,6 +292,7 @@ function AddTransaction() {
       <Form.Control
         type="date"
         max={maxDate}
+        min={minDate.toISOString().substring(0, 10)}
         ref={dateRef}
         required
         onChange={() => {

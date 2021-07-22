@@ -282,6 +282,7 @@ export default function UpdateEntry() {
       <Form.Control
         type="date"
         max={new Date().toISOString().substring(0, 10)}
+        min={minDate.toISOString().substring(0, 10)}
         ref={dateRef}
         required
         onChange={() => {
