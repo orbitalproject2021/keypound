@@ -52,7 +52,7 @@ function Start() {
                 type: "Money In",
                 value: balanceRef.current.value * 100,
                 id: 0,
-                tag: "Starting Balance (can be changed)",
+                tag: "Keypound",
               },
             ],
             subscriptions: [],
