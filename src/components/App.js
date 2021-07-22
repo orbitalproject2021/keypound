@@ -14,6 +14,11 @@ import Goals from "../pages/Goals";
 import Settings from "../pages/Settings";
 import Start from "./account/Start";
 import UpdateEntry from "../pages/UpdateEntry";
+import BalanceHistory from "../pages/BalanceHistory";
+import MonthView from "../pages/MonthView";
+import Debug from "../pages/Debug";
+import Subscriptions from "../pages/Subscriptions";
+import { UpdateSubscription } from "../pages/UpdateSubscription";
 
 function App() {
   return (
@@ -21,7 +26,14 @@ function App() {
       <AuthProvider>
         <Switch>
           <PrivateRoute exact path="/" component={Dashboard} />
+          <PrivateRoute path="/month-view" component={MonthView} />
           <PrivateRoute path="/breakdown" component={Breakdown} />
+          <PrivateRoute path="/breakdown-balance" component={BalanceHistory} />
+          <PrivateRoute path="/subscriptions" component={Subscriptions} />
+          <PrivateRoute
+            path="/update-subscription"
+            component={UpdateSubscription}
+          />
           <PrivateRoute path="/update-entry" component={UpdateEntry} />
           <PrivateRoute path="/add-transaction" component={AddTransaction} />
           <PrivateRoute path="/goals" component={Goals} />
@@ -32,6 +44,8 @@ function App() {
           <PrivateRoute path="/change-password" component={ChangePassword} />
           <PrivateRoute path="/start" component={Start} />
           <Route path="/forgot-password" component={ForgotPassword} />
+
+          <PrivateRoute path="/nothingtoseehere" component={Debug} />
         </Switch>
       </AuthProvider>
     </Router>

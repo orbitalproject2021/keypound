@@ -4,14 +4,30 @@ import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../firebase";
 import { Submit, authStyle, Dialog } from "./utility/AuthSheets";
 import { Form, Card } from "react-bootstrap";
-import { dateToDateString } from "../../backendUtils";
+import {
+  dateToDateString,
+  updateDatabase,
+  getFirstTimeOfMonth,
+  getDocs,
+} from "../../backendUtils";
+import firebase from "firebase/app";
 
 function Start() {
   const balanceRef = useRef();
   const incomeRef = useRef();
+  const dateRef = useRef();
   const history = useHistory();
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Reference to current user document from 'users' collection
+    getDocs(currentUser).then((doc) => {
+      if (doc.exists) {
+        history.push("/");
+      }
+    });
+  }, [currentUser, history]);
 
   useEffect(() => {
     document.title = "Start - Keypound";
@@ -20,7 +36,7 @@ function Start() {
     }
   });
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
     db.collection("users")
@@ -28,26 +44,43 @@ function Start() {
       .set({
         monthArr: [
           {
-            balance: parseFloat(balanceRef.current.value) * 100,
-            date: dateToDateString(new Date()),
+            balance: balanceRef.current.value * 100,
+            date: dateToDateString(new Date(dateRef.current.value)),
             id: 0,
             income: parseFloat(incomeRef.current.value) * 100,
             isIncomeAdded: false,
             isSubscriptionAdded: false,
             subscriptionAmount: 0,
-            transactions: [],
+            transactions: [
+              {
+                description: "Starting Balance",
+                date: firebase.firestore.Timestamp.fromDate(
+                  getFirstTimeOfMonth(
+                    dateToDateString(new Date(dateRef.current.value))
+                  )
+                ),
+                type: "Money In",
+                value: balanceRef.current.value * 100,
+                id: 0,
+                tag: "Keypound",
+              },
+            ],
+            subscriptions: [],
           },
         ],
       })
       .then(() => {
-        history.push("/");
+        updateDatabase(currentUser, false).then(() => history.push("/"));
       });
   }
 
   //Abstractions for frontend
+
+  const padding = <div style={{ padding: "10pt" }}></div>;
+
   const balanceFill = (
     <Form.Group id="balance">
-      <Form.Label>Bank Balance</Form.Label>
+      <Form.Label>Current Balance</Form.Label>
       <Form.Control
         type="number"
         step="any"
@@ -65,6 +98,19 @@ function Start() {
     </Form.Group>
   );
 
+  const dateFill = (
+    <Form.Group id="date">
+      <Form.Label>Earliest Transaction Date</Form.Label>
+      <Form.Control
+        type="date"
+        max={new Date().toISOString().substring(0, 10)} // current date
+        min={new Date("2000-01-01").toISOString().substring(0, 10)} // 1 Jan 2000
+        ref={dateRef}
+        required
+      />
+    </Form.Group>
+  );
+
   const submitButton = <Submit loading={loading}>Submit</Submit>;
 
   return (
@@ -74,7 +120,16 @@ function Start() {
           <h2 className={authStyle.title}>Enter your details</h2>
           <Form onSubmit={handleSubmit}>
             {balanceFill}
+            {padding}
             {incomeFill}
+            {padding}
+            {dateFill}
+
+            <p>
+              Note: This is the earliest date that Keypound will allow you to
+              enter.
+            </p>
+            {padding}
             {submitButton}
           </Form>
         </Card.Body>

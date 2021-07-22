@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { Alert, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
+import { Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import {
   dateToDateString,
   monthsSinceDateString,
   updateBalance,
   updateDocs,
+  dateStringToDateObject,
+  specificDateStringToDateObject,
+  debug,
 } from "../backendUtils";
+import firebase from "firebase/app";
 import Navigation from "../components/Navigation";
 import { Content } from "../components/ContentCard";
 import { useHistory, useLocation } from "react-router-dom";
@@ -15,6 +19,7 @@ export default function UpdateEntry() {
   const { monthArr, monthObj, id, transactionObj, date } = useLocation().state;
   const expenseRef = useRef();
   const descriptionRef = useRef();
+  const tagRef = useRef();
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
@@ -22,55 +27,101 @@ export default function UpdateEntry() {
     transactionObj.type === "Money In" ? "Money In" : "Money Out"
   );
   const [type, setType] = useState(transactionObj.type);
+  const dateRef = useRef();
   const { currentUser } = useAuth();
   const history = useHistory();
+  const [minDate, setMinDate] = useState();
 
   useEffect(() => {
     document.title = "Edit entry - Keypound";
     descriptionRef.current.value = transactionObj.description;
+    tagRef.current.value = transactionObj.tag;
     if (window.innerWidth > 767) {
       descriptionRef.current.focus();
     }
-
     expenseRef.current.value = `${Math.abs(transactionObj.value / 100)
       .toFixed(2)
       .toString()
       .replace("/B(?=(d{3})+(?!d))/g", " ")}`;
-  }, [transactionObj, date, id]);
+    setMinDate(dateStringToDateObject(monthArr[0].date));
+  }, [transactionObj, date, monthArr]);
+
+  useEffect(() => {
+    if (minDate) {
+      dateRef.current.value = date;
+    }
+  }, [minDate, date]);
 
   async function handleSubmit(e) {
     // update button
     setDisabled(true); // prevent re-submission during request time
     e.preventDefault();
 
+    const index =
+      monthArr.length -
+      1 -
+      monthsSinceDateString(
+        dateToDateString(specificDateStringToDateObject(dateRef.current.value))
+      );
+
     const description = descriptionRef.current.value;
+    const tag = tagRef.current.value;
     const value =
       category === "Money Out"
         ? expenseRef.current.value * -100
         : expenseRef.current.value * 100;
 
-    monthObj.transactions[id] = {
-      date: transactionObj.date,
+    monthObj.transactions = monthObj.transactions.filter(
+      (transaction) => transaction.id !== id
+    );
+    let newId = 0;
+    for (const transaction of monthObj.transactions) {
+      transaction.id = newId;
+      newId++;
+    }
+
+    const newObj = {
+      date: firebase.firestore.Timestamp.fromDate(
+        specificDateStringToDateObject(dateRef.current.value)
+      ),
       description,
       type,
       value,
-      id,
+      id: monthArr[index].transactions.length,
+      tag,
     };
 
-    try {
-      await updateDocs(currentUser, {
-        monthArr: monthArr,
+    let transactions = monthArr[index].transactions;
+    transactions.push(newObj);
+
+    updateDocs(currentUser, { monthArr: monthArr })
+      .then(() => {
+        updateBalance(
+          currentUser,
+          -transactionObj.value,
+
+          monthsSinceDateString(
+            dateToDateString(specificDateStringToDateObject(date))
+          ),
+          () =>
+            updateBalance(
+              currentUser,
+              value,
+
+              monthsSinceDateString(
+                dateToDateString(
+                  specificDateStringToDateObject(dateRef.current.value)
+                )
+              ),
+              history.goBack
+            )
+        );
+      })
+
+      .catch((error) => {
+        console.log(error);
+        setError((prev) => prev + "\n" + error);
       });
-      updateBalance(
-        currentUser,
-        value - transactionObj.value,
-        monthsSinceDateString(dateToDateString(new Date(date))),
-        history.goBack
-      );
-    } catch (e) {
-      console.log(e);
-      setError(e);
-    }
   }
 
   async function handleDelete() {
@@ -98,6 +149,7 @@ export default function UpdateEntry() {
       console.log(e);
       setError(e);
     }
+    return monthArr;
   }
 
   //Abstractions for frontend
@@ -205,6 +257,39 @@ export default function UpdateEntry() {
     </Form.Group>
   );
 
+  const tagFill = (
+    <Form.Group id="tag">
+      <Form.Label>{"Tag (Optional)"}</Form.Label>
+      <Form.Control
+        type="text"
+        ref={tagRef}
+        onChange={() => {
+          setDisabled(false);
+          setError("");
+          setMessage("");
+        }}
+      />
+    </Form.Group>
+  );
+
+  const dateFill = () => (
+    <Form.Group id="date">
+      <Form.Label>Date</Form.Label>
+      <Form.Control
+        type="date"
+        max={new Date().toISOString().substring(0, 10)}
+        min={debug(minDate).toISOString().substring(0, 10)}
+        ref={dateRef}
+        required
+        onChange={() => {
+          setDisabled(false);
+          setError("");
+          setMessage("");
+        }}
+      />
+    </Form.Group>
+  );
+
   const updateButton = (
     <Button
       disabled={disabled}
@@ -243,35 +328,48 @@ export default function UpdateEntry() {
 
   const errorDescription = error && (
     <>
-      <span className="custom-alert error">{error}</span>
+      <span className="error">{error}</span>
     </>
   );
+
+  const subscriptionText = transactionObj.type === "Subscription" && (
+    <>
+      <p className="error">
+        This entry is a subscription. Any updates will only apply to this entry.
+        To manage subscriptions, use the subscriptions page.
+      </p>
+    </>
+  );
+
   return (
     <>
       <Navigation active="Breakdown" />
-      {error && <Alert>{error}</Alert>}
-      <Content title="edit entry">
-        <h4 className="body-title">{date}</h4>
+      <Content title="Edit Entry">
+        <h4 className="body-title">Update your transaction here.</h4>
+        {subscriptionText}
         <Form onSubmit={handleSubmit}>
           {descriptionFill}
-          <div
-            style={{
-              display: "flex",
-              paddingTop: "10pt",
-              paddingBottom: "10pt",
-            }}
-          >
-            {categoryAbstract}
-            {padding}
-            {category !== "Money In" && (
-              <>
-                {typeAbstract}
-                {padding}
-              </>
-            )}
-          </div>
+          {padding}
+          {tagFill}
+          {type !== "Subscription" && (
+            <div
+              style={{
+                display: "flex",
+                paddingTop: "10pt",
+                paddingBottom: "10pt",
+              }}
+            >
+              {categoryAbstract}
+              {padding}
+              {category !== "Money In" && <>{typeAbstract}</>}
+            </div>
+          )}
+          {padding}
           {expenseFill}
           {padding}
+          {minDate && dateFill()}
+          {padding}
+
           <div style={{ display: "flex" }}>
             {updateButton}
             {deleteButton}

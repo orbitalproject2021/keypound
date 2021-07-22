@@ -56,6 +56,12 @@ function Navigation({ active }) {
     </NavItem>
   );
 
+  const subscriptions = (
+    <NavItem active={active} url="/subscriptions">
+      Subscriptions
+    </NavItem>
+  );
+
   const addTransaction = (
     <NavItem active={active} url="/add-transaction">
       Add Transaction
@@ -86,6 +92,7 @@ function Navigation({ active }) {
         <Nav id="width" className="m-auto centred-bar">
           {home}
           {breakdown}
+          {subscriptions}
           {addTransaction}
           {settings}
           {account}

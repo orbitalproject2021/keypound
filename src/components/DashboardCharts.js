@@ -11,6 +11,7 @@ import {
   Tooltip,
   YAxis,
 } from "recharts";
+import { monthsSinceDateString } from "../backendUtils";
 
 export function DashboardPie({ data, variant = "desktop" }) {
   const COLORS = ["--ac-red", "--ac-green", "--em2", "--tm1"].map((id) =>
@@ -100,6 +101,33 @@ export function DashboardPie({ data, variant = "desktop" }) {
     return true;
   }
 
+  const [dimensions, setDimensions] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    function handleResize() {
+      setDimensions({
+        height: window.innerHeight,
+        width: window.innerWidth,
+      });
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  });
+
+  useEffect(() => {
+    const width =
+      dimensions.width > 1032
+        ? 468
+        : dimensions.width < 380
+        ? dimensions.width - 64
+        : (dimensions.width - 80) / 2;
+    setWidth(dimensions.width > 767 ? (width - 8) / 2 : width - 8);
+  }, [dimensions, data]);
+
   if (allValuesZero(data)) {
     if (data.length === 4) {
       // no need to show the same message twice
@@ -120,7 +148,7 @@ export function DashboardPie({ data, variant = "desktop" }) {
     }
   }
   return (
-    <PieChart height={200} width={160}>
+    <PieChart height={Math.min(200, width)} width={Math.min(200, width)}>
       <Pie
         isAnimationActive={false}
         activeIndex={activeIndex}
@@ -144,17 +172,26 @@ export function DashboardPie({ data, variant = "desktop" }) {
   );
 }
 
-export function DashboardBar({ data, variant }) {
+export function DashboardBar({ data, variant, monthArr }) {
+  const history = useHistory();
   const COLORS = ["--tm1"].map((id) =>
     getComputedStyle(document.documentElement).getPropertyValue(id)
   );
 
   const [truncatedData, setTruncatedData] = useState([]);
-  // eslint-disable-next-line
   const [dimensions, setDimensions] = useState({
     height: window.innerHeight,
     width: window.innerWidth,
   });
+  const [width, setWidth] = useState(0);
+
+  function clickBar(props) {
+    const date = props.date;
+    const index = monthArr.length - 1 - monthsSinceDateString(date);
+    history.push("/month-view", {
+      id: index,
+    });
+  }
 
   useEffect(() => {
     function handleResize() {
@@ -168,15 +205,19 @@ export function DashboardBar({ data, variant }) {
   });
 
   useEffect(() => {
-    const numOfBars = Math.min(
-      6,
-      Math.round((window.innerWidth - 48) / 52) - 1
-    );
+    const width =
+      dimensions.width > 1032
+        ? 468
+        : dimensions.width < 768
+        ? dimensions.width - 64
+        : (dimensions.width - 80) / 2;
+    const numOfBars = Math.round(width / 52) - 1;
+    setWidth(width);
     setTruncatedData(data.slice(-numOfBars));
   }, [dimensions, data]);
 
   return (
-    <BarChart width={400} height={150} data={truncatedData}>
+    <BarChart width={width} height={150} data={truncatedData}>
       <XAxis
         dataKey="date"
         stroke="#aaaaaa"
@@ -189,10 +230,7 @@ export function DashboardBar({ data, variant }) {
         interval={0}
       />
       <YAxis
-        domain={[
-          (dataMin) => (dataMin > 0 ? 0.9 : 1.1) * dataMin,
-          (dataMax) => Math.max(1000, dataMax),
-        ]}
+        domain={[(dataMin) => 0, (dataMax) => Math.max(1000, dataMax)]}
         hide={true}
       />
       <Tooltip cursor={false} content={<CustomTooltip />} />
@@ -201,6 +239,7 @@ export function DashboardBar({ data, variant }) {
         fill={COLORS[0]}
         isAnimationActive={false}
         maxBarSize={60}
+        onClick={clickBar}
       />
     </BarChart>
   );
