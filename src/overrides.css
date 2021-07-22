@@ -508,7 +508,10 @@ nav {
     background-color: inherit;
   }
   .dashboard-combined-charts {
-    grid-template-columns: 1fr;
+    display: block;
+  }
+  .month-view-combined-charts {
+    display: block;
   }
 }
 
