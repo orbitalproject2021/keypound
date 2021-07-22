@@ -81,11 +81,13 @@ function Dashboard() {
           />
         </div>
         <h4 className="body-title mobile-only">This Month</h4>
-        <div className="dashboard-pie-div mobile-only">
-          <DashboardPie data={piechartData.slice(0, 4)} variant="mobile" />
-        </div>
-        <div className="dashboard-pie-div mobile-only">
-          <DashboardPie data={piechartData.slice(4)} variant="mobile" />
+        <div className="mobile-combined-pies tiny-pies">
+          <div className="dashboard-pie-div mobile-only">
+            <DashboardPie data={piechartData.slice(0, 4)} variant="mobile" />
+          </div>
+          <div className="dashboard-pie-div mobile-only">
+            <DashboardPie data={piechartData.slice(4)} variant="mobile" />
+          </div>
         </div>
       </div>
     );

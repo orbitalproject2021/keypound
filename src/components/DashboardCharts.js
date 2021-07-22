@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import { monthsSinceDateString } from "../backendUtils";
 
-export function DashboardPie({ data }) {
+export function DashboardPie({ data, variant = "desktop" }) {
   const COLORS = ["--ac-red", "--ac-green", "--em2", "--tm1"].map((id) =>
     getComputedStyle(document.documentElement).getPropertyValue(id)
   );
@@ -122,7 +122,7 @@ export function DashboardPie({ data }) {
     const width =
       dimensions.width > 1032
         ? 468
-        : dimensions.width < 768
+        : dimensions.width < 380
         ? dimensions.width - 64
         : (dimensions.width - 80) / 2;
     setWidth(dimensions.width > 767 ? (width - 8) / 2 : width - 8);
@@ -148,7 +148,7 @@ export function DashboardPie({ data }) {
     }
   }
   return (
-    <PieChart height={200} width={width}>
+    <PieChart height={Math.min(200, width)} width={Math.min(200, width)}>
       <Pie
         isAnimationActive={false}
         activeIndex={activeIndex}
