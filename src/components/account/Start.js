@@ -8,6 +8,7 @@ import {
   dateToDateString,
   updateDatabase,
   getFirstTimeOfMonth,
+  getDocs,
 } from "../../backendUtils";
 import firebase from "firebase/app";
 
@@ -18,6 +19,15 @@ function Start() {
   const history = useHistory();
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Reference to current user document from 'users' collection
+    getDocs(currentUser).then((doc) => {
+      if (doc.exists) {
+        history.push("/");
+      }
+    });
+  }, [currentUser, history]);
 
   useEffect(() => {
     document.title = "Start - Keypound";
