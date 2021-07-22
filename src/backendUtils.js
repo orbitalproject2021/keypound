@@ -151,8 +151,8 @@ export function getLastTimeOfMonth(str) {
  */
 export function getFirstTimeOfMonth(str) {
   const date = dateStringToDateObject(str);
-  return new dateToOffsetDate(
-    Date(
+  return dateToOffsetDate(
+    new Date(
       date.getFullYear(),
       date.getMonth(),
       date.getDate(),
