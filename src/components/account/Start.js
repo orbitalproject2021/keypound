@@ -4,7 +4,12 @@ import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../firebase";
 import { Submit, authStyle, Dialog } from "./utility/AuthSheets";
 import { Form, Card } from "react-bootstrap";
-import { dateToDateString, updateDatabase } from "../../backendUtils";
+import {
+  dateToDateString,
+  updateDatabase,
+  getFirstTimeOfMonth,
+} from "../../backendUtils";
+import firebase from "firebase/app";
 
 function Start() {
   const balanceRef = useRef();
@@ -29,14 +34,27 @@ function Start() {
       .set({
         monthArr: [
           {
-            balance: parseFloat(balanceRef.current.value) * 100,
+            balance: balanceRef.current.value * 100,
             date: dateToDateString(new Date(dateRef.current.value)),
             id: 0,
             income: parseFloat(incomeRef.current.value) * 100,
             isIncomeAdded: false,
             isSubscriptionAdded: false,
             subscriptionAmount: 0,
-            transactions: [],
+            transactions: [
+              {
+                description: "Starting Balance",
+                date: firebase.firestore.Timestamp.fromDate(
+                  getFirstTimeOfMonth(
+                    dateToDateString(new Date(dateRef.current.value))
+                  )
+                ),
+                type: "Money In",
+                value: balanceRef.current.value * 100,
+                id: 0,
+                tag: "Starting Balance (can be changed)",
+              },
+            ],
             subscriptions: [],
           },
         ],
