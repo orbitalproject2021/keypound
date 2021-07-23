@@ -26,6 +26,8 @@ export default function Subscriptions() {
     reverse: true,
   });
   const [show, setShow] = useState(false);
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
   const clickFunctions = {
     id: () =>
       sortObj.sortBy === "id"
@@ -81,18 +83,11 @@ export default function Subscriptions() {
   const [category, setCategory] = useState("Category");
   const [operator, setOperator] = useState("Operator");
 
-  useEffect(() => {
-    if (searchRef.current) {
-      searchRef.current.value = query;
-    }
-  });
-
   function SearchAndFilter() {
     const handleClose = () => {
       setShow(false);
     };
     const handleShow = () => {
-      setPredicate(() => (subscription) => true);
       setShow(true);
     };
 
@@ -193,6 +188,7 @@ export default function Subscriptions() {
                 : "number"
             }
             ref={startRef}
+            onChange={() => setStart(startRef.current.value)}
           />
           {["is between", "between"].includes(operator) && (
             <>
@@ -207,6 +203,7 @@ export default function Subscriptions() {
                     : "number"
                 }
                 ref={endRef}
+                onChange={() => setEnd(endRef.current.value)}
               />
             </>
           )}
@@ -239,21 +236,21 @@ export default function Subscriptions() {
             () => (subscription) =>
               subscription[category.toLowerCase()]
                 .toLowerCase()
-                .includes(startRef.current.value.toLowerCase())
+                .includes(start.toLowerCase())
           );
         } else if (operator === "starts with") {
           setPredicate(
             () => (subscription) =>
               subscription[category.toLowerCase()]
                 .toLowerCase()
-                .startsWith(startRef.current.value.toLowerCase())
+                .startsWith(start.toLowerCase())
           );
         } else if (operator === "ends with") {
           setPredicate(
             () => (subscription) =>
               subscription[category.toLowerCase()]
                 .toLowerCase()
-                .endsWith(startRef.current.value.toLowerCase())
+                .endsWith(start.toLowerCase())
           );
         }
       }
@@ -261,19 +258,17 @@ export default function Subscriptions() {
       else if (category === "Monthly Fee") {
         if (operator === "is more than") {
           setPredicate(
-            () => (subscription) =>
-              Math.abs(subscription.value) > startRef.current.value * 100
+            () => (subscription) => Math.abs(subscription.value) > start * 100
           );
         } else if (operator === "is less than") {
           setPredicate(
-            () => (subscription) =>
-              Math.abs(subscription.value) < startRef.current.value * 100
+            () => (subscription) => Math.abs(subscription.value) < start * 100
           );
         } else if (operator === "is between") {
           setPredicate(
             () => (subscription) =>
-              Math.abs(subscription.value) >= startRef.current.value * 100 &&
-              Math.abs(subscription.value) <= endRef.current.value * 100
+              Math.abs(subscription.value) >= start * 100 &&
+              Math.abs(subscription.value) <= end * 100
           );
         }
       }
@@ -330,6 +325,18 @@ export default function Subscriptions() {
       searchRef.current &&
       searchRef.current.focus();
   }, [monthObj]);
+
+  useEffect(() => {
+    if (searchRef.current) {
+      searchRef.current.value = query;
+    }
+    if (startRef.current) {
+      startRef.current.value = start;
+    }
+    if (endRef.current) {
+      endRef.current.value = start;
+    }
+  });
 
   return (
     <>
