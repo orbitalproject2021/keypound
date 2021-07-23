@@ -6,7 +6,7 @@ import up from "../icons/up.png";
 import down from "../icons/down.png";
 import search from "../icons/search.png";
 import erase from "../icons/erase.png";
-import { Button, Dropdown, DropdownButton } from "react-bootstrap";
+import { Button, Dropdown, DropdownButton, Modal } from "react-bootstrap";
 import Content from "../components/ContentCard";
 import { useAuth } from "../contexts/AuthContext";
 import { emptyRowDisplay } from "../components/Table";
@@ -25,6 +25,7 @@ export default function Subscriptions() {
     compareFunc: (s1, s2) => s2.id - s1.id,
     reverse: true,
   });
+  const [show, setShow] = useState(false);
   const clickFunctions = {
     id: () =>
       sortObj.sortBy === "id"
@@ -80,7 +81,64 @@ export default function Subscriptions() {
   const [category, setCategory] = useState("Category");
   const [operator, setOperator] = useState("Operator");
 
+  useEffect(() => {
+    if (searchRef.current) {
+      searchRef.current.value = query;
+    }
+  }, [searchRef.current]);
+
   function SearchAndFilter() {
+    const handleClose = () => {
+      setShow(false);
+    };
+    const handleShow = () => {
+      setPredicate(() => (subscription) => true);
+      setShow(true);
+    };
+
+    const MobileSearchFilter = () => (
+      <div className="mobile-only">
+        <Button className="custom-button" onClick={handleShow}>
+          Filter options...
+        </Button>
+        <div className="small-padding"></div>
+        <Modal show={show} onHide={handleClose} centered>
+          <Modal.Header>
+            <Modal.Title>Search and filter</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {searchBox}
+            <p className="breakdown-search-label">Filter: </p>
+            <div className="flex-start">
+              {categoryDropdown}
+              {category !== "Category" && operatorDropdown}
+            </div>
+            {operator !== "Operator" && userInput()}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              onClick={() => {
+                handleSubmit();
+                handleClose();
+              }}
+              className="custom-button-green breakdown-submit-button"
+            >
+              <img src={search} alt="" className="breakdown-search-icon" />
+            </Button>
+            <Button
+              onClick={() => {
+                handleReset();
+                handleClose();
+              }}
+              className="custom-button-red breakdown-submit-button"
+            >
+              <img src={erase} alt="" className="breakdown-search-icon" />
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    );
+
     const categoryItem = (category) => (
       <Dropdown.Item
         className="dropdown-item"
@@ -226,30 +284,35 @@ export default function Subscriptions() {
       setCategory("Category");
       setOperator("Operator");
       setPredicate(() => (subscription) => true);
-      searchRef.current.value = "";
+      if (searchRef.current) {
+        searchRef.current.value = "";
+      }
     };
 
     return (
-      <div className="breakdown-search-div desktop-only">
-        {searchBox}
-        <span className="breakdown-search-label">Filter: </span>
-        {categoryDropdown}
-        {category !== "Category" && operatorDropdown}
-        {operator !== "Operator" && userInput()}
+      <>
+        <div className="breakdown-search-div desktop-only">
+          {searchBox}
+          <span className="breakdown-search-label">Filter: </span>
+          {categoryDropdown}
+          {category !== "Category" && operatorDropdown}
+          {operator !== "Operator" && userInput()}
 
-        <Button
-          onClick={handleSubmit}
-          className="custom-button-green breakdown-submit-button"
-        >
-          <img src={search} alt="" className="breakdown-search-icon" />
-        </Button>
-        <Button
-          onClick={handleReset}
-          className="custom-button-red breakdown-submit-button"
-        >
-          <img src={erase} alt="" className="breakdown-search-icon" />
-        </Button>
-      </div>
+          <Button
+            onClick={handleSubmit}
+            className="custom-button-green breakdown-submit-button"
+          >
+            <img src={search} alt="" className="breakdown-search-icon" />
+          </Button>
+          <Button
+            onClick={handleReset}
+            className="custom-button-red breakdown-submit-button"
+          >
+            <img src={erase} alt="" className="breakdown-search-icon" />
+          </Button>
+        </div>
+        {MobileSearchFilter()}
+      </>
     );
   }
 
@@ -261,9 +324,9 @@ export default function Subscriptions() {
     });
   }, [currentUser]);
 
-  useEffect(() => {
-    monthObj && window.innerWidth > 767 && searchRef.current.focus();
-  }, [monthObj]);
+  // useEffect(() => {
+  //   monthObj && window.innerWidth > 767 && searchRef.current.focus();
+  // }, [monthObj]);
 
   return (
     <>
