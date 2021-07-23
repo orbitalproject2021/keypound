@@ -70,7 +70,8 @@ export function UpdateSubscription() {
       (subscription) => subscription.id !== id
     );
     let newId = 0;
-    for (const subscription of monthObj.transactions) {
+    for (const subscription of monthObj.subscriptions) {
+      console.log(monthObj.subscriptions);
       subscription.id = newId;
       newId++;
     }
