@@ -149,9 +149,7 @@ export function Table({
 export const emptyRowDisplay = (
   <div className="table-row" style={{ backgroundColor: "#777777" }}>
     <div className="table-row-empty-container">
-      <p className="table-row-details table-hide-when-tiny">
-        No results to display.
-      </p>
+      <p className="table-row-details">No results to display.</p>
     </div>
   </div>
 );
