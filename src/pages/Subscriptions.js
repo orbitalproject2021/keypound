@@ -262,18 +262,18 @@ export default function Subscriptions() {
         if (operator === "is more than") {
           setPredicate(
             () => (subscription) =>
-              Math.abs(subscription.value) >= startRef.current.value * 100
+              Math.abs(subscription.value) > startRef.current.value * 100
           );
         } else if (operator === "is less than") {
           setPredicate(
             () => (subscription) =>
-              Math.abs(subscription.value) <= startRef.current.value * 100
+              Math.abs(subscription.value) < startRef.current.value * 100
           );
         } else if (operator === "is between") {
           setPredicate(
             () => (subscription) =>
-              Math.abs(subscription.value) >= startRef.current.value * 100 &&
-              Math.abs(subscription.value) <= endRef.current.value * 100
+              Math.abs(subscription.value) > startRef.current.value * 100 &&
+              Math.abs(subscription.value) < endRef.current.value * 100
           );
         }
       }

@@ -340,18 +340,18 @@ function Breakdown() {
         if (operator === "is more than") {
           setPredicate(
             () => (transaction) =>
-              Math.abs(transaction.value) >= startRef.current.value * 100
+              Math.abs(transaction.value) > startRef.current.value * 100
           );
         } else if (operator === "is less than") {
           setPredicate(
             () => (transaction) =>
-              Math.abs(transaction.value) <= startRef.current.value * 100
+              Math.abs(transaction.value) < startRef.current.value * 100
           );
         } else if (operator === "is between") {
           setPredicate(
             () => (transaction) =>
-              Math.abs(transaction.value) >= startRef.current.value * 100 &&
-              Math.abs(transaction.value) <= endRef.current.value * 100
+              Math.abs(transaction.value) > startRef.current.value * 100 &&
+              Math.abs(transaction.value) < endRef.current.value * 100
           );
         }
       }

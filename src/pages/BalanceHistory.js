@@ -321,18 +321,18 @@ export default function BalanceHistory() {
         if (operator === "is more than") {
           setPredicate(
             () => (monthObj) =>
-              Math.abs(value(monthObj)) >= startRef.current.value * 100
+              Math.abs(value(monthObj)) > startRef.current.value * 100
           );
         } else if (operator === "is less than") {
           setPredicate(
             () => (monthObj) =>
-              Math.abs(value(monthObj)) <= startRef.current.value * 100
+              Math.abs(value(monthObj)) < startRef.current.value * 100
           );
         } else if (operator === "is between") {
           setPredicate(
             () => (monthObj) =>
-              Math.abs(value(monthObj)) >= startRef.current.value * 100 &&
-              Math.abs(value(monthObj)) <= endRef.current.value * 100
+              Math.abs(value(monthObj)) > startRef.current.value * 100 &&
+              Math.abs(value(monthObj)) < endRef.current.value * 100
           );
         }
       }
