@@ -57,12 +57,12 @@ function MonthView() {
           />
           <span
             className="body-title-unselected"
-            onClick={() => history.push("/month-view", { id: id - 1 })}
+            onClick={() => history.replace("/month-view", { id: id - 1 })}
           >{`${prevDate()}`}</span>
           <span className="body-title">{`${monthObj.date.slice(0, 3)}`}</span>
           <span
             className="body-title-unselected"
-            onClick={() => history.push("/month-view", { id: id + 1 })}
+            onClick={() => history.replace("/month-view", { id: id + 1 })}
           >{`${nextDate()}`}</span>
         </div>
       </div>

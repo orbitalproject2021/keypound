@@ -8,7 +8,7 @@ import {
   getDocs,
   monthTableTransactions,
 } from "../backendUtils";
-import { Button, Dropdown, DropdownButton } from "react-bootstrap";
+import { Button, Dropdown, DropdownButton, Modal } from "react-bootstrap";
 import search from "../icons/search.png";
 import erase from "../icons/erase.png";
 import { useHistory } from "react-router-dom";
@@ -31,6 +31,7 @@ export default function BalanceHistory() {
   const startRef = useRef();
   const endRef = useRef();
   const history = useHistory();
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     document.title = "Breakdown - Keypound";
@@ -40,6 +41,19 @@ export default function BalanceHistory() {
       }
     });
   }, [currentUser]);
+
+  useEffect(() => {
+    tableData &&
+      window.innerWidth > 767 &&
+      searchRef.current &&
+      searchRef.current.focus();
+  }, [tableData]);
+
+  useEffect(() => {
+    if (searchRef.current) {
+      searchRef.current.value = query;
+    }
+  });
 
   const clickFunctions = {
     date: () =>
@@ -107,6 +121,56 @@ export default function BalanceHistory() {
   );
 
   function SearchAndFilter() {
+    const handleClose = () => {
+      setShow(false);
+    };
+    const handleShow = () => {
+      setPredicate(() => (subscription) => true);
+      setShow(true);
+    };
+
+    const MobileSearchFilter = () => (
+      <div className="mobile-only">
+        <Button className="custom-button" onClick={handleShow}>
+          Filter options...
+        </Button>
+        <div className="small-padding"></div>
+        <Modal show={show} onHide={handleClose} centered>
+          <Modal.Header>
+            <Modal.Title>Search and filter</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {searchBox}
+            <p className="breakdown-search-label">Filter: </p>
+            <div className="flex-start">
+              {categoryDropdown}
+              {category !== "Category" && operatorDropdown}
+            </div>
+            {operator !== "Operator" && userInput()}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              onClick={() => {
+                handleSubmit();
+                handleClose();
+              }}
+              className="custom-button-green breakdown-submit-button"
+            >
+              <img src={search} alt="" className="breakdown-search-icon" />
+            </Button>
+            <Button
+              onClick={() => {
+                handleReset();
+                handleClose();
+              }}
+              className="custom-button-red breakdown-submit-button"
+            >
+              <img src={erase} alt="" className="breakdown-search-icon" />
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    );
     const categoryItem = (category) => (
       <Dropdown.Item
         className="dropdown-item"
@@ -124,6 +188,7 @@ export default function BalanceHistory() {
         {categoryItem("Date")}
         {categoryItem("Money In")}
         {categoryItem("Money Out")}
+        {categoryItem("Net Change")}
         {categoryItem("Balance")}
       </DropdownButton>
     );
@@ -143,9 +208,24 @@ export default function BalanceHistory() {
         {operatorItem("before", ["Date"])}
         {operatorItem("after", ["Date"])}
         {operatorItem("between", ["Date"])}
-        {operatorItem("is more than", ["Money In", "Money Out", "Balance"])}
-        {operatorItem("is less than", ["Money In", "Money Out", "Balance"])}
-        {operatorItem("is between", ["Money In", "Money Out", "Balance"])}
+        {operatorItem("is more than", [
+          "Money In",
+          "Money Out",
+          "Balance",
+          "Net Change",
+        ])}
+        {operatorItem("is less than", [
+          "Money In",
+          "Money Out",
+          "Balance",
+          "Net Change",
+        ])}
+        {operatorItem("is between", [
+          "Money In",
+          "Money Out",
+          "Balance",
+          "Net Change",
+        ])}
       </DropdownButton>
     );
 
@@ -225,24 +305,28 @@ export default function BalanceHistory() {
           );
         }
       }
-      // Money In / Money Out / Balance
-      else if (["Money In", "Money Out", "Balance"].includes(category)) {
+      // Money In / Money Out / Balance / Net Change
+      else if (
+        ["Money In", "Money Out", "Balance", "Net Change"].includes(category)
+      ) {
         const value = (monthObj) =>
           category === "Money In"
             ? monthObj.pieData[5].value
             : category === "Money Out"
             ? monthObj.pieData[4].value
-            : monthObj.balance;
+            : category === "Balance"
+            ? monthObj.balance
+            : monthObj.pieData[5].value - monthObj.pieData[4].value;
 
         if (operator === "is more than") {
           setPredicate(
             () => (monthObj) =>
-              Math.abs(value(monthObj)) >= startRef.current.value * 100
+              Math.abs(value(monthObj)) > startRef.current.value * 100
           );
         } else if (operator === "is less than") {
           setPredicate(
             () => (monthObj) =>
-              Math.abs(value(monthObj)) <= startRef.current.value * 100
+              Math.abs(value(monthObj)) < startRef.current.value * 100
           );
         } else if (operator === "is between") {
           setPredicate(
@@ -263,26 +347,29 @@ export default function BalanceHistory() {
     };
 
     return (
-      <div className="breakdown-search-div desktop-only">
-        {searchBox}
-        <span className="breakdown-search-label">Filter: </span>
-        {categoryDropdown}
-        {category !== "Category" && operatorDropdown}
-        {operator !== "Operator" && userInput()}
+      <>
+        <div className="breakdown-search-div desktop-only">
+          {searchBox}
+          <span className="breakdown-search-label">Filter: </span>
+          {categoryDropdown}
+          {category !== "Category" && operatorDropdown}
+          {operator !== "Operator" && userInput()}
 
-        <Button
-          onClick={handleSubmit}
-          className="custom-button-green breakdown-submit-button"
-        >
-          <img src={search} alt="" className="breakdown-search-icon" />
-        </Button>
-        <Button
-          onClick={handleReset}
-          className="custom-button-red breakdown-submit-button"
-        >
-          <img src={erase} alt="" className="breakdown-search-icon" />
-        </Button>
-      </div>
+          <Button
+            onClick={handleSubmit}
+            className="custom-button-green breakdown-submit-button"
+          >
+            <img src={search} alt="" className="breakdown-search-icon" />
+          </Button>
+          <Button
+            onClick={handleReset}
+            className="custom-button-red breakdown-submit-button"
+          >
+            <img src={erase} alt="" className="breakdown-search-icon" />
+          </Button>
+        </div>
+        {MobileSearchFilter()}
+      </>
     );
   }
 

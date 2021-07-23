@@ -4,7 +4,7 @@ import { Table } from "../components/Table";
 import { Content } from "../components/ContentCard";
 import { useAuth } from "../contexts/AuthContext";
 import { getDocs, tableTransactions } from "../backendUtils";
-import { Button, Dropdown, DropdownButton } from "react-bootstrap";
+import { Button, Dropdown, DropdownButton, Modal } from "react-bootstrap";
 import search from "../icons/search.png";
 import erase from "../icons/erase.png";
 import { useHistory } from "react-router-dom";
@@ -26,6 +26,7 @@ function Breakdown() {
   const startRef = useRef();
   const endRef = useRef();
   const history = useHistory();
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     document.title = "Breakdown - Keypound";
@@ -37,8 +38,17 @@ function Breakdown() {
   }, [currentUser]);
 
   useEffect(() => {
-    tableData && window.innerWidth > 767 && searchRef.current.focus();
+    tableData &&
+      window.innerWidth > 767 &&
+      searchRef.current &&
+      searchRef.current.focus();
   }, [tableData]);
+
+  useEffect(() => {
+    if (searchRef.current) {
+      searchRef.current.value = query;
+    }
+  });
 
   const clickFunctions = {
     date: () =>
@@ -100,6 +110,56 @@ function Breakdown() {
   );
 
   function SearchAndFilter() {
+    const handleClose = () => {
+      setShow(false);
+    };
+    const handleShow = () => {
+      setPredicate(() => (subscription) => true);
+      setShow(true);
+    };
+
+    const MobileSearchFilter = () => (
+      <div className="mobile-only">
+        <Button className="custom-button" onClick={handleShow}>
+          Filter options...
+        </Button>
+        <div className="small-padding"></div>
+        <Modal show={show} onHide={handleClose} centered>
+          <Modal.Header>
+            <Modal.Title>Search and filter</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {searchBox}
+            <p className="breakdown-search-label">Filter: </p>
+            <div className="flex-start">
+              {categoryDropdown}
+              {category !== "Category" && operatorDropdown}
+            </div>
+            {operator !== "Operator" && userInput()}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              onClick={() => {
+                handleSubmit();
+                handleClose();
+              }}
+              className="custom-button-green breakdown-submit-button"
+            >
+              <img src={search} alt="" className="breakdown-search-icon" />
+            </Button>
+            <Button
+              onClick={() => {
+                handleReset();
+                handleClose();
+              }}
+              className="custom-button-red breakdown-submit-button"
+            >
+              <img src={erase} alt="" className="breakdown-search-icon" />
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    );
     const categoryItem = (category) => (
       <Dropdown.Item
         className="dropdown-item"
@@ -280,12 +340,12 @@ function Breakdown() {
         if (operator === "is more than") {
           setPredicate(
             () => (transaction) =>
-              Math.abs(transaction.value) >= startRef.current.value * 100
+              Math.abs(transaction.value) > startRef.current.value * 100
           );
         } else if (operator === "is less than") {
           setPredicate(
             () => (transaction) =>
-              Math.abs(transaction.value) <= startRef.current.value * 100
+              Math.abs(transaction.value) < startRef.current.value * 100
           );
         } else if (operator === "is between") {
           setPredicate(
@@ -303,30 +363,35 @@ function Breakdown() {
       setOperator("Operator");
       setType("Select type");
       setPredicate(() => (transaction) => true);
-      searchRef.current.value = "";
+      if (searchRef.current) {
+        searchRef.current.value = "";
+      }
     };
 
     return (
-      <div className="breakdown-search-div desktop-only">
-        {searchBox}
-        <span className="breakdown-search-label">Filter: </span>
-        {categoryDropdown}
-        {category !== "Category" && operatorDropdown}
-        {operator !== "Operator" && userInput()}
+      <>
+        <div className="breakdown-search-div desktop-only">
+          {searchBox}
+          <span className="breakdown-search-label">Filter: </span>
+          {categoryDropdown}
+          {category !== "Category" && operatorDropdown}
+          {operator !== "Operator" && userInput()}
 
-        <Button
-          onClick={handleSubmit}
-          className="custom-button-green breakdown-submit-button"
-        >
-          <img src={search} alt="" className="breakdown-search-icon" />
-        </Button>
-        <Button
-          onClick={handleReset}
-          className="custom-button-red breakdown-submit-button"
-        >
-          <img src={erase} alt="" className="breakdown-search-icon" />
-        </Button>
-      </div>
+          <Button
+            onClick={handleSubmit}
+            className="custom-button-green breakdown-submit-button"
+          >
+            <img src={search} alt="" className="breakdown-search-icon" />
+          </Button>
+          <Button
+            onClick={handleReset}
+            className="custom-button-red breakdown-submit-button"
+          >
+            <img src={erase} alt="" className="breakdown-search-icon" />
+          </Button>
+        </div>
+        {MobileSearchFilter()}
+      </>
     );
   }
 

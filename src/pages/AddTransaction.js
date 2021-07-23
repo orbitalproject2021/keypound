@@ -15,8 +15,10 @@ import {
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import { useLocation } from "react-router-dom";
 
 function AddTransaction() {
+  const state = useLocation().state;
   const date = new Date();
   const maxDate = date.toISOString().substring(0, 10);
   const [minDate, setMinDate] = useState();
@@ -29,7 +31,7 @@ function AddTransaction() {
   const [disabled, setDisabled] = useState(false);
   const [category, setCategory] = useState("Money Out");
   const [type, setType] = useState("Need");
-  const [subscribeBool, setSubscribeBool] = useState(false);
+  const [subscribeBool, setSubscribeBool] = useState(state && state.subscribe);
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -244,6 +246,7 @@ function AddTransaction() {
         label="Subscription"
         type="checkbox"
         onChange={() => setSubscribeBool(!subscribeBool)}
+        checked={subscribeBool}
       ></Form.Check>
     </Form.Group>
   );
