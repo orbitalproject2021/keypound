@@ -28,6 +28,8 @@ export default function BalanceHistory() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("Category");
   const [operator, setOperator] = useState("Operator");
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
   const startRef = useRef();
   const endRef = useRef();
   const history = useHistory();
@@ -52,6 +54,12 @@ export default function BalanceHistory() {
   useEffect(() => {
     if (searchRef.current) {
       searchRef.current.value = query;
+    }
+    if (startRef.current) {
+      startRef.current.value = start;
+    }
+    if (endRef.current) {
+      endRef.current.value = start;
     }
   });
 
@@ -125,7 +133,6 @@ export default function BalanceHistory() {
       setShow(false);
     };
     const handleShow = () => {
-      setPredicate(() => (subscription) => true);
       setShow(true);
     };
 
@@ -242,6 +249,7 @@ export default function BalanceHistory() {
                 : "number"
             }
             ref={startRef}
+            onChange={() => setStart(startRef.current.value)}
           />
           {["is between", "between"].includes(operator) && (
             <>
@@ -256,6 +264,7 @@ export default function BalanceHistory() {
                     : "number"
                 }
                 ref={endRef}
+                onChange={() => setEnd(endRef.current.value)}
               />
             </>
           )}
@@ -287,21 +296,20 @@ export default function BalanceHistory() {
           setPredicate(
             () => (monthObj) =>
               dateStringToDateObject(monthObj.date).getTime() >=
-              new Date(startRef.current.value).getTime()
+              new Date(start).getTime()
           );
         } else if (operator === "before") {
           setPredicate(
             () => (monthObj) =>
               dateStringToDateObject(monthObj.date).getTime() <=
-              new Date(startRef.current.value).getTime()
+              new Date(start).getTime()
           );
         } else if (operator === "between") {
           setPredicate(
             () => (monthObj) =>
               dateStringToDateObject(monthObj.date).getTime() >=
-                new Date(startRef.current.value).getTime() &&
-              dateStringToDateObject(monthObj.date).getTime() <=
-                new Date(endRef.current.value)
+                new Date(start).getTime() &&
+              dateStringToDateObject(monthObj.date).getTime() <= new Date(end)
           );
         }
       }
@@ -320,19 +328,17 @@ export default function BalanceHistory() {
 
         if (operator === "is more than") {
           setPredicate(
-            () => (monthObj) =>
-              Math.abs(value(monthObj)) > startRef.current.value * 100
+            () => (monthObj) => Math.abs(value(monthObj)) > start * 100
           );
         } else if (operator === "is less than") {
           setPredicate(
-            () => (monthObj) =>
-              Math.abs(value(monthObj)) < startRef.current.value * 100
+            () => (monthObj) => Math.abs(value(monthObj)) < start * 100
           );
         } else if (operator === "is between") {
           setPredicate(
             () => (monthObj) =>
-              Math.abs(value(monthObj)) >= startRef.current.value * 100 &&
-              Math.abs(value(monthObj)) <= endRef.current.value * 100
+              Math.abs(value(monthObj)) >= start * 100 &&
+              Math.abs(value(monthObj)) <= end * 100
           );
         }
       }
@@ -343,7 +349,9 @@ export default function BalanceHistory() {
       setCategory("Category");
       setOperator("Operator");
       setPredicate(() => (monthObj) => true);
-      searchRef.current.value = "";
+      if (searchRef.current) {
+        searchRef.current.value = "";
+      }
     };
 
     return (

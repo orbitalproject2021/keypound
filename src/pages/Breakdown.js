@@ -27,6 +27,8 @@ function Breakdown() {
   const endRef = useRef();
   const history = useHistory();
   const [show, setShow] = useState(false);
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
 
   useEffect(() => {
     document.title = "Breakdown - Keypound";
@@ -47,6 +49,12 @@ function Breakdown() {
   useEffect(() => {
     if (searchRef.current) {
       searchRef.current.value = query;
+    }
+    if (startRef.current) {
+      startRef.current.value = start;
+    }
+    if (endRef.current) {
+      endRef.current.value = start;
     }
   });
 
@@ -114,7 +122,6 @@ function Breakdown() {
       setShow(false);
     };
     const handleShow = () => {
-      setPredicate(() => (subscription) => true);
       setShow(true);
     };
 
@@ -236,6 +243,7 @@ function Breakdown() {
                 : "number"
             }
             ref={startRef}
+            onChange={() => setStart(startRef.current.value)}
           />
           {["is between", "between"].includes(operator) && (
             <>
@@ -250,6 +258,7 @@ function Breakdown() {
                     : "number"
                 }
                 ref={endRef}
+                onChange={() => setEnd(endRef.current.value)}
               />
             </>
           )}
@@ -284,21 +293,18 @@ function Breakdown() {
         if (operator === "after") {
           setPredicate(
             () => (transaction) =>
-              transaction.date.seconds * 1000 >=
-              new Date(startRef.current.value).getTime()
+              transaction.date.seconds * 1000 >= new Date(start).getTime()
           );
         } else if (operator === "before") {
           setPredicate(
             () => (transaction) =>
-              transaction.date.seconds * 1000 <=
-              new Date(startRef.current.value).getTime()
+              transaction.date.seconds * 1000 <= new Date(start).getTime()
           );
         } else if (operator === "between") {
           setPredicate(
             () => (transaction) =>
-              transaction.date.seconds * 1000 >=
-                new Date(startRef.current.value).getTime() &&
-              transaction.date.seconds * 1000 <= new Date(endRef.current.value)
+              transaction.date.seconds * 1000 >= new Date(start).getTime() &&
+              transaction.date.seconds * 1000 <= new Date(end)
           );
         }
       }
@@ -309,21 +315,21 @@ function Breakdown() {
             () => (transaction) =>
               transaction[category.toLowerCase()]
                 .toLowerCase()
-                .includes(startRef.current.value.toLowerCase())
+                .includes(start.toLowerCase())
           );
         } else if (operator === "starts with") {
           setPredicate(
             () => (transaction) =>
               transaction[category.toLowerCase()]
                 .toLowerCase()
-                .startsWith(startRef.current.value.toLowerCase())
+                .startsWith(start.toLowerCase())
           );
         } else if (operator === "ends with") {
           setPredicate(
             () => (transaction) =>
               transaction[category.toLowerCase()]
                 .toLowerCase()
-                .endsWith(startRef.current.value.toLowerCase())
+                .endsWith(start.toLowerCase())
           );
         }
       }
@@ -339,19 +345,17 @@ function Breakdown() {
       else if (category === "Amount") {
         if (operator === "is more than") {
           setPredicate(
-            () => (transaction) =>
-              Math.abs(transaction.value) > startRef.current.value * 100
+            () => (transaction) => Math.abs(transaction.value) > start * 100
           );
         } else if (operator === "is less than") {
           setPredicate(
-            () => (transaction) =>
-              Math.abs(transaction.value) < startRef.current.value * 100
+            () => (transaction) => Math.abs(transaction.value) < start * 100
           );
         } else if (operator === "is between") {
           setPredicate(
             () => (transaction) =>
-              Math.abs(transaction.value) >= startRef.current.value * 100 &&
-              Math.abs(transaction.value) <= endRef.current.value * 100
+              Math.abs(transaction.value) >= start * 100 &&
+              Math.abs(transaction.value) <= end * 100
           );
         }
       }
