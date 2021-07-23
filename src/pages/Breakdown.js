@@ -38,7 +38,10 @@ function Breakdown() {
   }, [currentUser]);
 
   useEffect(() => {
-    tableData && window.innerWidth > 767 && searchRef.current.focus();
+    tableData &&
+      window.innerWidth > 767 &&
+      searchRef.current &&
+      searchRef.current.focus();
   }, [tableData]);
 
   useEffect(() => {

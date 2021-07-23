@@ -324,9 +324,12 @@ export default function Subscriptions() {
     });
   }, [currentUser]);
 
-  // useEffect(() => {
-  //   monthObj && window.innerWidth > 767 && searchRef.current.focus();
-  // }, [monthObj]);
+  useEffect(() => {
+    monthObj &&
+      window.innerWidth > 767 &&
+      searchRef.current &&
+      searchRef.current.focus();
+  }, [monthObj]);
 
   return (
     <>
