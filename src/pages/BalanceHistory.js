@@ -331,8 +331,8 @@ export default function BalanceHistory() {
         } else if (operator === "is between") {
           setPredicate(
             () => (monthObj) =>
-              Math.abs(value(monthObj)) > startRef.current.value * 100 &&
-              Math.abs(value(monthObj)) < endRef.current.value * 100
+              Math.abs(value(monthObj)) >= startRef.current.value * 100 &&
+              Math.abs(value(monthObj)) <= endRef.current.value * 100
           );
         }
       }

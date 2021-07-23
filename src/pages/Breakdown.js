@@ -350,8 +350,8 @@ function Breakdown() {
         } else if (operator === "is between") {
           setPredicate(
             () => (transaction) =>
-              Math.abs(transaction.value) > startRef.current.value * 100 &&
-              Math.abs(transaction.value) < endRef.current.value * 100
+              Math.abs(transaction.value) >= startRef.current.value * 100 &&
+              Math.abs(transaction.value) <= endRef.current.value * 100
           );
         }
       }

@@ -272,8 +272,8 @@ export default function Subscriptions() {
         } else if (operator === "is between") {
           setPredicate(
             () => (subscription) =>
-              Math.abs(subscription.value) > startRef.current.value * 100 &&
-              Math.abs(subscription.value) < endRef.current.value * 100
+              Math.abs(subscription.value) >= startRef.current.value * 100 &&
+              Math.abs(subscription.value) <= endRef.current.value * 100
           );
         }
       }
