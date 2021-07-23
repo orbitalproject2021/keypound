@@ -85,7 +85,7 @@ export default function Subscriptions() {
     if (searchRef.current) {
       searchRef.current.value = query;
     }
-  }, [searchRef.current]);
+  });
 
   function SearchAndFilter() {
     const handleClose = () => {
@@ -339,7 +339,9 @@ export default function Subscriptions() {
             Select a subscription to update it, or go{" "}
             <span
               className="dark-link"
-              onClick={() => history.push("/add-transaction")}
+              onClick={() =>
+                history.push("/add-transaction", { subscribe: true })
+              }
             >
               here
             </span>{" "}
