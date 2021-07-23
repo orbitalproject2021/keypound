@@ -53,7 +53,7 @@ function MonthView() {
             className="month-view-back link"
             src={back}
             alt=""
-            onClick={() => history.goBack()}
+            onClick={() => history.push("/breakdown-balance")}
           />
           <span
             className="body-title-unselected"
