@@ -37,7 +37,7 @@ function Settings() {
       monthArr[index].income = newIncome;
       updateDocs(currentUser, {
         monthArr: monthArr,
-      });
+      }).then(setMessage("Income has been updated."));
     });
   };
 
