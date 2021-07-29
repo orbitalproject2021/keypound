@@ -31,4 +31,4 @@ After signing up for an account,
 
 ## Tech Stack
 
-This app was made using [Create React App](https://create-react-app.dev/), with [Firebase](https://firebase.google.com/) by Google for data storage and authentication. The primary language is JavaScript. We used [React Router DOM](https://reactrouter.com/web/guides/quick-start) for navigation and [Recharts](https://recharts.org/en-US/) for rendering the graphics on the dashboard. We have also used React Bootstrap 2 for styling purposes.
+This app was made using [Create React App](https://create-react-app.dev/), with [Firebase](https://firebase.google.com/) by Google for data storage and authentication. The primary language is JavaScript. We used [React Router DOM](https://reactrouter.com/web/guides/quick-start) for navigation and [Recharts](https://recharts.org/en-US/) for rendering the graphics on the dashboard. We have also used [React Bootstrap](https://react-bootstrap.github.io/) for styling.
