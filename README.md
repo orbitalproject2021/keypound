@@ -1,70 +1,28 @@
-# Getting Started with Create React App
+# Keypound
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Keypound(<https://keypound.netlify.app) is an expense tracker. This repository houses the source code for the app. The primary motivation for the app was so that we can track our expenses and transactions in a graphical manner and not over rely on excel. What we aim to do was to simplify how people track their expenditures and be able to gain control over their finances, to cultivate good personal finance habits, which isn't emphasized enough in schools.
 
-## Available Scripts
+Keypound is a self initiated project over the summer break by Ivan and Yu Qi. Initially the idea was to be done for CP2106(Orbital), but our team had been rejected unfortunately due to the module being oversubscribed. However, we still decided to pursue and created this web application on our own initiative.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- Dashboaard to get a quick overview of your month's finances, recent ransactions and balance history
+- Breaksown page for more detailed and in depth view of the individual transactions 
+- Ability to search sort and filter transactions under the breakdown page
+- Ability to create edit and update transactions
+- Ability to add recurring transactions as a monthly subscription
+- Settings page to update the income to be added at the end of the month 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Getting Started (User walkthrough process)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+After signing up for an account,
 
-### `npm test`
+1. There will be a prompt to enter the current balance, the monthly income and the earliest transaction date for the user. 
+   (Take note that the date entered will be the earliest date that the user intends to add a transaction.)
+2. User will then be brought to the dashboard, where he can start to add transactions and use the app.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Tech Stack
 
-### `npm run build`
+This app was made using Create React App web framework, with Firebase by Google for data storage and authentication. The primary language is javascript. We used React Router Dom for navigation and React recharts for rendering the graphics on the dashboard. We have also used React Bootstrap 2 for styling purposes.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#
