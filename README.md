@@ -1,6 +1,6 @@
 # Keypound
 
-Keypound(<https://keypound.netlify.app) is an expense tracker. This repository houses the source code for the app. The primary motivation for the app was so that we can track our expenses and transactions in a graphical manner and not over rely on excel. What we aim to do was to simplify how people track their expenditures and be able to gain control over their finances, to cultivate good personal finance habits, which isn't emphasized enough in schools.
+Keypound(<https://keypound.netlify.app/>) is an expense tracker. This repository houses the source code for the app. The primary motivation for the app was so that we can track our expenses and transactions in a graphical manner and not over rely on excel. What we aim to do was to simplify how people track their expenditures and be able to gain control over their finances, to cultivate good personal finance habits, which isn't emphasized enough in schools.
 
 Keypound is a self initiated project over the summer break by Ivan and Yu Qi. Initially the idea was to be done for CP2106(Orbital), but our team had been rejected unfortunately due to the module being oversubscribed. However, we still decided to pursue and created this web application on our own initiative.
 
