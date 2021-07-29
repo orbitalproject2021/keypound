@@ -1,70 +1,34 @@
-# Getting Started with Create React App
+# Keypound
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Keypound (<https://keypound.netlify.app/>) is an expense tracker. This repository houses the source code for the app. The primary motivation for the app was so that we can track our expenses and transactions in a graphical manner instead of using spreadsheets. What we aim to do is to simplify how people track their expenditure and be able to gain control over their finances, to cultivate good personal finance habits, which isn't emphasized enough in schools.
 
-## Available Scripts
+Keypound is a self-initiated project over the summer break by Ivan and Yu Qi. Initially the idea was to be done for CP2106(Orbital), but our team had been rejected unfortunately due to the module being oversubscribed. However, we still decided to pursue and created this web application on our own initiative.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+![Dashboard things](https://user-images.githubusercontent.com/77185900/127454464-eb371f45-e0f0-4a70-8ae0-1b3420b022c7.png)
+Use the dashboard to get a quick overview of your month's finances, recent transactions and balance history.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+![Breakdown](https://user-images.githubusercontent.com/77185900/127454556-700e2a1d-1b5b-4da3-885d-1abbcef9177a.png)
+Use the Breakdown page for a more detailed and in-depth view of the individual transactions, with the ability to search sort and filter transactions
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+![Add transactions 2](https://user-images.githubusercontent.com/77185900/127455548-0d9c33b6-2c95-4501-b723-1aeede31e4d2.png)
+Create, update and delete transactions or add recurring transactions as a monthly subscription
 
-### `npm test`
+![Update income](https://user-images.githubusercontent.com/77185900/127454711-7d757d74-6630-4e20-b59b-b364cdc61125.png)
+Set an income to be added at the end of the month
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started (User walkthrough process)
 
-### `npm run build`
+After signing up for an account,
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. There will be a prompt to enter the current balance, the monthly income and the earliest transaction date for the user. 
+   (Take note that the date entered will be the earliest date that the user intends to add a transaction.)
+   
+   ![Start](https://user-images.githubusercontent.com/77185900/127454916-9eeec27c-69f5-4f34-a1cb-77f81315713a.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. User will then be brought to the dashboard, where he can start to add transactions and use the app.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Tech Stack
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This app was made using Create React App web framework, with Firebase by Google for data storage and authentication. The primary language is javascript. We used React Router Dom for navigation and React recharts for rendering the graphics on the dashboard. We have also used React Bootstrap 2 for styling purposes.
