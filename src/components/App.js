@@ -18,6 +18,7 @@ import BalanceHistory from "../pages/BalanceHistory";
 import MonthView from "../pages/MonthView";
 import Debug from "../pages/Debug";
 import Subscriptions from "../pages/Subscriptions";
+import About from "../pages/About";
 import { UpdateSubscription } from "../pages/UpdateSubscription";
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
           <PrivateRoute path="/change-email" component={ChangeEmail} />
           <PrivateRoute path="/change-password" component={ChangePassword} />
           <PrivateRoute path="/start" component={Start} />
+          <PrivateRoute path="/about" component={About} />
           <Route path="/forgot-password" component={ForgotPassword} />
 
           <PrivateRoute path="/nothingtoseehere" component={Debug} />

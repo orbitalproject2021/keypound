@@ -80,6 +80,7 @@ function Navigation({ active }) {
       <DropItem url="/change-email">Change Email</DropItem>
       <DropItem url="/change-password">Change Password</DropItem>
       <NavDropdown.Divider />
+      <DropItem click={() => history.push("/about")}>About Us</DropItem>
       <DropItem click={() => handleLogout()}>Log Out</DropItem>
     </DropMenu>
   );
