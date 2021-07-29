@@ -12,7 +12,7 @@ Use the dashboard to get a quick overview of your month's finances, recent trans
 ![Breakdown](https://user-images.githubusercontent.com/77185900/127454556-700e2a1d-1b5b-4da3-885d-1abbcef9177a.png)
 Use the Breakdown page for a more detailed and in-depth view of the individual transactions, with the ability to search sort and filter transactions
 
-![Add transactions](https://user-images.githubusercontent.com/77185900/127454610-816e853a-aedb-44be-94f7-29c2cedb04e4.png)
+![Add transactions 2](https://user-images.githubusercontent.com/77185900/127455548-0d9c33b6-2c95-4501-b723-1aeede31e4d2.png)
 Create, update and delete transactions or add recurring transactions as a monthly subscription
 
 ![Update income](https://user-images.githubusercontent.com/77185900/127454711-7d757d74-6630-4e20-b59b-b364cdc61125.png)
