@@ -334,7 +334,7 @@ export default function Subscriptions() {
       startRef.current.value = start;
     }
     if (endRef.current) {
-      endRef.current.value = start;
+      endRef.current.value = end;
     }
   });
 
